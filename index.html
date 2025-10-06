@@ -200,7 +200,7 @@
                         <div class="flex flex-col sm:flex-row gap-4 mb-4">
                             <input id="excessDescInput" type="text"
                                 placeholder="Describe the food (e.g., Handful of chips)"
-                                class="bg-gray-800 border border-gray-700 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                class="bg-gray-800 border border-gray-700 rounded-md px-3 py-2 w-.full focus:outline-none focus:ring-2 focus:ring-teal-500">
                             <button id="logExcessBtn" class="btn btn-primary" onclick="app.addExcessCalories()">
                                 <svg id="logExcessIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2"
                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -264,8 +264,6 @@
                         <button id="weeklyTabBtn" class="tab-btn">Weekly</button>
                     </div>
                 </div>
-
-                <!-- Daily View -->
                 <div id="dailyTabView" class="tab-content active">
                     <div class="flex items-center space-x-4 mb-4">
                         <label for="date-picker">Select a date:</label>
@@ -276,73 +274,31 @@
                         <p class="text-center text-gray-500">Select a date to view its log.</p>
                     </div>
                 </div>
-
-                <!-- Weekly View -->
                 <div id="weeklyTabView" class="tab-content">
-                    <div id="weekly-log-content">
-                        <!-- Weekly summary will be rendered here -->
-                    </div>
+                    <div id="weekly-log-content"></div>
                 </div>
             </div>
         </section>
-
     </div>
 
-    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const appUI = {
-            // ... (all previous UI elements) ...
-            authContainer: document.getElementById('auth-container'),
-            appContainer: document.getElementById('app-container'),
-            logoutBtn: document.getElementById('logoutBtn'),
-            googleSignInBtn: document.getElementById('googleSignInBtn'),
-            authError: document.getElementById('auth-error'),
-            workoutSelector: document.getElementById('workoutSelector'),
-            workoutStack: document.getElementById('workoutStack'),
-            liquidCaloriesDisplay: document.getElementById('liquidCaloriesDisplay'),
-            liquidCaloriesBar: document.getElementById('liquidCaloriesBar'),
-            waterIntakeDisplay: document.getElementById('waterIntakeDisplay'),
-            waterIntakeBar: document.getElementById('waterIntakeBar'),
-            workoutStreakDisplay: document.getElementById('workoutStreakDisplay'),
-            lastWorkoutDate: document.getElementById('lastWorkoutDate'),
-            excessCaloriesDisplay: document.getElementById('excessCaloriesDisplay'),
-            excessList: document.getElementById('excessList'),
-            dailyTabBtn: document.getElementById('dailyTabBtn'),
-            weeklyTabBtn: document.getElementById('weeklyTabBtn'),
-            dailyTabView: document.getElementById('dailyTabView'),
-            weeklyTabView: document.getElementById('weeklyTabView'),
-            datePicker: document.getElementById('date-picker'),
-            dailyLogContent: document.getElementById('daily-log-content'),
-            weeklyLogContent: document.getElementById('weekly-log-content'),
+            authContainer: document.getElementById('auth-container'), appContainer: document.getElementById('app-container'), logoutBtn: document.getElementById('logoutBtn'), googleSignInBtn: document.getElementById('googleSignInBtn'), authError: document.getElementById('auth-error'), workoutSelector: document.getElementById('workoutSelector'), workoutStack: document.getElementById('workoutStack'), liquidCaloriesDisplay: document.getElementById('liquidCaloriesDisplay'), liquidCaloriesBar: document.getElementById('liquidCaloriesBar'), waterIntakeDisplay: document.getElementById('waterIntakeDisplay'), waterIntakeBar: document.getElementById('waterIntakeBar'), workoutStreakDisplay: document.getElementById('workoutStreakDisplay'), lastWorkoutDate: document.getElementById('lastWorkoutDate'), excessCaloriesDisplay: document.getElementById('excessCaloriesDisplay'), excessList: document.getElementById('excessList'), dailyTabBtn: document.getElementById('dailyTabBtn'), weeklyTabBtn: document.getElementById('weeklyTabBtn'), dailyTabView: document.getElementById('dailyTabView'), weeklyTabView: document.getElementById('weeklyTabView'), datePicker: document.getElementById('date-picker'), dailyLogContent: document.getElementById('daily-log-content'), weeklyLogContent: document.getElementById('weekly-log-content'),
         };
 
         const app = {
-            db: null,
-            auth: null,
-            userId: null,
-            unsubscribe: null, // For today's real-time listener
-            userProfileUnsubscribe: null, // For the main user profile
-            todayState: {}, // Holds data for the current day
-            userProfile: {}, // Holds long-term data like streak
-            // ... (workouts object remains the same) ...
+            db: null, auth: null, userId: null, unsubscribe: null, userProfileUnsubscribe: null, todayState: {}, userProfile: {},
             workouts: { home_abs: { name: 'Home Ab Workout', duration: '15 Mins', exercises: [{ name: 'Push Ups', sets: 3, reps: '10-15' }, { name: 'Crunches', sets: 3, reps: 20 }, { name: 'Leg Raises', sets: 3, reps: 15 }, { name: 'Plank', sets: 3, reps: '60s hold' }, { name: 'Russian Twists', sets: 3, reps: '20 (each side)' },] }, gym_push: { name: 'Gym: Push Day', duration: '45 Mins', exercises: [{ name: 'Bench Press', sets: 3, reps: '8-12' }, { name: 'Overhead Press', sets: 3, reps: '8-12' }, { name: 'Incline DB Press', sets: 3, reps: '10-15' }, { name: 'Tricep Pushdowns', sets: 3, reps: '12-15' }, { name: 'Lateral Raises', sets: 4, reps: '12-15' },] }, gym_pull: { name: 'Gym: Pull Day', duration: '45 Mins', exercises: [{ name: 'Pull-Ups / Lat Pulldowns', sets: 3, reps: '8-12' }, { name: 'Bent-Over Rows', sets: 3, reps: '8-12' }, { name: 'Face Pulls', sets: 3, reps: '15-20' }, { name: 'Bicep Curls', sets: 3, reps: '12-15' },] }, gym_legs: { name: 'Gym: Legs Day', duration: '45 Mins', exercises: [{ name: 'Squats', sets: 3, reps: '8-12' }, { name: 'Romanian Deadlifts', sets: 3, reps: '10-12' }, { name: 'Leg Press', sets: 3, reps: '12-15' }, { name: 'Leg Curls', sets: 3, reps: '12-15' }, { name: 'Calf Raises', sets: 4, reps: '15-20' },] }, cardio: { name: 'Cardio' }, rest_day: { name: 'Rest Day' }, },
 
-            // --- REFACTORED INIT & AUTH ---
             async init() {
                 const firebaseConfig = { apiKey: "AIzaSyC8Z5uv-7AiSEStw0jBYGvlsmVo9Ly63J4", authDomain: "health-dashboard-c880e.firebaseapp.com", projectId: "health-dashboard-c880e", storageBucket: "health-dashboard-c880e.appspot.com", messagingSenderId: "108872105823", appId: "1:108872105823:web:5a64271ad63cf76b83c0ea" };
-                if (!firebaseConfig.apiKey) {
-                    appUI.authContainer.innerHTML = '<p class="text-red-400 text-center">Firebase config missing.</p>';
-                    return;
-                }
+                if (!firebaseConfig.apiKey) { appUI.authContainer.innerHTML = '<p class="text-red-400 text-center">Firebase config missing.</p>'; return; }
                 const firebaseApp = initializeApp(firebaseConfig);
-                this.auth = getAuth(firebaseApp);
-                this.db = getFirestore(firebaseApp);
-                this.addEventListeners();
-                this.handleAuthState();
+                this.auth = getAuth(firebaseApp); this.db = getFirestore(firebaseApp); this.addEventListeners(); this.handleAuthState();
             },
 
             handleAuthState() {
@@ -351,166 +307,108 @@
                         this.userId = user.uid;
                         const welcomeMessage = appUI.appContainer.querySelector('p');
                         if (user.displayName) welcomeMessage.textContent = `Welcome back, ${user.displayName.split(' ')[0]}!`;
-                        appUI.authContainer.classList.add('hidden');
-                        appUI.appContainer.classList.remove('hidden');
+                        appUI.authContainer.classList.add('hidden'); appUI.appContainer.classList.remove('hidden');
                         this.setupRealtimeListeners();
                     } else {
                         this.userId = null;
-                        appUI.authContainer.classList.remove('hidden');
-                        appUI.appContainer.classList.add('hidden');
+                        appUI.authContainer.classList.remove('hidden'); appUI.appContainer.classList.add('hidden');
                         if (this.unsubscribe) this.unsubscribe();
                         if (this.userProfileUnsubscribe) this.userProfileUnsubscribe();
                     }
                 });
             },
 
-            async signInWithGoogle() { /* ... unchanged ... */
+            async signInWithGoogle() {
                 const provider = new GoogleAuthProvider();
-                try {
-                    await signInWithPopup(this.auth, provider);
-                    appUI.authError.textContent = '';
-                } catch (error) {
-                    console.error("Google Sign-In Error:", error);
-                    appUI.authError.textContent = `Error signing in: ${error.message}`;
-                }
+                try { await signInWithPopup(this.auth, provider); appUI.authError.textContent = ''; }
+                catch (error) { console.error("Google Sign-In Error:", error); appUI.authError.textContent = `Error signing in: ${error.message}`; }
             },
 
-            // --- NEW DATA STRUCTURE & LISTENERS ---
             setupRealtimeListeners() {
-                if (this.unsubscribe) this.unsubscribe();
-                if (this.userProfileUnsubscribe) this.userProfileUnsubscribe();
+                if (this.unsubscribe) this.unsubscribe(); if (this.userProfileUnsubscribe) this.userProfileUnsubscribe();
                 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
-                // Listener for today's data
                 const today = this.getTodayDateString();
                 const todayDocRef = doc(this.db, 'artifacts', appId, 'users', this.userId, 'dailyLogs', today);
-                this.unsubscribe = onSnapshot(todayDocRef, (docSnap) => {
-                    this.todayState = docSnap.exists() ? docSnap.data() : this.getInitialDailyState();
-                    this.renderTodaysData();
-                });
-
-                // Listener for user profile (streak, etc.)
+                this.unsubscribe = onSnapshot(todayDocRef, (docSnap) => { this.todayState = docSnap.exists() ? docSnap.data() : this.getInitialDailyState(); this.renderTodaysData(); });
                 const userProfileRef = doc(this.db, 'artifacts', appId, 'users', this.userId, 'data', 'userProfile');
-                this.userProfileUnsubscribe = onSnapshot(userProfileRef, (docSnap) => {
-                    this.userProfile = docSnap.exists() ? docSnap.data() : this.getInitialUserProfile();
-                    this.renderUserProfile();
-                });
+                this.userProfileUnsubscribe = onSnapshot(userProfileRef, (docSnap) => { this.userProfile = docSnap.exists() ? docSnap.data() : this.getInitialUserProfile(); this.renderUserProfile(); });
             },
 
             async saveData(dataType) {
-                if (!this.userId) return;
-                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                if (!this.userId) return; const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
                 try {
-                    if (dataType === 'daily') {
-                        const today = this.getTodayDateString();
-                        const docRef = doc(this.db, 'artifacts', appId, 'users', this.userId, 'dailyLogs', today);
-                        await setDoc(docRef, this.todayState, { merge: true });
-                    } else if (dataType === 'profile') {
-                        const docRef = doc(this.db, 'artifacts', appId, 'users', this.userId, 'data', 'userProfile');
-                        await setDoc(docRef, this.userProfile, { merge: true });
-                    }
-                } catch (error) {
-                    console.error(`Error saving ${dataType} data:`, error);
-                }
+                    if (dataType === 'daily') { const today = this.getTodayDateString(); const docRef = doc(this.db, 'artifacts', appId, 'users', this.userId, 'dailyLogs', today); await setDoc(docRef, this.todayState, { merge: true }); }
+                    else if (dataType === 'profile') { const docRef = doc(this.db, 'artifacts', appId, 'users', this.userId, 'data', 'userProfile'); await setDoc(docRef, this.userProfile, { merge: true }); }
+                } catch (error) { console.error(`Error saving ${dataType} data:`, error); }
             },
 
-            getInitialDailyState() {
-                return { liquidCalories: 0, waterIntake: 0, excessCalories: 0, excessLog: [], todaysWorkouts: [] };
-            },
-            getInitialUserProfile() {
-                return { workoutStreak: 0, lastWorkoutDate: '' };
-            },
-            getTodayDateString() {
-                return new Date().toISOString().split('T')[0];
-            },
+            getInitialDailyState() { return { liquidCalories: 0, waterIntake: 0, excessCalories: 0, excessLog: [], todaysWorkouts: [] }; },
+            getInitialUserProfile() { return { workoutStreak: 0, lastWorkoutDate: '' }; },
+            getTodayDateString() { return new Date().toISOString().split('T')[0]; },
 
-            // --- REFACTORED ACTIONS ---
-            addWorkout(workoutId) { /* ... same logic, but saves to this.todayState ... */
-                if (workoutId === 'none') return;
-                const workoutData = this.workouts[workoutId];
-                if (!workoutData) return;
-
+            addWorkout(workoutId) {
+                if (workoutId === 'none') return; const workoutData = this.workouts[workoutId]; if (!workoutData) return;
                 const newWorkout = { id: workoutId, instanceId: `workout_${Date.now()}`, name: workoutData.name, isComplete: false };
                 if (workoutId === 'cardio') { newWorkout.cardioType = 'Running'; newWorkout.duration = 30; }
                 else if (workoutId !== 'rest_day') { newWorkout.completedExercises = []; }
-
-                this.todayState.todaysWorkouts.push(newWorkout);
-                this.saveData('daily');
-                appUI.workoutSelector.value = 'none';
+                this.todayState.todaysWorkouts.push(newWorkout); this.saveData('daily'); appUI.workoutSelector.value = 'none';
             },
 
-            completeWorkout(instanceId) {
-                const workout = this.todayState.todaysWorkouts.find(w => w.instanceId === instanceId);
-                if (!workout || workout.isComplete) return;
+            removeWorkout(instanceId) { this.todayState.todaysWorkouts = this.todayState.todaysWorkouts.filter(w => w.instanceId !== instanceId); this.saveData('daily'); },
+            updateCardioDetails(instanceId, field, value) { const workout = this.todayState.todaysWorkouts.find(w => w.instanceId === instanceId); if (!workout) return; if (field === 'duration') { workout[field] = parseInt(value, 10) || 0; } else { workout[field] = value; } this.saveData('daily'); },
+            toggleExercise(instanceId, exerciseName) { const workout = this.todayState.todaysWorkouts.find(w => w.instanceId === instanceId); if (!workout) return; const index = workout.completedExercises.indexOf(exerciseName); if (index > -1) { workout.completedExercises.splice(index, 1); } else { workout.completedExercises.push(exerciseName); } this.saveData('daily'); },
 
+            completeWorkout(instanceId) {
+                const workout = this.todayState.todaysWorkouts.find(w => w.instanceId === instanceId); if (!workout || workout.isComplete) return;
                 workout.isComplete = true;
                 const isFirstCompletionToday = !this.todayState.todaysWorkouts.some(w => w.isComplete && w.instanceId !== instanceId);
-
                 if (isFirstCompletionToday) {
-                    const today = this.getTodayDateString();
-                    const lastWorkout = this.userProfile.lastWorkoutDate;
+                    const today = this.getTodayDateString(); const lastWorkout = this.userProfile.lastWorkoutDate;
                     if (!lastWorkout || lastWorkout !== today) {
-                        const yesterday = new Date();
-                        yesterday.setDate(yesterday.getDate() - 1);
+                        const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
                         const lastWorkoutDateObj = lastWorkout ? new Date(lastWorkout + 'T00:00:00') : null;
-                        if (lastWorkoutDateObj && lastWorkoutDateObj.toDateString() === yesterday.toDateString()) {
-                            this.userProfile.workoutStreak = (this.userProfile.workoutStreak || 0) + 1;
-                        } else {
-                            this.userProfile.workoutStreak = 1;
-                        }
+                        if (lastWorkoutDateObj && lastWorkoutDateObj.toDateString() === yesterday.toDateString()) { this.userProfile.workoutStreak = (this.userProfile.workoutStreak || 0) + 1; }
+                        else { this.userProfile.workoutStreak = 1; }
                     }
-                    this.userProfile.lastWorkoutDate = today;
-                    this.saveData('profile');
+                    this.userProfile.lastWorkoutDate = today; this.saveData('profile');
                 }
                 this.saveData('daily');
             },
 
-            addLiquidCalories(calories) { this.todayState.liquidCalories += calories; this.saveData('daily'); },
-            addWater(glasses) { this.todayState.waterIntake += glasses; this.saveData('daily'); },
+            addLiquidCalories(calories) { this.todayState.liquidCalories = (this.todayState.liquidCalories || 0) + calories; this.saveData('daily'); },
+            addWater(glasses) { this.todayState.waterIntake = (this.todayState.waterIntake || 0) + glasses; this.saveData('daily'); },
 
-            async addExcessCalories() { /* ... same AI logic, but saves to this.todayState ... */
-                const descInput = document.getElementById('excessDescInput');
-                const desc = descInput.value.trim();
-                if (!desc) return;
-
+            async addExcessCalories() {
+                const descInput = document.getElementById('excessDescInput'); const desc = descInput.value.trim(); if (!desc) return;
                 const logBtn = document.getElementById('logExcessBtn'), logText = document.getElementById('logExcessText'), logIcon = document.getElementById('logExcessIcon'), logSpinner = document.getElementById('logExcessSpinner');
                 logBtn.disabled = true; logText.textContent = 'Calculating...'; logIcon.classList.add('hidden'); logSpinner.classList.remove('hidden');
-
                 try {
-                    const apiKey = "";
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    const apiKey = ""; const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
                     const payload = { contents: [{ parts: [{ text: `Estimate calories for: ${desc}` }] }], generationConfig: { responseMimeType: "application/json", responseSchema: { type: "OBJECT", properties: { calories: { type: "NUMBER" } }, required: ["calories"] } } };
                     const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                     if (!response.ok) throw new Error(`API error: ${response.statusText}`);
-                    const result = await response.json();
-                    const calories = JSON.parse(result.candidates[0].content.parts[0].text).calories;
-                    if (calories > 0) {
-                        this.todayState.excessCalories += calories;
-                        this.todayState.excessLog.push({ calories, desc });
-                        descInput.value = '';
-                        this.saveData('daily');
-                    } else throw new Error("Could not estimate calories.");
+                    const result = await response.json(); const calories = JSON.parse(result.candidates[0].content.parts[0].text).calories;
+                    if (calories > 0) { this.todayState.excessCalories = (this.todayState.excessCalories || 0) + calories; this.todayState.excessLog = this.todayState.excessLog || []; this.todayState.excessLog.push({ calories, desc }); descInput.value = ''; this.saveData('daily'); }
+                    else throw new Error("Could not estimate calories.");
                 } catch (error) { console.error("Calorie estimation failed:", error); alert("Sorry, I couldn't estimate the calories."); }
                 finally { logBtn.disabled = false; logText.textContent = 'Calculate & Log'; logIcon.classList.remove('hidden'); logSpinner.classList.add('hidden'); }
             },
 
-            // --- RENDER FUNCTIONS ---
-            render() {
-                this.renderTodaysData();
-                this.renderUserProfile();
-            },
             renderTodaysData() {
                 const state = this.todayState;
                 if (!state) return;
-                // Render workout stack, nutrition hub, excess cals for TODAY
                 appUI.workoutStack.innerHTML = '';
                 if (state.todaysWorkouts && state.todaysWorkouts.length > 0) {
                     state.todaysWorkouts.forEach(workout => {
                         let contentHtml = '';
                         if (workout.id === 'rest_day') { contentHtml = `<p class="text-center text-gray-400 p-4">Take a day to recover and recharge.</p>`; }
-                        else if (workout.id === 'cardio') { contentHtml = `...`; } // Simplified for brevity
-                        else { contentHtml = `...`; }
-                        appUI.workoutStack.innerHTML += `<div class="border border-gray-700 rounded-lg p-4">...</div>`; // Simplified
+                        else if (workout.id === 'cardio') {
+                            contentHtml = `<div class="space-y-4 p-2"><div><label for="cardioType_${workout.instanceId}" class="block text-sm font-medium text-gray-300 mb-1">Cardio Type</label><select id="cardioType_${workout.instanceId}" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2" onchange="app.updateCardioDetails('${workout.instanceId}', 'cardioType', this.value)"><option ${workout.cardioType === 'Running' ? 'selected' : ''}>Running</option><option ${workout.cardioType === 'Cycling' ? 'selected' : ''}>Cycling</option><option ${workout.cardioType === 'Swimming' ? 'selected' : ''}>Swimming</option><option ${workout.cardioType === 'Elliptical' ? 'selected' : ''}>Elliptical</option><option ${workout.cardioType === 'Rowing' ? 'selected' : ''}>Rowing</option><option ${workout.cardioType === 'Stair Climber' ? 'selected' : ''}>Stair Climber</option></select></div><div><label for="duration_${workout.instanceId}" class="block text-sm font-medium text-gray-300 mb-1">Duration (minutes)</label><input type="number" id="duration_${workout.instanceId}" value="${workout.duration}" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2" onchange="app.updateCardioDetails('${workout.instanceId}', 'duration', this.value)"></div></div>`;
+                        } else {
+                            const workoutData = this.workouts[workout.id];
+                            contentHtml = `<div class="space-y-3">${workoutData.exercises.map(ex => { const isChecked = (workout.completedExercises || []).includes(ex.name); return `<label class="flex items-center p-3 bg-gray-800 rounded-md cursor-pointer hover:bg-gray-700"><input type="checkbox" class="h-5 w-5 rounded mr-4" onchange="app.toggleExercise('${workout.instanceId}', '${ex.name}')" ${isChecked ? 'checked' : ''}><span class="flex-grow text-white">${ex.name}</span><span class="text-gray-400">${ex.sets} sets x ${ex.reps} reps</span></label>`; }).join('')}</div>`;
+                        }
+                        appUI.workoutStack.innerHTML += `<div class="border border-gray-700 rounded-lg p-4"><div class="flex justify-between items-center mb-4"><h3 class="font-bold text-lg text-teal-400">${workout.name}</h3><button class="btn btn-danger btn-sm py-1 px-2 text-xs" onclick="app.removeWorkout('${workout.instanceId}')">Remove</button></div>${contentHtml}<button class="btn btn-primary mt-6 w-full" onclick="app.completeWorkout('${workout.instanceId}')" ${workout.isComplete ? 'disabled' : ''}>${workout.isComplete ? 'Completed!' : 'Mark as Complete'}</button></div>`;
                     });
                 } else { appUI.workoutStack.innerHTML = `<p class="text-center text-gray-500 py-4">No workouts added for today.</p>`; }
 
@@ -519,21 +417,17 @@
                 appUI.waterIntakeDisplay.textContent = state.waterIntake || 0;
                 appUI.waterIntakeBar.style.width = `${Math.min(100, ((state.waterIntake || 0) / 8) * 100)}%`;
                 appUI.excessCaloriesDisplay.textContent = state.excessCalories || 0;
-                appUI.excessList.innerHTML = (state.excessLog || []).map(item => `<div>...</div>`).join('');
+                appUI.excessList.innerHTML = (state.excessLog || []).map(item => `<div class="flex justify-between items-center bg-gray-800 p-2 rounded-md"><span>${item.desc}</span><span class="font-semibold text-teal-400">${item.calories} kcal</span></div>`).join('');
             },
             renderUserProfile() {
-                const profile = this.userProfile;
-                if (!profile) return;
+                const profile = this.userProfile; if (!profile) return;
                 appUI.workoutStreakDisplay.textContent = profile.workoutStreak || 0;
                 appUI.lastWorkoutDate.textContent = profile.lastWorkoutDate ? `Last workout: ${new Date(profile.lastWorkoutDate + 'T00:00:00').toLocaleDateString()}` : 'No workouts yet.';
             },
 
-            // --- NEW HISTORICAL LOG LOGIC ---
             switchTab(tab) {
-                appUI.dailyTabView.classList.toggle('active', tab === 'daily');
-                appUI.weeklyTabView.classList.toggle('active', tab === 'weekly');
-                appUI.dailyTabBtn.classList.toggle('active', tab === 'daily');
-                appUI.weeklyTabBtn.classList.toggle('active', tab === 'weekly');
+                appUI.dailyTabView.classList.toggle('active', tab === 'daily'); appUI.weeklyTabView.classList.toggle('active', tab === 'weekly');
+                appUI.dailyTabBtn.classList.toggle('active', tab === 'daily'); appUI.weeklyTabBtn.classList.toggle('active', tab === 'weekly');
                 if (tab === 'weekly') this.fetchWeeklyLog();
             },
 
@@ -543,104 +437,51 @@
                 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
                 const docRef = doc(this.db, 'artifacts', appId, 'users', this.userId, 'dailyLogs', dateString);
                 const docSnap = await getDoc(docRef);
-
-                if (docSnap.exists()) {
-                    this.renderDailyLog(docSnap.data());
-                } else {
-                    appUI.dailyLogContent.innerHTML = `<p class="text-center text-gray-500">No data found for this date.</p>`;
-                }
+                if (docSnap.exists()) { this.renderDailyLog(docSnap.data()); }
+                else { appUI.dailyLogContent.innerHTML = `<p class="text-center text-gray-500">No data found for this date.</p>`; }
             },
 
             renderDailyLog(data) {
                 const workoutsHtml = (data.todaysWorkouts || []).filter(w => w.isComplete).map(w => `<li>${w.name}</li>`).join('');
-                appUI.dailyLogContent.innerHTML = `
-                    <div class="space-y-2 text-gray-300">
-                        <p><strong>Liquid Calories:</strong> ${data.liquidCalories || 0} kcal</p>
-                        <p><strong>Water Intake:</strong> ${data.waterIntake || 0} glasses</p>
-                        <p><strong>Excess Calories:</strong> ${data.excessCalories || 0} kcal</p>
-                        <p><strong>Workouts Completed:</strong></p>
-                        <ul class="list-disc list-inside ml-4">${workoutsHtml || '<li>None</li>'}</ul>
-                    </div>
-                `;
+                appUI.dailyLogContent.innerHTML = `<div class="space-y-2 text-gray-300"><p><strong>Liquid Calories:</strong> ${data.liquidCalories || 0} kcal</p><p><strong>Water Intake:</strong> ${data.waterIntake || 0} glasses</p><p><strong>Excess Calories:</strong> ${data.excessCalories || 0} kcal</p><p><strong>Workouts Completed:</strong></p><ul class="list-disc list-inside ml-4">${workoutsHtml || '<li>None</li>'}</ul></div>`;
             },
 
             async fetchWeeklyLog() {
                 appUI.weeklyLogContent.innerHTML = `<p class="text-center">Calculating weekly summary...</p>`;
-                const today = new Date();
-                const dayOfWeek = today.getDay(); // 0=Sun, 1=Mon...
-                const startOfWeek = new Date(today);
-                startOfWeek.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1)); // Set to Monday
-
-                let weeklyData = [];
-                let dates = [];
-                for (let i = 0; i < 7; i++) {
-                    const date = new Date(startOfWeek);
-                    date.setDate(startOfWeek.getDate() + i);
-                    dates.push(date.toISOString().split('T')[0]);
-                }
-
+                const today = new Date(); const dayOfWeek = today.getDay();
+                const startOfWeek = new Date(today); startOfWeek.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+                let dates = []; for (let i = 0; i < 7; i++) { const date = new Date(startOfWeek); date.setDate(startOfWeek.getDate() + i); dates.push(date.toISOString().split('T')[0]); }
                 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
                 const logsRef = collection(this.db, 'artifacts', appId, 'users', this.userId, 'dailyLogs');
                 const q = query(logsRef, where('__name__', '>=', dates[0]), where('__name__', '<=', dates[6]));
-
-                const querySnapshot = await getDocs(q);
-                let logs = {};
-                querySnapshot.forEach(doc => { logs[doc.id] = doc.data(); });
-
+                const querySnapshot = await getDocs(q); let logs = {}; querySnapshot.forEach(doc => { logs[doc.id] = doc.data(); });
                 this.renderWeeklyLog(dates, logs);
             },
 
             renderWeeklyLog(dates, logs) {
                 let totalLiquid = 0, totalExcess = 0, workoutDays = 0;
                 const daysHtml = dates.map(dateStr => {
-                    const log = logs[dateStr];
-                    const dayInitial = new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short' })[0];
-                    let hasWorkout = false;
-                    if (log) {
-                        totalLiquid += log.liquidCalories || 0;
-                        totalExcess += log.excessCalories || 0;
-                        if (log.todaysWorkouts && log.todaysWorkouts.some(w => w.isComplete)) {
-                            hasWorkout = true;
-                            workoutDays++;
-                        }
-                    }
-                    return `<div class="text-center">
-                        <p class="text-sm text-gray-500">${dayInitial}</p>
-                        <div class="w-8 h-8 rounded-full flex items-center justify-center mt-1 ${hasWorkout ? 'bg-teal-500' : 'bg-gray-700'}">
-                            ${hasWorkout ? '✓' : ''}
-                        </div>
-                    </div>`;
+                    const log = logs[dateStr]; const dayInitial = new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short' })[0]; let hasWorkout = false;
+                    if (log) { totalLiquid += log.liquidCalories || 0; totalExcess += log.excessCalories || 0; if (log.todaysWorkouts && log.todaysWorkouts.some(w => w.isComplete)) { hasWorkout = true; workoutDays++; } }
+                    return `<div class="text-center"><p class="text-sm text-gray-500">${dayInitial}</p><div class="w-8 h-8 rounded-full flex items-center justify-center mt-1 ${hasWorkout ? 'bg-teal-500' : 'bg-gray-700'}">${hasWorkout ? '✓' : ''}</div></div>`;
                 }).join('');
-
-                appUI.weeklyLogContent.innerHTML = `
-                    <h3 class="font-bold text-lg mb-4">This Week's Summary</h3>
-                    <div class="flex justify-around mb-6">${daysHtml}</div>
-                    <div class="space-y-2 text-gray-300">
-                        <p><strong>Total Workout Days:</strong> ${workoutDays}</p>
-                        <p><strong>Average Daily Liquid Calories:</strong> ${workoutDays > 0 ? (totalLiquid / workoutDays).toFixed(0) : 0} kcal</p>
-                        <p><strong>Total Weekly Excess Calories:</strong> ${totalExcess} kcal</p>
-                    </div>
-                `;
+                const avgLiquid = workoutDays > 0 ? (totalLiquid / workoutDays).toFixed(0) : 0; // Avoid division by zero
+                appUI.weeklyLogContent.innerHTML = `<h3 class="font-bold text-lg mb-4">This Week's Summary</h3><div class="flex justify-around mb-6">${daysHtml}</div><div class="space-y-2 text-gray-300"><p><strong>Total Workout Days:</strong> ${workoutDays}</p><p><strong>Average Daily Liquid Calories:</strong> ${avgLiquid} kcal</p><p><strong>Total Weekly Excess Calories:</strong> ${totalExcess} kcal</p></div>`;
             },
 
-            // --- EVENT LISTENERS ---
             addEventListeners() {
-                // ... (auth and workout listeners are the same) ...
                 appUI.logoutBtn.addEventListener('click', () => signOut(this.auth));
                 appUI.googleSignInBtn.addEventListener('click', () => this.signInWithGoogle());
                 appUI.workoutSelector.addEventListener('change', (e) => this.addWorkout(e.target.value));
-
-                // New log listeners
                 appUI.dailyTabBtn.addEventListener('click', () => this.switchTab('daily'));
                 appUI.weeklyTabBtn.addEventListener('click', () => this.switchTab('weekly'));
                 appUI.datePicker.addEventListener('change', (e) => this.fetchDailyLog(e.target.value));
-                appUI.datePicker.value = this.getTodayDateString(); // Set default to today
+                appUI.datePicker.value = this.getTodayDateString();
             }
         };
 
         app.init();
-        window.app = app; // Make app globally accessible for inline event handlers
-
+        window.app = app;
     </script>
 </body>
 
