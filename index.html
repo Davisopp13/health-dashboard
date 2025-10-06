@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -10,450 +10,500 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-        }
-
-        .tab-active {
-            border-color: #2dd4bf;
-            /* teal-400 */
-            color: #2dd4bf;
+            background-color: #111827;
+            /* Darker background */
+            color: #E5E7EB;
+            /* Light gray text */
         }
 
         .card {
-            background-color: #1f2937;
-            /* gray-800 */
+            background-color: #1F2937;
+            /* Dark card background */
+            border: 1px solid #374151;
             border-radius: 0.75rem;
             padding: 1.5rem;
-            border: 1px solid #374151;
-            /* gray-700 */
-            transition: all 0.2s ease-in-out;
-        }
-
-        .card:hover {
-            border-color: #4b5563;
-            /* gray-600 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         .btn {
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            transition: all 0.2s ease-in-out;
-            border: 1px solid transparent;
         }
 
         .btn-primary {
-            background-color: #0d9488;
-            /* teal-600 */
+            background-color: #14B8A6;
+            /* Teal */
             color: white;
         }
 
         .btn-primary:hover {
-            background-color: #0f766e;
-            /* teal-700 */
+            background-color: #0D9488;
         }
 
         .btn-secondary {
-            background-color: #374151;
-            /* gray-700 */
-            color: #d1d5db;
-            /* gray-300 */
-            border-color: #4b5563;
-            /* gray-600 */
+            background-color: #4B5563;
+            /* Gray */
+            color: white;
         }
 
         .btn-secondary:hover {
-            background-color: #4b5563;
-            /* gray-600 */
+            background-color: #374151;
         }
 
-        /* Custom progress bar for a nice visual */
-        .progress-bar-container {
-            width: 100%;
-            height: 1.5rem;
-            background-color: #374151;
-            border-radius: 0.75rem;
-            overflow: hidden;
+        .btn-danger {
+            background-color: #991B1B;
+            /* Dark Red */
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #7F1D1D;
         }
 
         .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, rgba(13, 148, 136, 1) 0%, rgba(45, 212, 191, 1) 100%);
-            transition: width 0.5s ease-in-out;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 600;
+            background-color: #374151;
+            border-radius: 9999px;
+            overflow: hidden;
+            height: 1rem;
+        }
+
+        .progress-bar-fill {
+            background-color: #14B8A6;
+            transition: width 0.3s ease-in-out;
+        }
+
+        input[type="checkbox"]:checked+span {
+            text-decoration: line-through;
+            color: #6B7280;
+        }
+
+        input[type="checkbox"] {
+            accent-color: #14B8A6;
         }
     </style>
 </head>
 
-<body class="bg-gray-900 text-gray-200 min-h-screen antialiased">
+<body class="p-4 sm:p-6 md:p-8">
 
-    <!-- Main Container -->
-    <div class="container mx-auto max-w-4xl p-4 md:p-6">
+    <div id="auth-container">
+        <div class="max-w-md mx-auto mt-20 card text-center">
+            <h1 class="text-3xl font-bold text-white mb-2">Health Dashboard</h1>
+            <p class="text-gray-400 mb-6">Please log in to continue</p>
+            <div id="loading-auth" class="flex items-center justify-center">
+                <svg class="animate-spin h-8 w-8 text-teal-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+                <span class="ml-4 text-lg">Authenticating...</span>
+            </div>
+        </div>
+    </div>
 
+    <div id="app-container" class="max-w-7xl mx-auto hidden">
         <!-- Header -->
-        <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-white">Your Health Dashboard</h1>
-            <p id="currentDate" class="text-teal-400 mt-1"></p>
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-white">Your Daily Dashboard</h1>
+                <p class="text-gray-400 mt-1">Welcome back! Here's your snapshot for the day.</p>
+                <p id="userIdDisplay" class="text-xs text-gray-500 mt-2 break-all"></p>
+            </div>
+            <button id="logoutBtn" class="btn btn-secondary mt-4 sm:mt-0">Logout</button>
         </header>
 
-        <!-- Navigation Tabs -->
-        <nav class="flex justify-center border-b border-gray-700 mb-8">
-            <button data-tab="dashboard"
-                class="tab-btn px-4 md:px-6 py-3 font-medium border-b-2 tab-active">Dashboard</button>
-            <button data-tab="workouts"
-                class="tab-btn px-4 md:px-6 py-3 font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200">Workouts</button>
-            <button data-tab="nutrition"
-                class="tab-btn px-4 md:px-6 py-3 font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200">Nutrition</button>
-        </nav>
+        <!-- Main Content Grid -->
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        <!-- Content Area -->
-        <main>
-            <!-- Dashboard View -->
-            <div id="dashboard" class="tab-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Left & Middle Columns -->
+            <div class="lg:col-span-2 space-y-6">
                 <!-- Today's Workout -->
-                <div class="card md:col-span-2 lg:col-span-1">
-                    <h2 class="font-bold text-xl mb-3 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-teal-400" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                        Today's Workout
-                    </h2>
-                    <div id="dashboardWorkoutStatus">
-                        <p class="text-gray-400">No workout selected yet.</p>
-                        <button class="btn btn-primary mt-4 w-full" onclick="app.switchTab('workouts')">Choose
-                            Workout</button>
+                <div class="card">
+                    <h2 class="font-bold text-xl mb-4">Today's Workouts</h2>
+                    <div class="mb-4">
+                        <select id="workoutSelector"
+                            class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            <option value="none">-- Add a workout to your day --</option>
+                            <option value="home_abs">Home Ab Workout (15 Mins)</option>
+                            <option value="gym_push">Gym: Push Day (45 Mins)</option>
+                            <option value="gym_pull">Gym: Pull Day (45 Mins)</option>
+                            <option value="gym_legs">Gym: Legs Day (45 Mins)</option>
+                            <option value="cardio">Cardio</option>
+                            <option value="rest_day">Rest Day</option>
+                        </select>
+                    </div>
+                    <div id="workoutStack" class="space-y-6">
+                        <!-- Dynamically added workout blocks will appear here -->
                     </div>
                 </div>
 
+                <!-- AI Calorie Logger -->
+                <div class="card">
+                    <h2 class="font-bold text-xl mb-4">Log Excess Calories with AI</h2>
+                    <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                        <input id="excessDescInput" type="text" placeholder="Describe the food (e.g., Handful of chips)"
+                            class="bg-gray-700 border border-gray-600 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-500">
+                        <button id="logExcessBtn" class="btn btn-primary" onclick="app.addExcessCalories()">
+                            <svg id="logExcessIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2"
+                                viewBox="0 0 20 20" fill="currentColor">
+                                <path
+                                    d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z" />
+                            </svg>
+                            <span id="logExcessText">Calculate & Log</span>
+                            <svg id="logExcessSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="excessList" class="space-y-2 text-sm text-gray-300">
+                        <!-- Logged items will appear here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-6">
                 <!-- Liquid Calories -->
                 <div class="card">
-                    <h2 class="font-bold text-xl mb-3 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-teal-400" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 12h6m-3-4h.01" />
-                        </svg>
-                        Liquid Calories
-                    </h2>
-                    <p class="text-4xl font-bold"><span id="dashboardLiquidCalories">0</span> / <span
-                            class="text-2xl text-gray-400">500</span> kcal</p>
-                    <div class="progress-bar-container mt-3">
-                        <div id="dashboardLiquidProgress" class="progress-bar" style="width: 0%;"></div>
+                    <h2 class="font-bold text-xl mb-4">Liquid Calories</h2>
+                    <p class="text-2xl font-bold text-white"><span id="liquidCaloriesDisplay">0</span> / 500 kcal</p>
+                    <div class="progress-bar mt-2 mb-4">
+                        <div id="liquidCaloriesBar" class="progress-bar-fill" style="width: 0%;"></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <button class="btn btn-secondary" onclick="app.addLiquidCalories(150)">Soda (150)</button>
+                        <button class="btn btn-secondary" onclick="app.addLiquidCalories(120)">Juice (120)</button>
+                        <button class="btn btn-secondary" onclick="app.addLiquidCalories(210)">Choc. Milk (210)</button>
+                        <button class="btn btn-secondary" onclick="app.addLiquidCalories(180)">Latte (180)</button>
                     </div>
                 </div>
 
                 <!-- Water Intake -->
                 <div class="card">
-                    <h2 class="font-bold text-xl mb-3 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-teal-400" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 016-6h6a6 6 0 016 6v1h-3M15 21a2 2 0 002-2v-1a2 2 0 00-2-2h-3.333M15 14.333V9.667a2 2 0 00-2-2h0a2 2 0 00-2 2v4.667" />
-                        </svg>
-                        Water Intake
-                    </h2>
-                    <p class="text-4xl font-bold"><span id="dashboardWaterIntake">0</span> / <span
-                            class="text-2xl text-gray-400">8</span> glasses</p>
-                    <div class="flex space-x-2 mt-3">
-                        <div id="waterIcons" class="flex flex-wrap gap-2"></div>
+                    <h2 class="font-bold text-xl mb-4">Water Intake</h2>
+                    <p class="text-2xl font-bold text-white"><span id="waterIntakeDisplay">0</span> / 8 Glasses</p>
+                    <div class="progress-bar mt-2 mb-4">
+                        <div id="waterIntakeBar" class="progress-bar-fill" style="width: 0%;"></div>
+                    </div>
+                    <div class="flex justify-center">
+                        <button class="btn btn-secondary" onclick="app.addWater(1)">+1 Glass</button>
                     </div>
                 </div>
-                <!-- Excess Calories -->
-                <div class="card">
-                    <h2 class="font-bold text-xl mb-3 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-teal-400" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M5 2a1 1 0 011 1v1h8V3a1 1 0 112 0v1h1a2 2 0 012 2v10a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h1V3a1 1 0 011-1zm10 5H5v8h10V7z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        Excess Calories
-                    </h2>
-                    <p class="text-4xl font-bold"><span id="dashboardExcessCalories">0</span> kcal</p>
-                    <p class="text-gray-400 mt-2">from snacks & extras</p>
-                </div>
-                <!-- Workout Streak -->
-                <div class="card">
-                    <h2 class="font-bold text-xl mb-3 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-teal-400" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7.014A8.003 8.003 0 0122 12c0 3-1 7-3.5 9.5s-5.5 4.5-8.5 3.5c-3-.5-4.5-2.5-4.5-2.5" />
-                        </svg>
-                        Workout Streak
-                    </h2>
-                    <p class="text-4xl font-bold"><span id="dashboardWorkoutStreak">0</span> days</p>
-                    <p class="text-gray-400 mt-2">Keep it going!</p>
-                </div>
-            </div>
 
-            <!-- Workouts View -->
-            <div id="workouts" class="tab-content hidden">
-                <div class="card">
-                    <h2 class="font-bold text-xl mb-4">Select a Workout</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                        <button class="btn btn-secondary" onclick="app.selectWorkout('home_abs')">Home Abs</button>
-                        <button class="btn btn-secondary" onclick="app.selectWorkout('gym_push')">Gym: Push Day</button>
-                        <button class="btn btn-secondary" onclick="app.selectWorkout('gym_pull')">Gym: Pull Day</button>
-                        <button class="btn btn-secondary" onclick="app.selectWorkout('gym_legs')">Gym: Legs Day</button>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- Workout Streak -->
+                    <div class="card flex flex-col items-center justify-center text-center">
+                        <h2 class="font-bold text-xl mb-2">Workout Streak</h2>
+                        <div class="flex items-baseline">
+                            <span id="workoutStreakDisplay" class="text-6xl font-bold text-teal-400">0</span>
+                            <span class="text-xl font-semibold ml-2 text-gray-400">Days</span>
+                        </div>
+                        <p id="lastWorkoutDate" class="text-sm text-gray-500 mt-1">No workouts yet.</p>
                     </div>
-                    <div id="workoutDetails">
-                        <p class="text-gray-400 text-center">Select a workout to see the details here.</p>
+
+                    <!-- Total Excess Calories -->
+                    <div class="card flex flex-col items-center justify-center text-center">
+                        <h2 class="font-bold text-xl mb-2">Total Excess Calories</h2>
+                        <span id="excessCaloriesDisplay" class="text-6xl font-bold text-teal-400">0</span>
+                        <p class="text-xl font-semibold ml-2 text-gray-400">kcal</p>
                     </div>
                 </div>
             </div>
-
-            <!-- Nutrition View -->
-            <div id="nutrition" class="tab-content hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Liquid Calories Card -->
-                    <div class="card">
-                        <h2 class="font-bold text-xl mb-4">Log Liquid Calories</h2>
-                        <p class="text-center text-3xl font-bold mb-4"><span id="nutritionLiquidCalories">0</span> / 500
-                            kcal</p>
-                        <div class="progress-bar-container mb-6">
-                            <div id="nutritionLiquidProgress" class="progress-bar" style="width: 0%;"></div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <button class="btn btn-secondary" onclick="app.addLiquidCalories(150, 'Soda (12oz)')">Soda
-                                (150 kcal)</button>
-                            <button class="btn btn-secondary" onclick="app.addLiquidCalories(110, 'Juice (8oz)')">Juice
-                                (110 kcal)</button>
-                            <button class="btn btn-secondary"
-                                onclick="app.addLiquidCalories(210, 'Chocolate Milk (8oz)')">Choc. Milk (210
-                                kcal)</button>
-                            <button class="btn btn-secondary"
-                                onclick="app.addLiquidCalories(160, 'Sweet Tea (12oz)')">Sweet Tea (160 kcal)</button>
-                        </div>
-                    </div>
-                    <!-- Water Intake Card -->
-                    <div class="card">
-                        <h2 class="font-bold text-xl mb-4">Log Water Intake</h2>
-                        <p class="text-center text-3xl font-bold mb-4"><span id="nutritionWaterIntake">0</span> / 8
-                            glasses</p>
-                        <div class="flex items-center justify-center space-x-4 mb-4">
-                            <button class="btn btn-primary" onclick="app.addWater(1)">+1 Glass</button>
-                            <button class="btn btn-primary" onclick="app.addWater(2)">+2 Glasses</button>
-                        </div>
-                        <div id="nutritionWaterIcons" class="flex flex-wrap gap-2 justify-center"></div>
-                    </div>
-                    <!-- Excess Calories Card -->
-                    <div class="card md:col-span-2">
-                        <h2 class="font-bold text-xl mb-4">Log Excess Calories with AI</h2>
-                        <div class="flex flex-col sm:flex-row gap-4 mb-4">
-                            <input id="excessDescInput" type="text"
-                                placeholder="Describe the food (e.g., Handful of chips)"
-                                class="bg-gray-700 border border-gray-600 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-500">
-                            <button id="logExcessBtn" class="btn btn-primary" onclick="app.addExcessCalories()">
-                                <svg id="logExcessIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path
-                                        d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z" />
-                                </svg>
-                                <span id="logExcessText">Calculate & Log</span>
-                                <svg id="logExcessSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor"
-                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                    </path>
-                                </svg>
-                            </button>
-                        </div>
-                        <div id="excessList">
-                            <!-- Logged items will appear here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </main>
     </div>
 
-    <script>
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appUI = {
+            authContainer: document.getElementById('auth-container'),
+            loadingAuth: document.getElementById('loading-auth'),
+            appContainer: document.getElementById('app-container'),
+            logoutBtn: document.getElementById('logoutBtn'),
+            userIdDisplay: document.getElementById('userIdDisplay'),
+            workoutSelector: document.getElementById('workoutSelector'),
+            workoutStack: document.getElementById('workoutStack'), // Changed from exerciseList
+            liquidCaloriesDisplay: document.getElementById('liquidCaloriesDisplay'),
+            liquidCaloriesBar: document.getElementById('liquidCaloriesBar'),
+            waterIntakeDisplay: document.getElementById('waterIntakeDisplay'),
+            waterIntakeBar: document.getElementById('waterIntakeBar'),
+            workoutStreakDisplay: document.getElementById('workoutStreakDisplay'),
+            lastWorkoutDate: document.getElementById('lastWorkoutDate'),
+            excessCaloriesDisplay: document.getElementById('excessCaloriesDisplay'),
+            excessList: document.getElementById('excessList'),
+        };
+
         const app = {
-            state: {
-                currentDate: '',
-                activeTab: 'dashboard',
-                todaysWorkout: null, // { id: 'gym_push', name: 'Gym: Push Day', completed: false, progress: [false, ...] }
-                liquidCalories: 0,
-                waterIntake: 0, // in glasses
-                excessCalories: 0,
-                excessLog: [], // [{calories: 150, desc: 'Chips'}, ...]
-                workoutStreak: 0,
-                lastWorkoutDate: null
+            db: null,
+            auth: null,
+            userId: null,
+            unsubscribe: null,
+            state: {},
+            workouts: {
+                home_abs: { name: 'Home Ab Workout', duration: '15 Mins', exercises: [{ name: 'Push Ups', sets: 3, reps: '10-15' }, { name: 'Crunches', sets: 3, reps: 20 }, { name: 'Leg Raises', sets: 3, reps: 15 }, { name: 'Plank', sets: 3, reps: '60s hold' }, { name: 'Russian Twists', sets: 3, reps: '20 (each side)' },] },
+                gym_push: { name: 'Gym: Push Day', duration: '45 Mins', exercises: [{ name: 'Bench Press', sets: 3, reps: '8-12' }, { name: 'Overhead Press', sets: 3, reps: '8-12' }, { name: 'Incline DB Press', sets: 3, reps: '10-15' }, { name: 'Tricep Pushdowns', sets: 3, reps: '12-15' }, { name: 'Lateral Raises', sets: 4, reps: '12-15' },] },
+                gym_pull: { name: 'Gym: Pull Day', duration: '45 Mins', exercises: [{ name: 'Pull-Ups / Lat Pulldowns', sets: 3, reps: '8-12' }, { name: 'Bent-Over Rows', sets: 3, reps: '8-12' }, { name: 'Face Pulls', sets: 3, reps: '15-20' }, { name: 'Bicep Curls', sets: 3, reps: '12-15' },] },
+                gym_legs: { name: 'Gym: Legs Day', duration: '45 Mins', exercises: [{ name: 'Squats', sets: 3, reps: '8-12' }, { name: 'Romanian Deadlifts', sets: 3, reps: '10-12' }, { name: 'Leg Press', sets: 3, reps: '12-15' }, { name: 'Leg Curls', sets: 3, reps: '12-15' }, { name: 'Calf Raises', sets: 4, reps: '15-20' },] },
+                cardio: { name: 'Cardio' },
+                rest_day: { name: 'Rest Day' },
             },
 
-            workouts: {
-                home_abs: {
-                    name: 'Home Ab Workout',
-                    duration: '15 Mins',
-                    exercises: [
-                        { name: 'Push Ups', sets: 3, reps: '10-15' },
-                        { name: 'Crunches', sets: 3, reps: 20 },
-                        { name: 'Leg Raises', sets: 3, reps: 15 },
-                        { name: 'Plank', sets: 3, reps: '60s hold' },
-                        { name: 'Russian Twists', sets: 3, reps: '20 (each side)' },
-                    ]
-                },
-                gym_push: {
-                    name: 'Gym: Push Day',
-                    duration: '45 Mins',
-                    exercises: [
-                        { name: 'Barbell Bench Press', sets: 3, reps: '6-8' },
-                        { name: 'Incline Dumbbell Press', sets: 3, reps: '8-10' },
-                        { name: 'Overhead Press', sets: 3, reps: '8-10' },
-                        { name: 'Tricep Pushdowns', sets: 3, reps: '10-12' },
-                        { name: 'Lateral Raises', sets: 3, reps: '12-15' },
-                    ]
-                },
-                gym_pull: {
-                    name: 'Gym: Pull Day',
-                    duration: '45 Mins',
-                    exercises: [
-                        { name: 'Pull-Ups / Lat Pulldowns', sets: 3, reps: '6-10' },
-                        { name: 'Barbell Rows', sets: 3, reps: '8-10' },
-                        { name: 'Face Pulls', sets: 3, reps: '12-15' },
-                        { name: 'Bicep Curls', sets: 3, reps: '10-12' },
-                        { name: 'Hammer Curls', sets: 3, reps: '10-12' },
-                    ]
-                },
-                gym_legs: {
-                    name: 'Gym: Legs Day',
-                    duration: '45 Mins',
-                    exercises: [
-                        { name: 'Barbell Squats', sets: 3, reps: '6-8' },
-                        { name: 'Romanian Deadlifts', sets: 3, reps: '8-10' },
-                        { name: 'Leg Press', sets: 2, reps: '10-12' },
-                        { name: 'Leg Curls', sets: 2, reps: '12-15' },
-                        { name: 'Calf Raises', sets: 3, reps: '15-20' },
-                    ]
+            async init() {
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+                // --- START: PASTE YOUR FIREBASE CONFIG HERE ---
+                // Replace this object with the firebaseConfig object from your Firebase project console.
+                // This is a critical step for connecting the app to your backend.
+                const firebaseConfig = {
+                    apiKey: "AIzaSyC8Z5uv-7AiSEStw0jBYGvlsmVo9Ly63J4",
+                    authDomain: "health-dashboard-c880e.firebaseapp.com",
+                    projectId: "health-dashboard-c880e",
+                    storageBucket: "health-dashboard-c880e.appspot.com",
+                    messagingSenderId: "108872105823",
+                    appId: "1:108872105823:web:5a64271ad63cf76b83c0ea"
+                };
+                // --- END: PASTE YOUR FIREBASE CONFIG HERE ---
+
+                const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+                if (!firebaseConfig.apiKey || firebaseConfig.apiKey.startsWith("AIzaSyXXX")) {
+                    appUI.loadingAuth.innerHTML = '<p class="text-red-400">Firebase configuration is missing or is a placeholder. Please follow the setup guide.</p>';
+                    return;
+                }
+                try {
+                    const firebaseApp = initializeApp(firebaseConfig);
+                    this.auth = getAuth(firebaseApp);
+                    this.db = getFirestore(firebaseApp);
+                    this.addEventListeners();
+                    this.handleAuthState(initialAuthToken, appId);
+                } catch (error) {
+                    console.error("Firebase Initialization Error:", error);
+                    appUI.loadingAuth.innerHTML = `<p class="text-red-400">Error initializing Firebase: ${error.message}</p>`;
                 }
             },
 
-            init() {
-                this.loadState();
-                this.setupEventListeners();
-                this.render();
-            },
-
-            setupEventListeners() {
-                document.querySelectorAll('.tab-btn').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        this.switchTab(e.target.dataset.tab);
-                    });
+            handleAuthState(token, appId) {
+                onAuthStateChanged(this.auth, user => {
+                    if (user) {
+                        this.userId = user.uid;
+                        appUI.authContainer.classList.add('hidden');
+                        appUI.appContainer.classList.remove('hidden');
+                        appUI.userIdDisplay.textContent = `User ID: ${this.userId}`;
+                        this.setupRealtimeListener(appId);
+                    } else {
+                        this.userId = null;
+                        appUI.authContainer.classList.remove('hidden');
+                        appUI.appContainer.classList.add('hidden');
+                        if (this.unsubscribe) { this.unsubscribe(); }
+                        this.signIn(token);
+                    }
                 });
             },
 
-            loadState() {
-                const savedState = localStorage.getItem('healthDashboardState');
-                const today = new Date().toLocaleDateString();
-                document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-
-                if (savedState) {
-                    const parsedState = JSON.parse(savedState);
-                    // Check if it's a new day
-                    if (parsedState.currentDate !== today) {
-                        this.state.workoutStreak = parsedState.workoutStreak;
-                        this.state.lastWorkoutDate = parsedState.lastWorkoutDate;
-                        // Reset daily stats but keep streaks
-                        this.resetDailyState();
+            async signIn(token) {
+                try {
+                    await setPersistence(this.auth, browserLocalPersistence);
+                    if (token) {
+                        try {
+                            await signInWithCustomToken(this.auth, token);
+                        } catch (error) {
+                            if (error.code === 'auth/custom-token-mismatch') {
+                                console.warn("Custom token mismatch detected. This can happen if the token is for a different Firebase project. Falling back to anonymous sign-in.");
+                                await signInAnonymously(this.auth);
+                            } else {
+                                throw error; // Re-throw other types of errors
+                            }
+                        }
                     } else {
-                        this.state = parsedState;
+                        await signInAnonymously(this.auth);
                     }
+                } catch (error) {
+                    console.error("Authentication Error:", error);
+                    appUI.loadingAuth.innerHTML = `<p class="text-red-400">Authentication failed: ${error.message}</p>`;
                 }
-                this.state.currentDate = today;
-                this.saveState();
             },
 
-            saveState() {
-                localStorage.setItem('healthDashboardState', JSON.stringify(this.state));
+            setupRealtimeListener(appId) {
+                if (this.unsubscribe) this.unsubscribe();
+                const docRef = doc(this.db, 'artifacts', appId, 'users', this.userId, 'data', 'dailyState');
+                this.unsubscribe = onSnapshot(docRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        this.state = docSnap.data();
+                        this.resetDailyMetricsIfNeeded();
+                    } else {
+                        this.state = this.getInitialState();
+                        this.saveStateToFirestore();
+                    }
+                    this.render();
+                }, (error) => {
+                    console.error("Firestore Snapshot Error:", error);
+                    alert("Could not connect to the database. Please check your connection and refresh.");
+                });
             },
 
-            resetDailyState() {
-                this.state.todaysWorkout = null;
-                this.state.liquidCalories = 0;
-                this.state.waterIntake = 0;
-                this.state.excessCalories = 0;
-                this.state.excessLog = [];
+            async saveStateToFirestore() {
+                if (!this.userId) return;
+                try {
+                    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                    const docRef = doc(this.db, 'artifacts', appId, 'users', this.userId, 'data', 'dailyState');
+                    await setDoc(docRef, this.state, { merge: true });
+                } catch (error) {
+                    console.error("Error saving state to Firestore:", error);
+                }
             },
 
-            switchTab(tabId) {
-                this.state.activeTab = tabId;
-                this.render();
-            },
-
-            selectWorkout(workoutId) {
-                const workoutData = this.workouts[workoutId];
-                this.state.todaysWorkout = {
-                    id: workoutId,
-                    name: workoutData.name,
-                    completed: false,
-                    progress: new Array(workoutData.exercises.length).fill(false)
+            getInitialState() {
+                const today = new Date().toISOString().split('T')[0];
+                return {
+                    lastLogin: today,
+                    workoutStreak: 0,
+                    lastWorkoutDate: '',
+                    liquidCalories: 0,
+                    waterIntake: 0,
+                    excessCalories: 0,
+                    excessLog: [],
+                    todaysWorkouts: [], // Changed data structure
                 };
-                this.saveState();
-                this.render();
             },
 
-            completeWorkout() {
-                if (this.state.todaysWorkout) {
-                    this.state.todaysWorkout.completed = true;
+            resetDailyMetricsIfNeeded() {
+                const today = new Date().toISOString().split('T')[0];
+                if (this.state.lastLogin !== today) {
+                    console.log("New day detected. Resetting daily metrics.");
+                    this.state.lastLogin = today;
+                    this.state.liquidCalories = 0;
+                    this.state.waterIntake = 0;
+                    this.state.excessCalories = 0;
+                    this.state.excessLog = [];
+                    this.state.todaysWorkouts = [];
 
-                    const today = new Date().toLocaleDateString();
-                    const yesterday = new Date();
-                    yesterday.setDate(yesterday.getDate() - 1);
-                    const yesterdayString = yesterday.toLocaleDateString();
+                    const lastWorkout = this.state.lastWorkoutDate ? new Date(this.state.lastWorkoutDate) : null;
+                    if (lastWorkout) {
+                        const yesterday = new Date();
+                        yesterday.setDate(yesterday.getDate() - 1);
+                        if (lastWorkout.toDateString() !== yesterday.toDateString() && lastWorkout.toDateString() !== new Date().toDateString()) {
+                            this.state.workoutStreak = 0;
+                        }
+                    }
+                    this.saveStateToFirestore();
+                }
+            },
 
-                    if (this.state.lastWorkoutDate === yesterdayString) {
-                        this.state.workoutStreak++;
-                    } else if (this.state.lastWorkoutDate !== today) {
-                        this.state.workoutStreak = 1;
+            addWorkout(workoutId) {
+                if (workoutId === 'none') return;
+                const workoutData = this.workouts[workoutId];
+                if (!workoutData) return;
+
+                const newWorkout = {
+                    id: workoutId,
+                    instanceId: `workout_${Date.now()}`,
+                    name: workoutData.name,
+                    isComplete: false,
+                };
+
+                // Add specific properties for different workout types
+                if (workoutId === 'cardio') {
+                    newWorkout.cardioType = 'Running'; // default value
+                    newWorkout.duration = 30; // default value
+                } else if (workoutId !== 'rest_day') {
+                    newWorkout.completedExercises = [];
+                }
+
+                this.state.todaysWorkouts.push(newWorkout);
+                this.saveStateToFirestore();
+                appUI.workoutSelector.value = 'none'; // Reset dropdown
+            },
+
+            removeWorkout(instanceId) {
+                this.state.todaysWorkouts = this.state.todaysWorkouts.filter(w => w.instanceId !== instanceId);
+                this.saveStateToFirestore();
+            },
+
+            updateCardioDetails(instanceId, field, value) {
+                const workout = this.state.todaysWorkouts.find(w => w.instanceId === instanceId);
+                if (!workout) return;
+
+                if (field === 'duration') {
+                    workout[field] = parseInt(value, 10) || 0;
+                } else {
+                    workout[field] = value;
+                }
+                this.saveStateToFirestore();
+            },
+
+            toggleExercise(instanceId, exerciseName) {
+                const workout = this.state.todaysWorkouts.find(w => w.instanceId === instanceId);
+                if (!workout) return;
+
+                const index = workout.completedExercises.indexOf(exerciseName);
+                if (index > -1) {
+                    workout.completedExercises.splice(index, 1);
+                } else {
+                    workout.completedExercises.push(exerciseName);
+                }
+                this.saveStateToFirestore();
+            },
+
+            completeWorkout(instanceId) {
+                const workout = this.state.todaysWorkouts.find(w => w.instanceId === instanceId);
+                if (!workout || workout.isComplete) return;
+
+                workout.isComplete = true;
+
+                // Check if this is the first workout completed today to update streak
+                const isFirstCompletion = !this.state.todaysWorkouts.some(w => w.isComplete && w.instanceId !== instanceId);
+
+                if (isFirstCompletion) {
+                    const today = new Date().toISOString().split('T')[0];
+                    const lastWorkout = this.state.lastWorkoutDate;
+
+                    if (!lastWorkout || lastWorkout !== today) {
+                        const yesterday = new Date();
+                        yesterday.setDate(yesterday.getDate() - 1);
+                        const lastWorkoutDateObj = lastWorkout ? new Date(lastWorkout) : null;
+
+                        if (lastWorkoutDateObj && lastWorkoutDateObj.toDateString() === yesterday.toDateString()) {
+                            this.state.workoutStreak += 1;
+                        } else {
+                            this.state.workoutStreak = 1;
+                        }
                     }
                     this.state.lastWorkoutDate = today;
-
-                    this.saveState();
-                    this.render();
                 }
-            },
 
-            toggleExercise(index) {
-                if (this.state.todaysWorkout && this.state.todaysWorkout.progress) {
-                    this.state.todaysWorkout.progress[index] = !this.state.todaysWorkout.progress[index];
-                    this.saveState();
-                    this.render();
-                }
+                this.saveStateToFirestore();
             },
 
             addLiquidCalories(calories) {
-                this.state.liquidCalories += calories;
-                this.saveState();
-                this.render();
+                this.state.liquidCalories = (this.state.liquidCalories || 0) + calories;
+                this.saveStateToFirestore();
             },
 
             addWater(glasses) {
-                this.state.waterIntake += glasses;
-                this.saveState();
-                this.render();
+                this.state.waterIntake = (this.state.waterIntake || 0) + glasses;
+                this.saveStateToFirestore();
             },
 
             async addExcessCalories() {
                 const descInput = document.getElementById('excessDescInput');
                 const desc = descInput.value.trim();
-
-                if (!desc) {
-                    alert("Please describe the food item.");
-                    return;
-                }
+                if (!desc) return;
 
                 const logBtn = document.getElementById('logExcessBtn');
                 const logText = document.getElementById('logExcessText');
@@ -468,53 +518,23 @@
                 try {
                     const apiKey = "";
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-                    const payload = {
-                        contents: [{ parts: [{ text: `Estimate calories for: ${desc}` }] }],
-                        generationConfig: {
-                            responseMimeType: "application/json",
-                            responseSchema: {
-                                type: "OBJECT",
-                                properties: {
-                                    calories: {
-                                        type: "NUMBER",
-                                        description: "Estimated calories for the food item."
-                                    }
-                                },
-                                required: ["calories"]
-                            }
-                        }
-                    };
-
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`API error: ${response.statusText}`);
-                    }
-
+                    const payload = { contents: [{ parts: [{ text: `Estimate calories for: ${desc}` }] }], generationConfig: { responseMimeType: "application/json", responseSchema: { type: "OBJECT", properties: { calories: { type: "NUMBER", description: "Estimated calories for the food item." } }, required: ["calories"] } } };
+                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    if (!response.ok) throw new Error(`API error: ${response.statusText}`);
                     const result = await response.json();
-
                     const candidate = result.candidates?.[0];
+
                     if (candidate && candidate.content?.parts?.[0]?.text) {
                         const parsedJson = JSON.parse(candidate.content.parts[0].text);
                         const calories = parsedJson.calories;
-
                         if (calories > 0) {
-                            this.state.excessCalories += calories;
+                            this.state.excessCalories = (this.state.excessCalories || 0) + calories;
+                            this.state.excessLog = this.state.excessLog || [];
                             this.state.excessLog.push({ calories, desc });
                             descInput.value = '';
-                            this.saveState();
-                            this.render();
-                        } else {
-                            throw new Error("Could not estimate calories.");
-                        }
-                    } else {
-                        throw new Error("Invalid response from API.");
-                    }
+                            this.saveStateToFirestore();
+                        } else throw new Error("Could not estimate calories.");
+                    } else throw new Error("Invalid response from API.");
                 } catch (error) {
                     console.error("Calorie estimation failed:", error);
                     alert("Sorry, I couldn't estimate the calories for that. Please try a different description.");
@@ -527,136 +547,92 @@
             },
 
             render() {
-                // Tabs
-                document.querySelectorAll('.tab-btn').forEach(btn => {
-                    btn.classList.toggle('tab-active', btn.dataset.tab === this.state.activeTab);
-                });
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.toggle('hidden', content.id !== this.state.activeTab);
-                });
+                if (!this.state || Object.keys(this.state).length === 0) return;
 
-                // Dashboard View
-                this.renderDashboard();
+                // Render Workout Stack
+                appUI.workoutStack.innerHTML = '';
+                if (this.state.todaysWorkouts && this.state.todaysWorkouts.length > 0) {
+                    this.state.todaysWorkouts.forEach(workout => {
+                        let contentHtml = '';
+                        // Conditionally render content based on workout type
+                        if (workout.id === 'rest_day') {
+                            contentHtml = `<p class="text-center text-gray-400 p-4">Take a day to recover and recharge.</p>`;
+                        } else if (workout.id === 'cardio') {
+                            contentHtml = `
+                                <div class="space-y-4 p-2">
+                                    <div>
+                                        <label for="cardioType_${workout.instanceId}" class="block text-sm font-medium text-gray-300 mb-1">Cardio Type</label>
+                                        <select id="cardioType_${workout.instanceId}" class="w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2" onchange="app.updateCardioDetails('${workout.instanceId}', 'cardioType', this.value)">
+                                            <option ${workout.cardioType === 'Running' ? 'selected' : ''}>Running</option>
+                                            <option ${workout.cardioType === 'Cycling' ? 'selected' : ''}>Cycling</option>
+                                            <option ${workout.cardioType === 'Swimming' ? 'selected' : ''}>Swimming</option>
+                                            <option ${workout.cardioType === 'Elliptical' ? 'selected' : ''}>Elliptical</option>
+                                            <option ${workout.cardioType === 'Rowing' ? 'selected' : ''}>Rowing</option>
+                                            <option ${workout.cardioType === 'Stair Climber' ? 'selected' : ''}>Stair Climber</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="duration_${workout.instanceId}" class="block text-sm font-medium text-gray-300 mb-1">Duration (minutes)</label>
+                                        <input type="number" id="duration_${workout.instanceId}" value="${workout.duration}" class="w-full bg-gray-800 border border-gray-600 rounded-md px-3 py-2" onchange="app.updateCardioDetails('${workout.instanceId}', 'duration', this.value)">
+                                    </div>
+                                </div>`;
+                        } else {
+                            const workoutData = this.workouts[workout.id];
+                            contentHtml = `<div class="space-y-3">${workoutData.exercises.map(ex => {
+                                const isChecked = workout.completedExercises.includes(ex.name);
+                                return `<label class="flex items-center p-3 bg-gray-800 rounded-md cursor-pointer hover:bg-gray-700">
+                                        <input type="checkbox" class="h-5 w-5 rounded mr-4" onchange="app.toggleExercise('${workout.instanceId}', '${ex.name}')" ${isChecked ? 'checked' : ''}>
+                                        <span class="flex-grow text-white">${ex.name}</span>
+                                        <span class="text-gray-400">${ex.sets} sets x ${ex.reps} reps</span>
+                                    </label>`;
+                            }).join('')
+                                }</div>`;
+                        }
 
-                // Workouts View
-                this.renderWorkouts();
-
-                // Nutrition View
-                this.renderNutrition();
-            },
-
-            renderDashboard() {
-                const workoutStatusEl = document.getElementById('dashboardWorkoutStatus');
-                if (this.state.todaysWorkout) {
-                    workoutStatusEl.innerHTML = `
-                        <p class="text-lg font-semibold">${this.state.todaysWorkout.name}</p>
-                        <p class="text-sm ${this.state.todaysWorkout.completed ? 'text-green-400' : 'text-yellow-400'}">
-                            Status: ${this.state.todaysWorkout.completed ? 'Completed!' : 'Pending'}
-                        </p>
-                        <button class="btn ${this.state.todaysWorkout.completed ? 'btn-secondary' : 'btn-primary'} mt-4 w-full" onclick="app.switchTab('workouts')">
-                            ${this.state.todaysWorkout.completed ? 'View Workout' : 'Go to Workout'}
-                        </button>
-                    `;
-                } else {
-                    workoutStatusEl.innerHTML = `
-                        <p class="text-gray-400">No workout selected yet.</p>
-                        <button class="btn btn-primary mt-4 w-full" onclick="app.switchTab('workouts')">Choose Workout</button>
-                    `;
-                }
-
-                document.getElementById('dashboardLiquidCalories').textContent = this.state.liquidCalories;
-                const liquidPercent = Math.min((this.state.liquidCalories / 500) * 100, 100);
-                document.getElementById('dashboardLiquidProgress').style.width = `${liquidPercent}%`;
-
-                document.getElementById('dashboardWaterIntake').textContent = this.state.waterIntake;
-                const waterIconsEl = document.getElementById('waterIcons');
-                waterIconsEl.innerHTML = '';
-                for (let i = 0; i < 8; i++) {
-                    waterIconsEl.innerHTML += `
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ${i < this.state.waterIntake ? 'text-blue-400' : 'text-gray-600'}" viewBox="0 0 20 20" fill="currentColor">
-                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
-                        </svg>`;
-                }
-
-                document.getElementById('dashboardExcessCalories').textContent = this.state.excessCalories;
-                document.getElementById('dashboardWorkoutStreak').textContent = this.state.workoutStreak;
-            },
-
-            renderWorkouts() {
-                const detailsEl = document.getElementById('workoutDetails');
-                if (this.state.todaysWorkout) {
-                    const workoutData = this.workouts[this.state.todaysWorkout.id];
-                    let exercisesHtml = workoutData.exercises.map((ex, index) => {
-                        const isChecked = this.state.todaysWorkout.progress[index];
-                        return `
-                        <li class="flex items-center py-3 border-b border-gray-700 last:border-b-0">
-                            <input id="ex-${index}" type="checkbox" class="h-5 w-5 rounded bg-gray-600 border-gray-500 text-teal-500 focus:ring-teal-500 mr-4 flex-shrink-0" 
-                                   onchange="app.toggleExercise(${index})" ${isChecked ? 'checked' : ''}>
-                            <label for="ex-${index}" class="flex-grow flex justify-between items-center cursor-pointer">
-                                <span class="font-medium ${isChecked ? 'text-gray-500 line-through' : ''}">${ex.name}</span>
-                                <span class="text-gray-400 text-right ${isChecked ? 'text-gray-500 line-through' : ''}">${ex.sets} sets x ${ex.reps} reps</span>
-                            </label>
-                        </li>
+                        appUI.workoutStack.innerHTML += `
+                            <div class="border border-gray-700 rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="font-bold text-lg text-teal-400">${workout.name}</h3>
+                                    <button class="btn btn-danger btn-sm py-1 px-2 text-xs" onclick="app.removeWorkout('${workout.instanceId}')">Remove</button>
+                                </div>
+                                ${contentHtml}
+                                <button class="btn btn-primary mt-6 w-full" onclick="app.completeWorkout('${workout.instanceId}')" ${workout.isComplete ? 'disabled' : ''}>
+                                    ${workout.isComplete ? 'Completed!' : 'Mark as Complete'}
+                                </button>
+                            </div>
                         `;
-                    }).join('');
-
-                    detailsEl.innerHTML = `
-                        <h3 class="text-2xl font-bold text-center mb-2">${workoutData.name}</h3>
-                        <p class="text-center text-gray-400 mb-6">Estimated Duration: ${workoutData.duration}</p>
-                        <ul class="space-y-0 mb-6">${exercisesHtml}</ul>
-                        <button class="btn ${this.state.todaysWorkout.completed ? 'btn-secondary cursor-not-allowed' : 'btn-primary'} w-full text-lg" 
-                                onclick="app.completeWorkout()" ${this.state.todaysWorkout.completed ? 'disabled' : ''}>
-                            ${this.state.todaysWorkout.completed ? 'Workout Completed!' : 'Mark as Complete'}
-                        </button>
-                    `;
+                    });
                 } else {
-                    detailsEl.innerHTML = '<p class="text-gray-400 text-center">Select a workout to see the details here.</p>';
+                    appUI.workoutStack.innerHTML = `<p class="text-center text-gray-500">No workouts added for today.</p>`;
                 }
+
+                // Nutrition Section
+                appUI.liquidCaloriesDisplay.textContent = this.state.liquidCalories || 0;
+                appUI.liquidCaloriesBar.style.width = `${Math.min(100, ((this.state.liquidCalories || 0) / 500) * 100)}%`;
+                appUI.waterIntakeDisplay.textContent = this.state.waterIntake || 0;
+                appUI.waterIntakeBar.style.width = `${Math.min(100, ((this.state.waterIntake || 0) / 8) * 100)}%`;
+                appUI.excessCaloriesDisplay.textContent = this.state.excessCalories || 0;
+                appUI.excessList.innerHTML = (this.state.excessLog || []).map(item =>
+                    `<div class="flex justify-between items-center bg-gray-800 p-2 rounded-md">
+                        <span>${item.desc}</span>
+                        <span class="font-semibold text-teal-400">${item.calories} kcal</span>
+                    </div>`
+                ).join('');
+
+                // Stats Section
+                appUI.workoutStreakDisplay.textContent = this.state.workoutStreak || 0;
+                appUI.lastWorkoutDate.textContent = this.state.lastWorkoutDate ? `Last workout: ${new Date(this.state.lastWorkoutDate).toLocaleDateString()}` : 'No workouts yet.';
             },
 
-            renderNutrition() {
-                document.getElementById('nutritionLiquidCalories').textContent = this.state.liquidCalories;
-                const liquidPercent = Math.min((this.state.liquidCalories / 500) * 100, 100);
-                document.getElementById('nutritionLiquidProgress').style.width = `${liquidPercent}%`;
-
-                document.getElementById('nutritionWaterIntake').textContent = this.state.waterIntake;
-                const waterIconsEl = document.getElementById('nutritionWaterIcons');
-                waterIconsEl.innerHTML = '';
-                for (let i = 0; i < 8; i++) {
-                    waterIconsEl.innerHTML += `
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 ${i < this.state.waterIntake ? 'text-blue-400' : 'text-gray-600'}" viewBox="0 0 20 20" fill="currentColor">
-                           <path d="M5.5 16a3.5 3.5 0 01-3.5-3.5V8.25a.75.75 0 011.5 0V12.5a2 2 0 002 2h.5a.75.75 0 010 1.5H5.5z" />
-                           <path d="M15.25 10.75a.75.75 0 00-1.5 0v1.75a2 2 0 01-2 2H11.5a.75.75 0 000-1.5h.25a3.5 3.5 0 003.5-3.5V8.25a.75.75 0 00-1.5 0V10c0 .966-.784 1.75-1.75 1.75h-.5a2.25 2.25 0 01-2.25-2.25V6.25a2.25 2.25 0 012.25-2.25h.5c.966 0 1.75.784 1.75 1.75v1.75a.75.75 0 001.5 0V8c0-1.795-1.455-3.25-3.25-3.25h-.5A3.75 3.75 0 006.25 8.25v4.5A3.75 3.75 0 0010 16.5h1.75a3.5 3.5 0 003.5-3.5v-2.25z" />
-                        </svg>
-                    `;
-                }
-
-                const excessListEl = document.getElementById('excessList');
-                if (this.state.excessLog.length > 0) {
-                    excessListEl.innerHTML = `
-                        <h3 class="font-semibold mb-2 mt-4 text-gray-300">Logged Items:</h3>
-                        <ul class="space-y-2">
-                           ${this.state.excessLog.map(item => `
-                                <li class="flex justify-between p-2 bg-gray-800 rounded-md">
-                                    <span>${item.desc}</span>
-                                    <span class="font-medium">${item.calories} kcal</span>
-                                </li>
-                           `).join('')}
-                           <li class="flex justify-between p-2 border-t border-gray-600 mt-2 font-bold">
-                                <span>Total</span>
-                                <span>${this.state.excessCalories} kcal</span>
-                           </li>
-                        </ul>
-                    `;
-                } else {
-                    excessListEl.innerHTML = '';
-                }
+            addEventListeners() {
+                appUI.logoutBtn.addEventListener('click', () => signOut(this.auth));
+                appUI.workoutSelector.addEventListener('change', (e) => this.addWorkout(e.target.value));
             }
         };
 
-        document.addEventListener('DOMContentLoaded', () => {
-            app.init();
-        });
+        app.init();
+        window.app = app; // Make app globally accessible for inline event handlers
+
     </script>
 </body>
 
