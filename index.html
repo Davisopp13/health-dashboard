@@ -362,11 +362,22 @@
             getTodayDateString() { return new Date().toISOString().split('T')[0]; },
 
             addWorkout(workoutId) {
-                if (workoutId === 'none') return; const workoutData = this.workouts[workoutId]; if (!workoutData) return;
+                if (workoutId === 'none') return;
+                const workoutData = this.workouts[workoutId];
+                if (!workoutData) return;
+
+                // Safeguard to ensure todaysWorkouts is an array
+                if (!Array.isArray(this.todayState.todaysWorkouts)) {
+                    this.todayState.todaysWorkouts = [];
+                }
+
                 const newWorkout = { id: workoutId, instanceId: `workout_${Date.now()}`, name: workoutData.name, isComplete: false };
                 if (workoutId === 'cardio') { newWorkout.cardioType = 'Running'; newWorkout.duration = 30; }
                 else if (workoutId !== 'rest_day') { newWorkout.completedExercises = []; }
-                this.todayState.todaysWorkouts.push(newWorkout); this.saveData('daily'); appUI.workoutSelector.value = 'none';
+
+                this.todayState.todaysWorkouts.push(newWorkout);
+                this.saveData('daily');
+                appUI.workoutSelector.value = 'none';
             },
 
             removeWorkout(instanceId) { this.todayState.todaysWorkouts = this.todayState.todaysWorkouts.filter(w => w.instanceId !== instanceId); this.saveData('daily'); },
@@ -375,6 +386,7 @@
             toggleExercise(instanceId, exerciseName, forceCheck = false) {
                 const workout = this.todayState.todaysWorkouts.find(w => w.instanceId === instanceId);
                 if (!workout) return;
+                if (!workout.completedExercises) workout.completedExercises = [];
                 const index = workout.completedExercises.indexOf(exerciseName);
                 if (forceCheck) {
                     if (index === -1) workout.completedExercises.push(exerciseName);
