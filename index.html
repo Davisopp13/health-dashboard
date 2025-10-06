@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Health Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tab-active {
+            border-color: #2dd4bf;
+            /* teal-400 */
+            color: #2dd4bf;
+        }
+
+        .card {
+            background-color: #1f2937;
+            /* gray-800 */
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid #374151;
+            /* gray-700 */
+            transition: all 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            border-color: #4b5563;
+            /* gray-600 */
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: #0d9488;
+            /* teal-600 */
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0f766e;
+            /* teal-700 */
+        }
+
+        .btn-secondary {
+            background-color: #374151;
+            /* gray-700 */
+            color: #d1d5db;
+            /* gray-300 */
+            border-color: #4b5563;
+            /* gray-600 */
+        }
+
+        .btn-secondary:hover {
+            background-color: #4b5563;
+            /* gray-600 */
+        }
+
+        /* Custom progress bar for a nice visual */
+        .progress-bar-container {
+            width: 100%;
+            height: 1.5rem;
+            background-color: #374151;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, rgba(13, 148, 136, 1) 0%, rgba(45, 212, 191, 1) 100%);
+            transition: width 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-gray-200 min-h-screen antialiased">
+
+    <!-- Main Container -->
+    <div class="container mx-auto max-w-4xl p-4 md:p-6">
+
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-white">Your Health Dashboard</h1>
+            <p id="currentDate" class="text-teal-400 mt-1"></p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="flex justify-center border-b border-gray-700 mb-8">
+            <button data-tab="dashboard"
+                class="tab-btn px-4 md:px-6 py-3 font-medium border-b-2 tab-active">Dashboard</button>
+            <button data-tab="workouts"
+                class="tab-btn px-4 md:px-6 py-3 font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200">Workouts</button>
+            <button data-tab="nutrition"
+                class="tab-btn px-4 md:px-6 py-3 font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200">Nutrition</button>
+        </nav>
+
+        <!-- Content Area -->
+        <main>
+            <!-- Dashboard View -->
+            <div id="dashboard" class="tab-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Today's Workout -->
+                <div class="card md:col-span-2 lg:col-span-1">
+                    <h2 class="font-bold text-xl mb-3 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-teal-400" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        Today's Workout
+                    </h2>
+                    <div id="dashboardWorkoutStatus">
+                        <p class="text-gray-400">No workout selected yet.</p>
+                        <button class="btn btn-primary mt-4 w-full" onclick="app.switchTab('workouts')">Choose
+                            Workout</button>
+                    </div>
+                </div>
+
+                <!-- Liquid Calories -->
+                <div class="card">
+                    <h2 class="font-bold text-xl mb-3 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-teal-400" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 12h6m-3-4h.01" />
+                        </svg>
+                        Liquid Calories
+                    </h2>
+                    <p class="text-4xl font-bold"><span id="dashboardLiquidCalories">0</span> / <span
+                            class="text-2xl text-gray-400">500</span> kcal</p>
+                    <div class="progress-bar-container mt-3">
+                        <div id="dashboardLiquidProgress" class="progress-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <!-- Water Intake -->
+                <div class="card">
+                    <h2 class="font-bold text-xl mb-3 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-teal-400" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 016-6h6a6 6 0 016 6v1h-3M15 21a2 2 0 002-2v-1a2 2 0 00-2-2h-3.333M15 14.333V9.667a2 2 0 00-2-2h0a2 2 0 00-2 2v4.667" />
+                        </svg>
+                        Water Intake
+                    </h2>
+                    <p class="text-4xl font-bold"><span id="dashboardWaterIntake">0</span> / <span
+                            class="text-2xl text-gray-400">8</span> glasses</p>
+                    <div class="flex space-x-2 mt-3">
+                        <div id="waterIcons" class="flex flex-wrap gap-2"></div>
+                    </div>
+                </div>
+                <!-- Excess Calories -->
+                <div class="card">
+                    <h2 class="font-bold text-xl mb-3 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-teal-400" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M5 2a1 1 0 011 1v1h8V3a1 1 0 112 0v1h1a2 2 0 012 2v10a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h1V3a1 1 0 011-1zm10 5H5v8h10V7z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Excess Calories
+                    </h2>
+                    <p class="text-4xl font-bold"><span id="dashboardExcessCalories">0</span> kcal</p>
+                    <p class="text-gray-400 mt-2">from snacks & extras</p>
+                </div>
+                <!-- Workout Streak -->
+                <div class="card">
+                    <h2 class="font-bold text-xl mb-3 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-teal-400" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7.014A8.003 8.003 0 0122 12c0 3-1 7-3.5 9.5s-5.5 4.5-8.5 3.5c-3-.5-4.5-2.5-4.5-2.5" />
+                        </svg>
+                        Workout Streak
+                    </h2>
+                    <p class="text-4xl font-bold"><span id="dashboardWorkoutStreak">0</span> days</p>
+                    <p class="text-gray-400 mt-2">Keep it going!</p>
+                </div>
+            </div>
+
+            <!-- Workouts View -->
+            <div id="workouts" class="tab-content hidden">
+                <div class="card">
+                    <h2 class="font-bold text-xl mb-4">Select a Workout</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <button class="btn btn-secondary" onclick="app.selectWorkout('home_abs')">Home Abs</button>
+                        <button class="btn btn-secondary" onclick="app.selectWorkout('gym_push')">Gym: Push Day</button>
+                        <button class="btn btn-secondary" onclick="app.selectWorkout('gym_pull')">Gym: Pull Day</button>
+                        <button class="btn btn-secondary" onclick="app.selectWorkout('gym_legs')">Gym: Legs Day</button>
+                    </div>
+                    <div id="workoutDetails">
+                        <p class="text-gray-400 text-center">Select a workout to see the details here.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nutrition View -->
+            <div id="nutrition" class="tab-content hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Liquid Calories Card -->
+                    <div class="card">
+                        <h2 class="font-bold text-xl mb-4">Log Liquid Calories</h2>
+                        <p class="text-center text-3xl font-bold mb-4"><span id="nutritionLiquidCalories">0</span> / 500
+                            kcal</p>
+                        <div class="progress-bar-container mb-6">
+                            <div id="nutritionLiquidProgress" class="progress-bar" style="width: 0%;"></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="btn btn-secondary" onclick="app.addLiquidCalories(150, 'Soda (12oz)')">Soda
+                                (150 kcal)</button>
+                            <button class="btn btn-secondary" onclick="app.addLiquidCalories(110, 'Juice (8oz)')">Juice
+                                (110 kcal)</button>
+                            <button class="btn btn-secondary"
+                                onclick="app.addLiquidCalories(210, 'Chocolate Milk (8oz)')">Choc. Milk (210
+                                kcal)</button>
+                            <button class="btn btn-secondary"
+                                onclick="app.addLiquidCalories(160, 'Sweet Tea (12oz)')">Sweet Tea (160 kcal)</button>
+                        </div>
+                    </div>
+                    <!-- Water Intake Card -->
+                    <div class="card">
+                        <h2 class="font-bold text-xl mb-4">Log Water Intake</h2>
+                        <p class="text-center text-3xl font-bold mb-4"><span id="nutritionWaterIntake">0</span> / 8
+                            glasses</p>
+                        <div class="flex items-center justify-center space-x-4 mb-4">
+                            <button class="btn btn-primary" onclick="app.addWater(1)">+1 Glass</button>
+                            <button class="btn btn-primary" onclick="app.addWater(2)">+2 Glasses</button>
+                        </div>
+                        <div id="nutritionWaterIcons" class="flex flex-wrap gap-2 justify-center"></div>
+                    </div>
+                    <!-- Excess Calories Card -->
+                    <div class="card md:col-span-2">
+                        <h2 class="font-bold text-xl mb-4">Log Excess Calories with AI</h2>
+                        <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                            <input id="excessDescInput" type="text"
+                                placeholder="Describe the food (e.g., Handful of chips)"
+                                class="bg-gray-700 border border-gray-600 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            <button id="logExcessBtn" class="btn btn-primary" onclick="app.addExcessCalories()">
+                                <svg id="logExcessIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z" />
+                                </svg>
+                                <span id="logExcessText">Calculate & Log</span>
+                                <svg id="logExcessSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div id="excessList">
+                            <!-- Logged items will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        const app = {
+            state: {
+                currentDate: '',
+                activeTab: 'dashboard',
+                todaysWorkout: null, // { id: 'gym_push', name: 'Gym: Push Day', completed: false, progress: [false, ...] }
+                liquidCalories: 0,
+                waterIntake: 0, // in glasses
+                excessCalories: 0,
+                excessLog: [], // [{calories: 150, desc: 'Chips'}, ...]
+                workoutStreak: 0,
+                lastWorkoutDate: null
+            },
+
+            workouts: {
+                home_abs: {
+                    name: 'Home Ab Workout',
+                    duration: '15 Mins',
+                    exercises: [
+                        { name: 'Push Ups', sets: 3, reps: '10-15' },
+                        { name: 'Crunches', sets: 3, reps: 20 },
+                        { name: 'Leg Raises', sets: 3, reps: 15 },
+                        { name: 'Plank', sets: 3, reps: '60s hold' },
+                        { name: 'Russian Twists', sets: 3, reps: '20 (each side)' },
+                    ]
+                },
+                gym_push: {
+                    name: 'Gym: Push Day',
+                    duration: '45 Mins',
+                    exercises: [
+                        { name: 'Barbell Bench Press', sets: 3, reps: '6-8' },
+                        { name: 'Incline Dumbbell Press', sets: 3, reps: '8-10' },
+                        { name: 'Overhead Press', sets: 3, reps: '8-10' },
+                        { name: 'Tricep Pushdowns', sets: 3, reps: '10-12' },
+                        { name: 'Lateral Raises', sets: 3, reps: '12-15' },
+                    ]
+                },
+                gym_pull: {
+                    name: 'Gym: Pull Day',
+                    duration: '45 Mins',
+                    exercises: [
+                        { name: 'Pull-Ups / Lat Pulldowns', sets: 3, reps: '6-10' },
+                        { name: 'Barbell Rows', sets: 3, reps: '8-10' },
+                        { name: 'Face Pulls', sets: 3, reps: '12-15' },
+                        { name: 'Bicep Curls', sets: 3, reps: '10-12' },
+                        { name: 'Hammer Curls', sets: 3, reps: '10-12' },
+                    ]
+                },
+                gym_legs: {
+                    name: 'Gym: Legs Day',
+                    duration: '45 Mins',
+                    exercises: [
+                        { name: 'Barbell Squats', sets: 3, reps: '6-8' },
+                        { name: 'Romanian Deadlifts', sets: 3, reps: '8-10' },
+                        { name: 'Leg Press', sets: 2, reps: '10-12' },
+                        { name: 'Leg Curls', sets: 2, reps: '12-15' },
+                        { name: 'Calf Raises', sets: 3, reps: '15-20' },
+                    ]
+                }
+            },
+
+            init() {
+                this.loadState();
+                this.setupEventListeners();
+                this.render();
+            },
+
+            setupEventListeners() {
+                document.querySelectorAll('.tab-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        this.switchTab(e.target.dataset.tab);
+                    });
+                });
+            },
+
+            loadState() {
+                const savedState = localStorage.getItem('healthDashboardState');
+                const today = new Date().toLocaleDateString();
+                document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+                if (savedState) {
+                    const parsedState = JSON.parse(savedState);
+                    // Check if it's a new day
+                    if (parsedState.currentDate !== today) {
+                        this.state.workoutStreak = parsedState.workoutStreak;
+                        this.state.lastWorkoutDate = parsedState.lastWorkoutDate;
+                        // Reset daily stats but keep streaks
+                        this.resetDailyState();
+                    } else {
+                        this.state = parsedState;
+                    }
+                }
+                this.state.currentDate = today;
+                this.saveState();
+            },
+
+            saveState() {
+                localStorage.setItem('healthDashboardState', JSON.stringify(this.state));
+            },
+
+            resetDailyState() {
+                this.state.todaysWorkout = null;
+                this.state.liquidCalories = 0;
+                this.state.waterIntake = 0;
+                this.state.excessCalories = 0;
+                this.state.excessLog = [];
+            },
+
+            switchTab(tabId) {
+                this.state.activeTab = tabId;
+                this.render();
+            },
+
+            selectWorkout(workoutId) {
+                const workoutData = this.workouts[workoutId];
+                this.state.todaysWorkout = {
+                    id: workoutId,
+                    name: workoutData.name,
+                    completed: false,
+                    progress: new Array(workoutData.exercises.length).fill(false)
+                };
+                this.saveState();
+                this.render();
+            },
+
+            completeWorkout() {
+                if (this.state.todaysWorkout) {
+                    this.state.todaysWorkout.completed = true;
+
+                    const today = new Date().toLocaleDateString();
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    const yesterdayString = yesterday.toLocaleDateString();
+
+                    if (this.state.lastWorkoutDate === yesterdayString) {
+                        this.state.workoutStreak++;
+                    } else if (this.state.lastWorkoutDate !== today) {
+                        this.state.workoutStreak = 1;
+                    }
+                    this.state.lastWorkoutDate = today;
+
+                    this.saveState();
+                    this.render();
+                }
+            },
+
+            toggleExercise(index) {
+                if (this.state.todaysWorkout && this.state.todaysWorkout.progress) {
+                    this.state.todaysWorkout.progress[index] = !this.state.todaysWorkout.progress[index];
+                    this.saveState();
+                    this.render();
+                }
+            },
+
+            addLiquidCalories(calories) {
+                this.state.liquidCalories += calories;
+                this.saveState();
+                this.render();
+            },
+
+            addWater(glasses) {
+                this.state.waterIntake += glasses;
+                this.saveState();
+                this.render();
+            },
+
+            async addExcessCalories() {
+                const descInput = document.getElementById('excessDescInput');
+                const desc = descInput.value.trim();
+
+                if (!desc) {
+                    alert("Please describe the food item.");
+                    return;
+                }
+
+                const logBtn = document.getElementById('logExcessBtn');
+                const logText = document.getElementById('logExcessText');
+                const logIcon = document.getElementById('logExcessIcon');
+                const logSpinner = document.getElementById('logExcessSpinner');
+
+                logBtn.disabled = true;
+                logText.textContent = 'Calculating...';
+                logIcon.classList.add('hidden');
+                logSpinner.classList.remove('hidden');
+
+                try {
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                    const payload = {
+                        contents: [{ parts: [{ text: `Estimate calories for: ${desc}` }] }],
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "OBJECT",
+                                properties: {
+                                    calories: {
+                                        type: "NUMBER",
+                                        description: "Estimated calories for the food item."
+                                    }
+                                },
+                                required: ["calories"]
+                            }
+                        }
+                    };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API error: ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+
+                    const candidate = result.candidates?.[0];
+                    if (candidate && candidate.content?.parts?.[0]?.text) {
+                        const parsedJson = JSON.parse(candidate.content.parts[0].text);
+                        const calories = parsedJson.calories;
+
+                        if (calories > 0) {
+                            this.state.excessCalories += calories;
+                            this.state.excessLog.push({ calories, desc });
+                            descInput.value = '';
+                            this.saveState();
+                            this.render();
+                        } else {
+                            throw new Error("Could not estimate calories.");
+                        }
+                    } else {
+                        throw new Error("Invalid response from API.");
+                    }
+                } catch (error) {
+                    console.error("Calorie estimation failed:", error);
+                    alert("Sorry, I couldn't estimate the calories for that. Please try a different description.");
+                } finally {
+                    logBtn.disabled = false;
+                    logText.textContent = 'Calculate & Log';
+                    logIcon.classList.remove('hidden');
+                    logSpinner.classList.add('hidden');
+                }
+            },
+
+            render() {
+                // Tabs
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.toggle('tab-active', btn.dataset.tab === this.state.activeTab);
+                });
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.toggle('hidden', content.id !== this.state.activeTab);
+                });
+
+                // Dashboard View
+                this.renderDashboard();
+
+                // Workouts View
+                this.renderWorkouts();
+
+                // Nutrition View
+                this.renderNutrition();
+            },
+
+            renderDashboard() {
+                const workoutStatusEl = document.getElementById('dashboardWorkoutStatus');
+                if (this.state.todaysWorkout) {
+                    workoutStatusEl.innerHTML = `
+                        <p class="text-lg font-semibold">${this.state.todaysWorkout.name}</p>
+                        <p class="text-sm ${this.state.todaysWorkout.completed ? 'text-green-400' : 'text-yellow-400'}">
+                            Status: ${this.state.todaysWorkout.completed ? 'Completed!' : 'Pending'}
+                        </p>
+                        <button class="btn ${this.state.todaysWorkout.completed ? 'btn-secondary' : 'btn-primary'} mt-4 w-full" onclick="app.switchTab('workouts')">
+                            ${this.state.todaysWorkout.completed ? 'View Workout' : 'Go to Workout'}
+                        </button>
+                    `;
+                } else {
+                    workoutStatusEl.innerHTML = `
+                        <p class="text-gray-400">No workout selected yet.</p>
+                        <button class="btn btn-primary mt-4 w-full" onclick="app.switchTab('workouts')">Choose Workout</button>
+                    `;
+                }
+
+                document.getElementById('dashboardLiquidCalories').textContent = this.state.liquidCalories;
+                const liquidPercent = Math.min((this.state.liquidCalories / 500) * 100, 100);
+                document.getElementById('dashboardLiquidProgress').style.width = `${liquidPercent}%`;
+
+                document.getElementById('dashboardWaterIntake').textContent = this.state.waterIntake;
+                const waterIconsEl = document.getElementById('waterIcons');
+                waterIconsEl.innerHTML = '';
+                for (let i = 0; i < 8; i++) {
+                    waterIconsEl.innerHTML += `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ${i < this.state.waterIntake ? 'text-blue-400' : 'text-gray-600'}" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
+                        </svg>`;
+                }
+
+                document.getElementById('dashboardExcessCalories').textContent = this.state.excessCalories;
+                document.getElementById('dashboardWorkoutStreak').textContent = this.state.workoutStreak;
+            },
+
+            renderWorkouts() {
+                const detailsEl = document.getElementById('workoutDetails');
+                if (this.state.todaysWorkout) {
+                    const workoutData = this.workouts[this.state.todaysWorkout.id];
+                    let exercisesHtml = workoutData.exercises.map((ex, index) => {
+                        const isChecked = this.state.todaysWorkout.progress[index];
+                        return `
+                        <li class="flex items-center py-3 border-b border-gray-700 last:border-b-0">
+                            <input id="ex-${index}" type="checkbox" class="h-5 w-5 rounded bg-gray-600 border-gray-500 text-teal-500 focus:ring-teal-500 mr-4 flex-shrink-0" 
+                                   onchange="app.toggleExercise(${index})" ${isChecked ? 'checked' : ''}>
+                            <label for="ex-${index}" class="flex-grow flex justify-between items-center cursor-pointer">
+                                <span class="font-medium ${isChecked ? 'text-gray-500 line-through' : ''}">${ex.name}</span>
+                                <span class="text-gray-400 text-right ${isChecked ? 'text-gray-500 line-through' : ''}">${ex.sets} sets x ${ex.reps} reps</span>
+                            </label>
+                        </li>
+                        `;
+                    }).join('');
+
+                    detailsEl.innerHTML = `
+                        <h3 class="text-2xl font-bold text-center mb-2">${workoutData.name}</h3>
+                        <p class="text-center text-gray-400 mb-6">Estimated Duration: ${workoutData.duration}</p>
+                        <ul class="space-y-0 mb-6">${exercisesHtml}</ul>
+                        <button class="btn ${this.state.todaysWorkout.completed ? 'btn-secondary cursor-not-allowed' : 'btn-primary'} w-full text-lg" 
+                                onclick="app.completeWorkout()" ${this.state.todaysWorkout.completed ? 'disabled' : ''}>
+                            ${this.state.todaysWorkout.completed ? 'Workout Completed!' : 'Mark as Complete'}
+                        </button>
+                    `;
+                } else {
+                    detailsEl.innerHTML = '<p class="text-gray-400 text-center">Select a workout to see the details here.</p>';
+                }
+            },
+
+            renderNutrition() {
+                document.getElementById('nutritionLiquidCalories').textContent = this.state.liquidCalories;
+                const liquidPercent = Math.min((this.state.liquidCalories / 500) * 100, 100);
+                document.getElementById('nutritionLiquidProgress').style.width = `${liquidPercent}%`;
+
+                document.getElementById('nutritionWaterIntake').textContent = this.state.waterIntake;
+                const waterIconsEl = document.getElementById('nutritionWaterIcons');
+                waterIconsEl.innerHTML = '';
+                for (let i = 0; i < 8; i++) {
+                    waterIconsEl.innerHTML += `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 ${i < this.state.waterIntake ? 'text-blue-400' : 'text-gray-600'}" viewBox="0 0 20 20" fill="currentColor">
+                           <path d="M5.5 16a3.5 3.5 0 01-3.5-3.5V8.25a.75.75 0 011.5 0V12.5a2 2 0 002 2h.5a.75.75 0 010 1.5H5.5z" />
+                           <path d="M15.25 10.75a.75.75 0 00-1.5 0v1.75a2 2 0 01-2 2H11.5a.75.75 0 000-1.5h.25a3.5 3.5 0 003.5-3.5V8.25a.75.75 0 00-1.5 0V10c0 .966-.784 1.75-1.75 1.75h-.5a2.25 2.25 0 01-2.25-2.25V6.25a2.25 2.25 0 012.25-2.25h.5c.966 0 1.75.784 1.75 1.75v1.75a.75.75 0 001.5 0V8c0-1.795-1.455-3.25-3.25-3.25h-.5A3.75 3.75 0 006.25 8.25v4.5A3.75 3.75 0 0010 16.5h1.75a3.5 3.5 0 003.5-3.5v-2.25z" />
+                        </svg>
+                    `;
+                }
+
+                const excessListEl = document.getElementById('excessList');
+                if (this.state.excessLog.length > 0) {
+                    excessListEl.innerHTML = `
+                        <h3 class="font-semibold mb-2 mt-4 text-gray-300">Logged Items:</h3>
+                        <ul class="space-y-2">
+                           ${this.state.excessLog.map(item => `
+                                <li class="flex justify-between p-2 bg-gray-800 rounded-md">
+                                    <span>${item.desc}</span>
+                                    <span class="font-medium">${item.calories} kcal</span>
+                                </li>
+                           `).join('')}
+                           <li class="flex justify-between p-2 border-t border-gray-600 mt-2 font-bold">
+                                <span>Total</span>
+                                <span>${this.state.excessCalories} kcal</span>
+                           </li>
+                        </ul>
+                    `;
+                } else {
+                    excessListEl.innerHTML = '';
+                }
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            app.init();
+        });
+    </script>
+</body>
+
+</html>
