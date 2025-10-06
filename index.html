@@ -362,42 +362,11 @@
             getTodayDateString() { return new Date().toISOString().split('T')[0]; },
 
             addWorkout(workoutId) {
-                console.log('🏋️ addWorkout called with:', workoutId);
-                console.log('📊 Current state:', { userId: this.userId, todayState: this.todayState });
-
-                if (workoutId === 'none') return;
-                const workoutData = this.workouts[workoutId];
-                if (!workoutData) {
-                    console.error('❌ Workout data not found for:', workoutId);
-                    return;
-                }
-
-                if (!this.userId) {
-                    console.error('❌ User not authenticated yet');
-                    alert('Please wait for authentication to complete');
-                    return;
-                }
-
-                if (!this.todayState) {
-                    console.error('❌ todayState not initialized');
-                    this.todayState = this.getInitialDailyState();
-                }
-
-                // Safeguard to ensure todaysWorkouts is an array
-                if (!Array.isArray(this.todayState.todaysWorkouts)) {
-                    console.log('⚠️ Initializing todaysWorkouts array');
-                    this.todayState.todaysWorkouts = [];
-                }
-
+                if (workoutId === 'none') return; const workoutData = this.workouts[workoutId]; if (!workoutData) return;
                 const newWorkout = { id: workoutId, instanceId: `workout_${Date.now()}`, name: workoutData.name, isComplete: false };
                 if (workoutId === 'cardio') { newWorkout.cardioType = 'Running'; newWorkout.duration = 30; }
                 else if (workoutId !== 'rest_day') { newWorkout.completedExercises = []; }
-
-                console.log('✅ Adding workout:', newWorkout);
-                this.todayState.todaysWorkouts.push(newWorkout);
-                this.saveData('daily');
-                appUI.workoutSelector.value = 'none';
-                console.log('💾 Workout saved, state updated');
+                this.todayState.todaysWorkouts.push(newWorkout); this.saveData('daily'); appUI.workoutSelector.value = 'none';
             },
 
             removeWorkout(instanceId) { this.todayState.todaysWorkouts = this.todayState.todaysWorkouts.filter(w => w.instanceId !== instanceId); this.saveData('daily'); },
@@ -406,7 +375,6 @@
             toggleExercise(instanceId, exerciseName, forceCheck = false) {
                 const workout = this.todayState.todaysWorkouts.find(w => w.instanceId === instanceId);
                 if (!workout) return;
-                if (!workout.completedExercises) workout.completedExercises = [];
                 const index = workout.completedExercises.indexOf(exerciseName);
                 if (forceCheck) {
                     if (index === -1) workout.completedExercises.push(exerciseName);
@@ -602,16 +570,9 @@
             },
 
             addEventListeners() {
-                console.log('🎯 Setting up event listeners');
                 appUI.logoutBtn.addEventListener('click', () => signOut(this.auth));
                 appUI.googleSignInBtn.addEventListener('click', () => this.signInWithGoogle());
-
-                console.log('🎯 Workout selector element:', appUI.workoutSelector);
-                appUI.workoutSelector.addEventListener('change', (e) => {
-                    console.log('🔔 Workout selector changed! Value:', e.target.value);
-                    this.addWorkout(e.target.value);
-                });
-
+                appUI.workoutSelector.addEventListener('change', (e) => this.addWorkout(e.target.value));
                 appUI.dailyTabBtn.addEventListener('click', () => this.switchTab('daily'));
                 appUI.weeklyTabBtn.addEventListener('click', () => this.switchTab('weekly'));
                 appUI.datePicker.addEventListener('change', (e) => this.fetchDailyLog(e.target.value));
@@ -620,7 +581,6 @@
                 appUI.timerControlBtn.addEventListener('click', () => this.controlTimer());
                 appUI.timerResetBtn.addEventListener('click', () => this.resetTimer());
                 appUI.timerDoneBtn.addEventListener('click', () => this.closeTimer());
-                console.log('✅ All event listeners set up');
             }
         };
 
