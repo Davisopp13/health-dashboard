@@ -221,7 +221,7 @@
                                 placeholder="Describe the food (e.g., Handful of chips)"
                                 class="bg-gray-800 border border-gray-700 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-500">
                             <button id="logExcessBtn" class="btn btn-primary" onclick="app.addExcessCalories()">
-                                <svg id="logExcessIcon" xmlns="http://www.w.org/2000/svg" class="h-5 w-5 mr-2"
+                                <svg id="logExcessIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2"
                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
@@ -315,7 +315,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const appUI = {
@@ -358,6 +358,11 @@
             },
 
             handleAuthState() {
+                getRedirectResult(this.auth).catch((error) => {
+                    console.error("Google Redirect Result Error:", error);
+                    appUI.authError.textContent = `Error during sign-in: ${error.message}`;
+                });
+
                 onAuthStateChanged(this.auth, user => {
                     if (user) {
                         this.userId = user.uid;
@@ -376,8 +381,12 @@
 
             async signInWithGoogle() {
                 const provider = new GoogleAuthProvider();
-                try { await signInWithPopup(this.auth, provider); appUI.authError.textContent = ''; }
-                catch (error) { console.error("Google Sign-In Error:", error); appUI.authError.textContent = `Error signing in: ${error.message}`; }
+                try {
+                    await signInWithRedirect(this.auth, provider);
+                } catch (error) {
+                    console.error("Google Sign-In Redirect Error:", error);
+                    appUI.authError.textContent = `Error starting sign-in: ${error.message}`;
+                }
             },
 
             setupRealtimeListeners() {
