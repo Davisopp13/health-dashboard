@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Health Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -118,25 +118,44 @@
 
 <body class="p-4 sm:p-6 md:p-8">
 
-    <div id="auth-container">
-        <div class="max-w-md mx-auto mt-20 card text-center">
-            <h1 class="text-3xl font-bold text-white mb-2">Health Dashboard</h1>
-            <p class="text-gray-400 mb-6">Please sign in to continue</p>
-            <button id="googleSignInBtn" class="btn btn-primary w-full text-base">
-                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48px"
-                    height="48px">
-                    <path fill="#FFC107"
-                        d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
-                    <path fill="#FF3D00"
-                        d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
-                    <path fill="#4CAF50"
-                        d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
-                    <path fill="#1976D2"
-                        d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.574l6.19,5.238C39.99,36.62,44,30.638,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
-                </svg>
-                Sign in with Google
-            </button>
-            <div id="auth-error" class="text-red-400 mt-4 text-sm"></div>
+    <div id="landing-page-container">
+        <div class="min-h-screen flex flex-col items-center justify-center text-center px-4">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-white leading-tight">
+                Track Your Fitness.
+                <span class="text-teal-400">Master Your Nutrition.</span>
+            </h1>
+            <p class="mt-4 max-w-2xl text-lg text-gray-400">
+                The all-in-one tool to track your workouts, monitor your nutrition with AI, and build lasting habits.
+                Your personal health journey, simplified.
+            </p>
+            <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button id="googleSignUpBtn" class="btn btn-primary w-full sm:w-auto text-lg px-8 py-3">
+                    <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                        <path fill="#FFC107"
+                            d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
+                        <path fill="#FF3D00"
+                            d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
+                        <path fill="#4CAF50"
+                            d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
+                        <path fill="#1976D2"
+                            d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.574l6.19,5.238C39.99,36.62,44,30.638,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
+                    </svg>
+                    Sign Up for Free
+                </button>
+            </div>
+            <p class="mt-4 text-sm text-gray-500">
+                Already have an account?
+                <button id="googleSignInBtn" class="text-teal-400 hover:text-teal-300 font-semibold">Log in</button>
+            </p>
+            <div id="auth-error" class="text-red-400 mt-4 text-sm h-5"></div>
+
+            <div class="mt-12 w-full max-w-4xl">
+                <div class="card p-2 shadow-2xl">
+                    <img src="https://placehold.co/1200x600/111827/030712?text=Dashboard+Preview"
+                        alt="A preview of the health dashboard showing workout tracking and nutrition stats."
+                        class="rounded-md">
+                </div>
+            </div>
         </div>
     </div>
 
@@ -200,9 +219,9 @@
                         <div class="flex flex-col sm:flex-row gap-4 mb-4">
                             <input id="excessDescInput" type="text"
                                 placeholder="Describe the food (e.g., Handful of chips)"
-                                class="bg-gray-800 border border-gray-700 rounded-md px-3 py-2 w-.full focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                class="bg-gray-800 border border-gray-700 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-500">
                             <button id="logExcessBtn" class="btn btn-primary" onclick="app.addExcessCalories()">
-                                <svg id="logExcessIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2"
+                                <svg id="logExcessIcon" xmlns="http://www.w.org/2000/svg" class="h-5 w-5 mr-2"
                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
@@ -254,7 +273,6 @@
             </div>
         </main>
 
-        <!-- Historical Log Section -->
         <section id="historical-log" class="mt-6">
             <div class="card">
                 <div class="flex items-center justify-between mb-4">
@@ -281,22 +299,60 @@
         </section>
     </div>
 
+    <!-- Timer Modal -->
+    <div id="timerModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden z-50">
+        <div class="card text-center w-80 transform transition-all" style="transform: scale(0.95); opacity: 0;">
+            <h2 id="timerExerciseName" class="text-2xl font-bold mb-4 text-gray-200">Plank</h2>
+            <div id="timerDisplay" class="text-8xl font-bold text-teal-400 my-8">60</div>
+            <div class="flex justify-center space-x-4">
+                <button id="timerControlBtn" class="btn btn-primary w-32 text-lg">Start</button>
+                <button id="timerResetBtn" class="btn btn-secondary w-32 text-lg">Reset</button>
+            </div>
+            <button id="timerDoneBtn" class="btn btn-secondary w-full mt-6">Done</button>
+        </div>
+    </div>
+
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const appUI = {
-            authContainer: document.getElementById('auth-container'), appContainer: document.getElementById('app-container'), logoutBtn: document.getElementById('logoutBtn'), googleSignInBtn: document.getElementById('googleSignInBtn'), authError: document.getElementById('auth-error'), workoutSelector: document.getElementById('workoutSelector'), workoutStack: document.getElementById('workoutStack'), liquidCaloriesDisplay: document.getElementById('liquidCaloriesDisplay'), liquidCaloriesBar: document.getElementById('liquidCaloriesBar'), waterIntakeDisplay: document.getElementById('waterIntakeDisplay'), waterIntakeBar: document.getElementById('waterIntakeBar'), workoutStreakDisplay: document.getElementById('workoutStreakDisplay'), lastWorkoutDate: document.getElementById('lastWorkoutDate'), excessCaloriesDisplay: document.getElementById('excessCaloriesDisplay'), excessList: document.getElementById('excessList'), dailyTabBtn: document.getElementById('dailyTabBtn'), weeklyTabBtn: document.getElementById('weeklyTabBtn'), dailyTabView: document.getElementById('dailyTabView'), weeklyTabView: document.getElementById('weeklyTabView'), datePicker: document.getElementById('date-picker'), dailyLogContent: document.getElementById('daily-log-content'), weeklyLogContent: document.getElementById('weekly-log-content'),
+            landingPageContainer: document.getElementById('landing-page-container'),
+            appContainer: document.getElementById('app-container'),
+            logoutBtn: document.getElementById('logoutBtn'),
+            googleSignUpBtn: document.getElementById('googleSignUpBtn'),
+            googleSignInBtn: document.getElementById('googleSignInBtn'),
+            authError: document.getElementById('auth-error'),
+            workoutSelector: document.getElementById('workoutSelector'),
+            workoutStack: document.getElementById('workoutStack'),
+            liquidCaloriesDisplay: document.getElementById('liquidCaloriesDisplay'),
+            liquidCaloriesBar: document.getElementById('liquidCaloriesBar'),
+            waterIntakeDisplay: document.getElementById('waterIntakeDisplay'),
+            waterIntakeBar: document.getElementById('waterIntakeBar'),
+            workoutStreakDisplay: document.getElementById('workoutStreakDisplay'),
+            lastWorkoutDate: document.getElementById('lastWorkoutDate'),
+            excessCaloriesDisplay: document.getElementById('excessCaloriesDisplay'),
+            excessList: document.getElementById('excessList'),
+            dailyTabBtn: document.getElementById('dailyTabBtn'),
+            weeklyTabBtn: document.getElementById('weeklyTabBtn'),
+            dailyTabView: document.getElementById('dailyTabView'),
+            weeklyTabView: document.getElementById('weeklyTabView'),
+            datePicker: document.getElementById('date-picker'),
+            dailyLogContent: document.getElementById('daily-log-content'),
+            weeklyLogContent: document.getElementById('weekly-log-content'),
+            timerModal: document.getElementById('timerModal'), timerExerciseName: document.getElementById('timerExerciseName'), timerDisplay: document.getElementById('timerDisplay'), timerControlBtn: document.getElementById('timerControlBtn'), timerResetBtn: document.getElementById('timerResetBtn'), timerDoneBtn: document.getElementById('timerDoneBtn'),
         };
 
         const app = {
             db: null, auth: null, userId: null, unsubscribe: null, userProfileUnsubscribe: null, todayState: {}, userProfile: {},
+            timerInterval: null, timerSecondsLeft: 0, timerOriginalSeconds: 0, isTimerRunning: false, currentTimerExercise: null,
             workouts: { home_abs: { name: 'Home Ab Workout', duration: '15 Mins', exercises: [{ name: 'Push Ups', sets: 3, reps: '10-15' }, { name: 'Crunches', sets: 3, reps: 20 }, { name: 'Leg Raises', sets: 3, reps: 15 }, { name: 'Plank', sets: 3, reps: '60s hold' }, { name: 'Russian Twists', sets: 3, reps: '20 (each side)' },] }, gym_push: { name: 'Gym: Push Day', duration: '45 Mins', exercises: [{ name: 'Bench Press', sets: 3, reps: '8-12' }, { name: 'Overhead Press', sets: 3, reps: '8-12' }, { name: 'Incline DB Press', sets: 3, reps: '10-15' }, { name: 'Tricep Pushdowns', sets: 3, reps: '12-15' }, { name: 'Lateral Raises', sets: 4, reps: '12-15' },] }, gym_pull: { name: 'Gym: Pull Day', duration: '45 Mins', exercises: [{ name: 'Pull-Ups / Lat Pulldowns', sets: 3, reps: '8-12' }, { name: 'Bent-Over Rows', sets: 3, reps: '8-12' }, { name: 'Face Pulls', sets: 3, reps: '15-20' }, { name: 'Bicep Curls', sets: 3, reps: '12-15' },] }, gym_legs: { name: 'Gym: Legs Day', duration: '45 Mins', exercises: [{ name: 'Squats', sets: 3, reps: '8-12' }, { name: 'Romanian Deadlifts', sets: 3, reps: '10-12' }, { name: 'Leg Press', sets: 3, reps: '12-15' }, { name: 'Leg Curls', sets: 3, reps: '12-15' }, { name: 'Calf Raises', sets: 4, reps: '15-20' },] }, cardio: { name: 'Cardio' }, rest_day: { name: 'Rest Day' }, },
 
             async init() {
                 const firebaseConfig = { apiKey: "AIzaSyC8Z5uv-7AiSEStw0jBYGvlsmVo9Ly63J4", authDomain: "health-dashboard-c880e.firebaseapp.com", projectId: "health-dashboard-c880e", storageBucket: "health-dashboard-c880e.appspot.com", messagingSenderId: "108872105823", appId: "1:108872105823:web:5a64271ad63cf76b83c0ea" };
-                if (!firebaseConfig.apiKey) { appUI.authContainer.innerHTML = '<p class="text-red-400 text-center">Firebase config missing.</p>'; return; }
+                if (!firebaseConfig.apiKey) { appUI.landingPageContainer.innerHTML = '<p class="text-red-400 text-center">Firebase config missing.</p>'; return; }
                 const firebaseApp = initializeApp(firebaseConfig);
                 this.auth = getAuth(firebaseApp); this.db = getFirestore(firebaseApp); this.addEventListeners(); this.handleAuthState();
             },
@@ -307,11 +363,11 @@
                         this.userId = user.uid;
                         const welcomeMessage = appUI.appContainer.querySelector('p');
                         if (user.displayName) welcomeMessage.textContent = `Welcome back, ${user.displayName.split(' ')[0]}!`;
-                        appUI.authContainer.classList.add('hidden'); appUI.appContainer.classList.remove('hidden');
+                        appUI.landingPageContainer.classList.add('hidden'); appUI.appContainer.classList.remove('hidden');
                         this.setupRealtimeListeners();
                     } else {
                         this.userId = null;
-                        appUI.authContainer.classList.remove('hidden'); appUI.appContainer.classList.add('hidden');
+                        appUI.landingPageContainer.classList.remove('hidden'); appUI.appContainer.classList.add('hidden');
                         if (this.unsubscribe) this.unsubscribe();
                         if (this.userProfileUnsubscribe) this.userProfileUnsubscribe();
                     }
@@ -347,16 +403,34 @@
             getTodayDateString() { return new Date().toISOString().split('T')[0]; },
 
             addWorkout(workoutId) {
-                if (workoutId === 'none') return; const workoutData = this.workouts[workoutId]; if (!workoutData) return;
+                if (workoutId === 'none') return;
+                const workoutData = this.workouts[workoutId];
+                if (!workoutData) return;
+                if (!Array.isArray(this.todayState.todaysWorkouts)) this.todayState.todaysWorkouts = [];
                 const newWorkout = { id: workoutId, instanceId: `workout_${Date.now()}`, name: workoutData.name, isComplete: false };
                 if (workoutId === 'cardio') { newWorkout.cardioType = 'Running'; newWorkout.duration = 30; }
                 else if (workoutId !== 'rest_day') { newWorkout.completedExercises = []; }
-                this.todayState.todaysWorkouts.push(newWorkout); this.saveData('daily'); appUI.workoutSelector.value = 'none';
+                this.todayState.todaysWorkouts.push(newWorkout);
+                this.saveData('daily');
+                appUI.workoutSelector.value = 'none';
             },
 
             removeWorkout(instanceId) { this.todayState.todaysWorkouts = this.todayState.todaysWorkouts.filter(w => w.instanceId !== instanceId); this.saveData('daily'); },
             updateCardioDetails(instanceId, field, value) { const workout = this.todayState.todaysWorkouts.find(w => w.instanceId === instanceId); if (!workout) return; if (field === 'duration') { workout[field] = parseInt(value, 10) || 0; } else { workout[field] = value; } this.saveData('daily'); },
-            toggleExercise(instanceId, exerciseName) { const workout = this.todayState.todaysWorkouts.find(w => w.instanceId === instanceId); if (!workout) return; const index = workout.completedExercises.indexOf(exerciseName); if (index > -1) { workout.completedExercises.splice(index, 1); } else { workout.completedExercises.push(exerciseName); } this.saveData('daily'); },
+
+            toggleExercise(instanceId, exerciseName, forceCheck = false) {
+                const workout = this.todayState.todaysWorkouts.find(w => w.instanceId === instanceId);
+                if (!workout) return;
+                if (!workout.completedExercises) workout.completedExercises = [];
+                const index = workout.completedExercises.indexOf(exerciseName);
+                if (forceCheck) {
+                    if (index === -1) workout.completedExercises.push(exerciseName);
+                } else {
+                    if (index > -1) workout.completedExercises.splice(index, 1);
+                    else workout.completedExercises.push(exerciseName);
+                }
+                this.saveData('daily');
+            },
 
             completeWorkout(instanceId) {
                 const workout = this.todayState.todaysWorkouts.find(w => w.instanceId === instanceId); if (!workout || workout.isComplete) return;
@@ -395,18 +469,25 @@
             },
 
             renderTodaysData() {
-                const state = this.todayState;
-                if (!state) return;
+                const state = this.todayState; if (!state) return;
                 appUI.workoutStack.innerHTML = '';
                 if (state.todaysWorkouts && state.todaysWorkouts.length > 0) {
                     state.todaysWorkouts.forEach(workout => {
                         let contentHtml = '';
                         if (workout.id === 'rest_day') { contentHtml = `<p class="text-center text-gray-400 p-4">Take a day to recover and recharge.</p>`; }
-                        else if (workout.id === 'cardio') {
-                            contentHtml = `<div class="space-y-4 p-2"><div><label for="cardioType_${workout.instanceId}" class="block text-sm font-medium text-gray-300 mb-1">Cardio Type</label><select id="cardioType_${workout.instanceId}" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2" onchange="app.updateCardioDetails('${workout.instanceId}', 'cardioType', this.value)"><option ${workout.cardioType === 'Running' ? 'selected' : ''}>Running</option><option ${workout.cardioType === 'Cycling' ? 'selected' : ''}>Cycling</option><option ${workout.cardioType === 'Swimming' ? 'selected' : ''}>Swimming</option><option ${workout.cardioType === 'Elliptical' ? 'selected' : ''}>Elliptical</option><option ${workout.cardioType === 'Rowing' ? 'selected' : ''}>Rowing</option><option ${workout.cardioType === 'Stair Climber' ? 'selected' : ''}>Stair Climber</option></select></div><div><label for="duration_${workout.instanceId}" class="block text-sm font-medium text-gray-300 mb-1">Duration (minutes)</label><input type="number" id="duration_${workout.instanceId}" value="${workout.duration}" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2" onchange="app.updateCardioDetails('${workout.instanceId}', 'duration', this.value)"></div></div>`;
-                        } else {
+                        else if (workout.id === 'cardio') { contentHtml = `<div class="space-y-4 p-2"><div><label class="block text-sm font-medium text-gray-300 mb-1">Cardio Type</label><select class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2" onchange="app.updateCardioDetails('${workout.instanceId}', 'cardioType', this.value)"><option ${workout.cardioType === 'Running' ? 'selected' : ''}>Running</option><option ${workout.cardioType === 'Cycling' ? 'selected' : ''}>Cycling</option><option ${workout.cardioType === 'Swimming' ? 'selected' : ''}>Swimming</option><option ${workout.cardioType === 'Elliptical' ? 'selected' : ''}>Elliptical</option><option ${workout.cardioType === 'Rowing' ? 'selected' : ''}>Rowing</option><option ${workout.cardioType === 'Stair Climber' ? 'selected' : ''}>Stair Climber</option></select></div><div><label class="block text-sm font-medium text-gray-300 mb-1">Duration (minutes)</label><input type="number" value="${workout.duration}" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2" onchange="app.updateCardioDetails('${workout.instanceId}', 'duration', this.value)"></div></div>`; }
+                        else {
                             const workoutData = this.workouts[workout.id];
-                            contentHtml = `<div class="space-y-3">${workoutData.exercises.map(ex => { const isChecked = (workout.completedExercises || []).includes(ex.name); return `<label class="flex items-center p-3 bg-gray-800 rounded-md cursor-pointer hover:bg-gray-700"><input type="checkbox" class="h-5 w-5 rounded mr-4" onchange="app.toggleExercise('${workout.instanceId}', '${ex.name}')" ${isChecked ? 'checked' : ''}><span class="flex-grow text-white">${ex.name}</span><span class="text-gray-400">${ex.sets} sets x ${ex.reps} reps</span></label>`; }).join('')}</div>`;
+                            contentHtml = `<div class="space-y-3">${workoutData.exercises.map(ex => {
+                                const isChecked = (workout.completedExercises || []).includes(ex.name);
+                                const isTimeBased = ex.reps.includes('s') || ex.reps.includes('hold');
+                                let actionHtml = '';
+                                if (isTimeBased) {
+                                    const seconds = parseInt(ex.reps) || 0;
+                                    actionHtml = `<button class="btn btn-secondary btn-sm py-1 px-2 text-xs ml-4" onclick="app.startTimer('${workout.instanceId}', '${ex.name}', ${seconds})"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>Timer</button>`;
+                                }
+                                return `<div class="flex items-center p-3 bg-gray-800 rounded-md hover:bg-gray-700"><label class="flex items-center flex-grow cursor-pointer"><input type="checkbox" class="h-5 w-5 rounded mr-4" onchange="app.toggleExercise('${workout.instanceId}', '${ex.name}')" ${isChecked ? 'checked' : ''}><span class="text-white">${ex.name}</span></label><span class="text-gray-400 text-sm whitespace-nowrap">${ex.sets} x ${ex.reps}</span>${actionHtml}</div>`;
+                            }).join('')}</div>`;
                         }
                         appUI.workoutStack.innerHTML += `<div class="border border-gray-700 rounded-lg p-4"><div class="flex justify-between items-center mb-4"><h3 class="font-bold text-lg text-teal-400">${workout.name}</h3><button class="btn btn-danger btn-sm py-1 px-2 text-xs" onclick="app.removeWorkout('${workout.instanceId}')">Remove</button></div>${contentHtml}<button class="btn btn-primary mt-6 w-full" onclick="app.completeWorkout('${workout.instanceId}')" ${workout.isComplete ? 'disabled' : ''}>${workout.isComplete ? 'Completed!' : 'Mark as Complete'}</button></div>`;
                     });
@@ -423,6 +504,76 @@
                 const profile = this.userProfile; if (!profile) return;
                 appUI.workoutStreakDisplay.textContent = profile.workoutStreak || 0;
                 appUI.lastWorkoutDate.textContent = profile.lastWorkoutDate ? `Last workout: ${new Date(profile.lastWorkoutDate + 'T00:00:00').toLocaleDateString()}` : 'No workouts yet.';
+            },
+
+            // --- TIMER LOGIC ---
+            startTimer(instanceId, exerciseName, seconds) {
+                this.currentTimerExercise = { instanceId, exerciseName };
+                this.timerOriginalSeconds = seconds;
+                this.timerSecondsLeft = seconds;
+                this.isTimerRunning = false;
+                appUI.timerExerciseName.textContent = exerciseName;
+                this.updateTimerDisplay();
+                appUI.timerControlBtn.textContent = 'Start';
+                appUI.timerModal.classList.remove('hidden');
+                setTimeout(() => {
+                    const modalContent = appUI.timerModal.firstElementChild;
+                    modalContent.style.opacity = 1;
+                    modalContent.style.transform = 'scale(1)';
+                }, 10);
+            },
+            controlTimer() {
+                this.isTimerRunning = !this.isTimerRunning;
+                if (this.isTimerRunning) {
+                    appUI.timerControlBtn.textContent = 'Pause';
+                    this.timerInterval = setInterval(() => this.tick(), 1000);
+                } else {
+                    appUI.timerControlBtn.textContent = 'Resume';
+                    clearInterval(this.timerInterval);
+                }
+            },
+            resetTimer() {
+                clearInterval(this.timerInterval);
+                this.isTimerRunning = false;
+                this.timerSecondsLeft = this.timerOriginalSeconds;
+                this.updateTimerDisplay();
+                appUI.timerControlBtn.textContent = 'Start';
+            },
+            tick() {
+                this.timerSecondsLeft--;
+                this.updateTimerDisplay();
+                if (this.timerSecondsLeft <= 0) {
+                    clearInterval(this.timerInterval);
+                    this.isTimerRunning = false;
+                    this.playTimerSound();
+                    this.toggleExercise(this.currentTimerExercise.instanceId, this.currentTimerExercise.exerciseName, true);
+                    appUI.timerControlBtn.textContent = 'Done!';
+                    appUI.timerControlBtn.disabled = true;
+                    setTimeout(() => { this.closeTimer(); appUI.timerControlBtn.disabled = false; }, 1500);
+                }
+            },
+            closeTimer() {
+                clearInterval(this.timerInterval);
+                const modalContent = appUI.timerModal.firstElementChild;
+                modalContent.style.transform = 'scale(0.95)';
+                modalContent.style.opacity = 0;
+                setTimeout(() => appUI.timerModal.classList.add('hidden'), 200);
+            },
+            updateTimerDisplay() {
+                appUI.timerDisplay.textContent = this.timerSecondsLeft;
+            },
+            playTimerSound() {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(880, audioContext.currentTime); // A5 note
+                gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 1);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 1);
             },
 
             switchTab(tab) {
@@ -465,18 +616,23 @@
                     if (log) { totalLiquid += log.liquidCalories || 0; totalExcess += log.excessCalories || 0; if (log.todaysWorkouts && log.todaysWorkouts.some(w => w.isComplete)) { hasWorkout = true; workoutDays++; } }
                     return `<div class="text-center"><p class="text-sm text-gray-500">${dayInitial}</p><div class="w-8 h-8 rounded-full flex items-center justify-center mt-1 ${hasWorkout ? 'bg-teal-500' : 'bg-gray-700'}">${hasWorkout ? '✓' : ''}</div></div>`;
                 }).join('');
-                const avgLiquid = workoutDays > 0 ? (totalLiquid / workoutDays).toFixed(0) : 0; // Avoid division by zero
+                const avgLiquid = workoutDays > 0 ? (totalLiquid / workoutDays).toFixed(0) : 0;
                 appUI.weeklyLogContent.innerHTML = `<h3 class="font-bold text-lg mb-4">This Week's Summary</h3><div class="flex justify-around mb-6">${daysHtml}</div><div class="space-y-2 text-gray-300"><p><strong>Total Workout Days:</strong> ${workoutDays}</p><p><strong>Average Daily Liquid Calories:</strong> ${avgLiquid} kcal</p><p><strong>Total Weekly Excess Calories:</strong> ${totalExcess} kcal</p></div>`;
             },
 
             addEventListeners() {
                 appUI.logoutBtn.addEventListener('click', () => signOut(this.auth));
+                appUI.googleSignUpBtn.addEventListener('click', () => this.signInWithGoogle());
                 appUI.googleSignInBtn.addEventListener('click', () => this.signInWithGoogle());
                 appUI.workoutSelector.addEventListener('change', (e) => this.addWorkout(e.target.value));
                 appUI.dailyTabBtn.addEventListener('click', () => this.switchTab('daily'));
                 appUI.weeklyTabBtn.addEventListener('click', () => this.switchTab('weekly'));
                 appUI.datePicker.addEventListener('change', (e) => this.fetchDailyLog(e.target.value));
                 appUI.datePicker.value = this.getTodayDateString();
+                // Timer Listeners
+                appUI.timerControlBtn.addEventListener('click', () => this.controlTimer());
+                appUI.timerResetBtn.addEventListener('click', () => this.resetTimer());
+                appUI.timerDoneBtn.addEventListener('click', () => this.closeTimer());
             }
         };
 
