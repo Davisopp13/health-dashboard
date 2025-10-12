@@ -592,16 +592,21 @@
                         else if (workout.id === 'cardio') { contentHtml = `<div class="space-y-4 p-2"><div><label class="block text-sm font-semibold text-blue-800 mb-1">Cardio Type</label><select class="w-full px-3 py-2" onchange="app.updateCardioDetails('${workout.instanceId}', 'cardioType', this.value)"><option ${workout.cardioType === 'Running' ? 'selected' : ''}>Running</option><option ${workout.cardioType === 'Cycling' ? 'selected' : ''}>Cycling</option><option ${workout.cardioType === 'Swimming' ? 'selected' : ''}>Swimming</option><option ${workout.cardioType === 'Elliptical' ? 'selected' : ''}>Elliptical</option><option ${workout.cardioType === 'Rowing' ? 'selected' : ''}>Rowing</option><option ${workout.cardioType === 'Stair Climber' ? 'selected' : ''}>Stair Climber</option></select></div><div><label class="block text-sm font-semibold text-blue-800 mb-1">Duration (minutes)</label><input type="number" value="${workout.duration}" class="w-full px-3 py-2" onchange="app.updateCardioDetails('${workout.instanceId}', 'duration', this.value)"></div></div>`; }
                         else {
                             const workoutData = this.workouts[workout.id];
-                            contentHtml = `<div class="space-y-3">${workoutData.exercises.map(ex => {
-                                const isChecked = (workout.completedExercises || []).includes(ex.name);
-                                const isTimeBased = ex.reps.includes('s') || ex.reps.includes('hold');
-                                let actionHtml = '';
-                                if (isTimeBased) {
-                                    const seconds = parseInt(ex.reps) || 0;
-                                    actionHtml = `<button class="btn btn-secondary btn-sm py-1 px-2 text-xs ml-4" onclick="app.startTimer('${workout.instanceId}', '${ex.name}', ${seconds})">Timer</button>`;
-                                }
-                                return `<div class="flex items-center p-3 bg-yellow-50 rounded-md hover:bg-yellow-100"><label class="flex items-center flex-grow cursor-pointer"><input type="checkbox" class="h-5 w-5 rounded mr-4" onchange="app.toggleExercise('${workout.instanceId}', '${ex.name}')" ${isChecked ? 'checked' : ''}><span class="notepad-text">${ex.name}</span></label><span class="text-blue-500 text-sm whitespace-nowrap">${ex.sets} x ${ex.reps}</span>${actionHtml}</div>`;
-                            }).join('')}</div>`;
+                            if (!workoutData || !workoutData.exercises) {
+                                console.error(`[DEBUG] Missing workout data or exercises for workout.id: ${workout.id}`);
+                                contentHtml = `<p class="text-center text-red-500 p-4">Error: Workout data not found</p>`;
+                            } else {
+                                contentHtml = `<div class="space-y-3">${workoutData.exercises.map(ex => {
+                                    const isChecked = (workout.completedExercises || []).includes(ex.name);
+                                    const isTimeBased = ex.reps.includes('s') || ex.reps.includes('hold');
+                                    let actionHtml = '';
+                                    if (isTimeBased) {
+                                        const seconds = parseInt(ex.reps) || 0;
+                                        actionHtml = `<button class="btn btn-secondary btn-sm py-1 px-2 text-xs ml-4" onclick="app.startTimer('${workout.instanceId}', '${ex.name}', ${seconds})">Timer</button>`;
+                                    }
+                                    return `<div class="flex items-center p-3 bg-yellow-50 rounded-md hover:bg-yellow-100"><label class="flex items-center flex-grow cursor-pointer"><input type="checkbox" class="h-5 w-5 rounded mr-4" onchange="app.toggleExercise('${workout.instanceId}', '${ex.name}')" ${isChecked ? 'checked' : ''}><span class="notepad-text">${ex.name}</span></label><span class="text-blue-500 text-sm whitespace-nowrap">${ex.sets} x ${ex.reps}</span>${actionHtml}</div>`;
+                                }).join('')}</div>`;
+                            }
                         }
                         appUI.workoutStack.innerHTML += `<div class="border-2 border-blue-800 rounded-md p-4"><div class="flex justify-between items-center mb-4"><h3 class="font-bold text-lg notepad-header">${workout.name}</h3><button class="btn btn-danger btn-sm py-1 px-2 text-xs" onclick="app.removeWorkout('${workout.instanceId}')">Remove</button></div>${contentHtml}<button class="btn btn-primary mt-6 w-full" onclick="app.completeWorkout('${workout.instanceId}')" ${workout.isComplete ? 'disabled' : ''}>${workout.isComplete ? 'Completed!' : 'Mark as Complete'}</button></div>`;
                     });
