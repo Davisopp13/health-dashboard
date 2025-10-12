@@ -598,10 +598,11 @@
                             } else {
                                 contentHtml = `<div class="space-y-3">${workoutData.exercises.map(ex => {
                                     const isChecked = (workout.completedExercises || []).includes(ex.name);
-                                    const isTimeBased = ex.reps.includes('s') || ex.reps.includes('hold');
+                                    const repsStr = String(ex.reps || '');
+                                    const isTimeBased = repsStr.includes('s') || repsStr.includes('hold');
                                     let actionHtml = '';
                                     if (isTimeBased) {
-                                        const seconds = parseInt(ex.reps) || 0;
+                                        const seconds = parseInt(repsStr) || 0;
                                         actionHtml = `<button class="btn btn-secondary btn-sm py-1 px-2 text-xs ml-4" onclick="app.startTimer('${workout.instanceId}', '${ex.name}', ${seconds})">Timer</button>`;
                                     }
                                     return `<div class="flex items-center p-3 bg-yellow-50 rounded-md hover:bg-yellow-100"><label class="flex items-center flex-grow cursor-pointer"><input type="checkbox" class="h-5 w-5 rounded mr-4" onchange="app.toggleExercise('${workout.instanceId}', '${ex.name}')" ${isChecked ? 'checked' : ''}><span class="notepad-text">${ex.name}</span></label><span class="text-blue-500 text-sm whitespace-nowrap">${ex.sets} x ${ex.reps}</span>${actionHtml}</div>`;
