@@ -186,7 +186,7 @@
                 viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor"
-                    d="M4 12a8 8 R-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                 </path>
             </svg>
             <p class="mt-4 text-lg text-blue-700">Loading...</p>
@@ -290,7 +290,7 @@
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
                                         stroke-width="4"></circle>
                                     <path class="opacity-75" fill="currentColor"
-                                        d="M4 12a8 8 R-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                     </path>
                                 </svg>
                             </button>
@@ -414,38 +414,41 @@
                 const firebaseConfig = { apiKey: "AIzaSyC8Z5uv-7AiSEStw0jBYGvlsmVo9Ly63J4", authDomain: "health-dashboard-c880e.firebaseapp.com", projectId: "health-dashboard-c880e", storageBucket: "health-dashboard-c880e.appspot.com", messagingSenderId: "108872105823", appId: "1:108872105823:web:5a64271ad63cf76b83c0ea" };
                 if (!firebaseConfig.apiKey) { appUI.landingPageContainer.innerHTML = '<p class="text-red-400 text-center">Firebase config missing.</p>'; return; }
                 const firebaseApp = initializeApp(firebaseConfig);
-                this.auth = getAuth(firebaseApp); this.db = getFirestore(firebaseApp);
+                this.auth = getAuth(firebaseApp);
+                this.db = getFirestore(firebaseApp);
                 this.addEventListeners();
-                await this.handleAuthState(); // Await the initial auth state resolution
+                this.resolveAuthState();
             },
 
-            async handleAuthState() {
+            async resolveAuthState() {
                 try {
                     // This pauses execution until the redirect result is processed.
                     await getRedirectResult(this.auth);
+
+                    // This observer will now fire with the correct, final user state.
+                    onAuthStateChanged(this.auth, user => {
+                        appUI.loadingContainer.classList.add('hidden');
+                        if (user) {
+                            this.userId = user.uid;
+                            const welcomeMessage = appUI.appContainer.querySelector('p');
+                            if (user.displayName) welcomeMessage.textContent = `Welcome back, ${user.displayName.split(' ')[0]}!`;
+                            appUI.landingPageContainer.classList.add('hidden');
+                            appUI.appContainer.classList.remove('hidden');
+                            this.setupRealtimeListeners();
+                        } else {
+                            this.userId = null;
+                            appUI.landingPageContainer.classList.remove('hidden');
+                            appUI.appContainer.classList.add('hidden');
+                            if (this.unsubscribe) this.unsubscribe();
+                            if (this.userProfileUnsubscribe) this.userProfileUnsubscribe();
+                        }
+                    });
                 } catch (error) {
                     console.error("Google Redirect Result Error:", error);
                     appUI.authError.textContent = `Error during sign-in: ${error.message}`;
-                }
-
-                // This observer will now fire with the correct, final user state.
-                onAuthStateChanged(this.auth, user => {
                     appUI.loadingContainer.classList.add('hidden');
-                    if (user) {
-                        this.userId = user.uid;
-                        const welcomeMessage = appUI.appContainer.querySelector('p');
-                        if (user.displayName) welcomeMessage.textContent = `Welcome back, ${user.displayName.split(' ')[0]}!`;
-                        appUI.landingPageContainer.classList.add('hidden');
-                        appUI.appContainer.classList.remove('hidden');
-                        this.setupRealtimeListeners();
-                    } else {
-                        this.userId = null;
-                        appUI.landingPageContainer.classList.remove('hidden');
-                        appUI.appContainer.classList.add('hidden');
-                        if (this.unsubscribe) this.unsubscribe();
-                        if (this.userProfileUnsubscribe) this.userProfileUnsubscribe();
-                    }
-                });
+                    appUI.landingPageContainer.classList.remove('hidden');
+                }
             },
 
             async signInWithGoogle() {
