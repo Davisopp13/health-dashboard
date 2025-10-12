@@ -6,77 +6,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Health Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #030712;
-            /* Even darker background */
-            color: #E5E7EB;
-            /* Light gray text */
+            font-family: 'Kalam', cursive;
+            background-color: #FEF9C3;
+            /* Yellow notepad color */
+            color: #1E3A8A;
+            /* Dark blue ink color */
+            background-image: repeating-linear-gradient(to bottom, transparent, transparent 28px, #BFDBFE 29px, #BFDBFE 29px);
+            line-height: 29px;
+            padding-top: 29px;
+            /* Align content with lines */
+        }
+
+        /* Create the red margin line */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 40px;
+            bottom: 0;
+            width: 2px;
+            background-color: #F87171;
+            /* Red margin color */
         }
 
         .card {
-            background-color: #111827;
-            /* Darker card background */
-            border: 1px solid #1F2937;
-            border-radius: 0.75rem;
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
             padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            box-shadow: none;
         }
 
         .btn {
-            border-radius: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
+            border: 2px solid #1E3A8A;
+            border-radius: 4px;
+            padding: 0.5rem 1.25rem;
+            font-weight: 700;
             transition: all 0.2s ease-in-out;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 2px 2px 0px #93C5FD;
+        }
+
+        .btn:active {
+            box-shadow: 0px 0px 0px #93C5FD;
+            transform: translate(2px, 2px);
         }
 
         .btn-primary {
-            background-color: #14B8A6;
-            /* Teal */
+            background-color: #1E3A8A;
             color: white;
         }
 
         .btn-primary:hover {
-            background-color: #0D9488;
+            background-color: #1D4ED8;
         }
 
         .btn-secondary {
-            background-color: #374151;
-            /* Darker Gray */
-            color: #D1D5DB;
+            background-color: transparent;
+            color: #1E3A8A;
         }
 
         .btn-secondary:hover {
-            background-color: #4B5563;
+            background-color: rgba(191, 219, 254, 0.3);
         }
 
         .btn-danger {
-            background-color: #991B1B;
-            /* Dark Red */
+            background-color: #1E3A8A;
             color: white;
         }
 
         .btn-danger:hover {
-            background-color: #7F1D1D;
+            background-color: #1D4ED8;
         }
 
         .progress-bar {
-            background-color: #374151;
-            border-radius: 9999px;
+            background-color: rgba(191, 219, 254, 0.4);
+            border: 1px solid #60A5FA;
+            border-radius: 2px;
             overflow: hidden;
-            height: 0.75rem;
-            /* Slimmer progress bar */
+            height: 1.25rem;
         }
 
         .progress-bar-fill {
-            background-color: #14B8A6;
-            transition: width 0.3s ease-in-out;
+            background-color: #60A5FA;
+            /* Blue highlighter */
+        }
+
+        input,
+        select {
+            font-family: 'Kalam', cursive;
+            border: 2px solid #1E3A8A;
+            border-radius: 4px;
+            background-color: #FEFCE8;
+            /* Slightly lighter yellow for inputs */
         }
 
         input[type="checkbox"]:checked+span {
@@ -85,88 +115,110 @@
         }
 
         input[type="checkbox"] {
-            accent-color: #14B8A6;
+            appearance: none;
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            background-color: transparent;
+            border: 2px solid #1E3A8A;
+            border-radius: 2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input[type="checkbox"]:after {
+            content: '✓';
+            font-size: 18px;
+            font-weight: 700;
+            color: #1E3A8A;
+            display: none;
+        }
+
+        input[type="checkbox"]:checked:after {
+            display: block;
         }
 
         .tab-btn {
             padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
+            border-radius: 4px;
+            font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
+            border: 2px solid transparent;
         }
 
         .tab-btn.active {
-            background-color: #14B8A6;
+            background-color: #1E3A8A;
             color: white;
+            border: 2px solid #1E3A8A;
         }
 
         .tab-btn:not(.active) {
-            background-color: transparent;
-            color: #9CA3AF;
+            color: #1D4ED8;
         }
 
-        .tab-content {
-            display: none;
+        /* Custom styles for overriding Tailwind inside notepad */
+        .notepad-text {
+            color: #1E3A8A;
         }
 
-        .tab-content.active {
-            display: block;
+        .notepad-text-light {
+            color: #3B82F6;
+        }
+
+        .notepad-text-faded {
+            color: #60A5FA;
+        }
+
+        .notepad-header {
+            color: #1E3A8A;
         }
     </style>
 </head>
 
 <body class="p-4 sm:p-6 md:p-8">
 
-    <div id="loading-container" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
+    <div id="loading-container" class="fixed inset-0 bg-yellow-100 flex items-center justify-center z-50">
         <div class="text-center">
-            <svg class="animate-spin h-10 w-10 text-teal-400 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none"
+            <svg class="animate-spin h-10 w-10 text-blue-800 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor"
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                 </path>
             </svg>
-            <p class="mt-4 text-lg text-gray-300">Authenticating...</p>
+            <p class="mt-4 text-lg text-blue-700">Loading...</p>
         </div>
     </div>
 
     <div id="landing-page-container" class="hidden">
         <div class="min-h-screen flex flex-col items-center justify-center text-center px-4">
-            <h1 class="text-5xl md:text-6xl font-extrabold text-white leading-tight">
+            <h1 class="text-5xl md:text-6xl font-bold notepad-header leading-tight">
                 Track Your Fitness.
-                <span class="text-teal-400">Master Your Nutrition.</span>
+                <span class="notepad-text-light">Sketch Your Progress.</span>
             </h1>
-            <p class="mt-4 max-w-2xl text-lg text-gray-400">
+            <p class="mt-4 max-w-2xl text-lg text-blue-700">
                 The all-in-one tool to track your workouts, monitor your nutrition with AI, and build lasting habits.
                 Your personal health journey, simplified.
             </p>
             <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <button id="googleSignUpBtn" class="btn btn-primary w-full sm:w-auto text-lg px-8 py-3">
-                    <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                        <path fill="#FFC107"
-                            d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
-                        <path fill="#FF3D00"
-                            d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
-                        <path fill="#4CAF50"
-                            d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
-                        <path fill="#1976D2"
-                            d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.574l6.19,5.238C39.99,36.62,44,30.638,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
-                    </svg>
                     Sign Up for Free
                 </button>
             </div>
             <p class="mt-4 text-sm text-gray-500">
                 Already have an account?
-                <button id="googleSignInBtn" class="text-teal-400 hover:text-teal-300 font-semibold">Log in</button>
+                <button id="googleSignInBtn" class="text-blue-800 hover:text-blue-600 font-bold">Log in</button>
             </p>
-            <div id="auth-error" class="text-red-400 mt-4 text-sm h-5"></div>
+            <div id="auth-error" class="text-red-600 mt-4 text-sm h-5"></div>
 
             <div class="mt-12 w-full max-w-4xl">
-                <div class="card p-2 shadow-2xl">
-                    <img src="https://placehold.co/1200x600/111827/030712?text=Dashboard+Preview"
+                <div class="border-2 border-blue-800 rounded-md p-2 shadow-lg">
+                    <img src="https://placehold.co/1200x600/FEF9C3/1E3A8A?text=Dashboard+Preview"
                         alt="A preview of the health dashboard showing workout tracking and nutrition stats."
-                        class="rounded-md">
+                        class="rounded-sm">
                 </div>
             </div>
         </div>
@@ -176,8 +228,8 @@
         <!-- Header -->
         <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
             <div>
-                <h1 class="text-3xl font-bold text-white">Your Daily Dashboard</h1>
-                <p class="text-gray-400 mt-1">Welcome back! Here's your snapshot for today.</p>
+                <h1 class="text-4xl font-bold notepad-header">Your Daily Notes</h1>
+                <p class="text-blue-700 mt-1">Welcome back! Here's your snapshot for today.</p>
             </div>
             <button id="logoutBtn" class="btn btn-secondary mt-4 sm:mt-0">Logout</button>
         </header>
@@ -186,22 +238,22 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
             <div class="card flex items-center justify-between">
                 <div>
-                    <h2 class="font-bold text-xl mb-2 text-gray-300">Workout Streak</h2>
-                    <p id="lastWorkoutDate" class="text-sm text-gray-500 mt-1">No workouts yet.</p>
+                    <h2 class="font-bold text-xl mb-2 notepad-header">Workout Streak</h2>
+                    <p id="lastWorkoutDate" class="text-sm text-blue-400 mt-1">No workouts yet.</p>
                 </div>
                 <div class="flex items-baseline text-right">
-                    <span id="workoutStreakDisplay" class="text-6xl font-bold text-teal-400">0</span>
-                    <span class="text-xl font-semibold ml-2 text-gray-400">Days</span>
+                    <span id="workoutStreakDisplay" class="text-6xl font-bold notepad-header">0</span>
+                    <span class="text-xl font-semibold ml-2 text-blue-700">Days</span>
                 </div>
             </div>
             <div class="card flex items-center justify-between">
                 <div>
-                    <h2 class="font-bold text-xl mb-2 text-gray-300">Total Excess Calories</h2>
-                    <p class="text-sm text-gray-500 mt-1">Logged from snacks & extras.</p>
+                    <h2 class="font-bold text-xl mb-2 notepad-header">Total Excess Calories</h2>
+                    <p class="text-sm text-blue-400 mt-1">Logged from snacks & extras.</p>
                 </div>
                 <div class="flex items-baseline text-right">
-                    <span id="excessCaloriesDisplay" class="text-6xl font-bold text-teal-400">0</span>
-                    <span class="text-xl font-semibold ml-2 text-gray-400">kcal</span>
+                    <span id="excessCaloriesDisplay" class="text-6xl font-bold notepad-header">0</span>
+                    <span class="text-xl font-semibold ml-2 text-blue-700">kcal</span>
                 </div>
             </div>
         </div>
@@ -211,10 +263,9 @@
             <div class="lg:col-span-3 space-y-6">
                 <div class="card p-6">
                     <div>
-                        <h2 class="font-bold text-xl mb-4">Today's Workouts</h2>
+                        <h2 class="font-bold text-xl mb-4 notepad-header">Today's Workouts</h2>
                         <div class="mb-4">
-                            <select id="workoutSelector"
-                                class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            <select id="workoutSelector" class="w-full px-3 py-2">
                                 <option value="none">-- Add a workout to your day --</option>
                                 <option value="home_abs">Home Ab Workout (15 Mins)</option>
                                 <option value="gym_push">Gym: Push Day (45 Mins)</option>
@@ -226,19 +277,13 @@
                         </div>
                         <div id="workoutStack" class="space-y-6"></div>
                     </div>
-                    <hr class="border-gray-700 my-8">
+                    <hr class="border-blue-200 my-8">
                     <div>
-                        <h2 class="font-bold text-xl mb-4">Log Excess Calories with AI</h2>
+                        <h2 class="font-bold text-xl mb-4 notepad-header">Log Excess Calories with AI</h2>
                         <div class="flex flex-col sm:flex-row gap-4 mb-4">
-                            <input id="excessDescInput" type="text"
-                                placeholder="Describe the food (e.g., Handful of chips)"
-                                class="bg-gray-800 border border-gray-700 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            <input id="excessDescInput" type="text" placeholder="Describe the food..."
+                                class="px-3 py-2 w-full">
                             <button id="logExcessBtn" class="btn btn-primary" onclick="app.addExcessCalories()">
-                                <svg id="logExcessIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                                </svg>
                                 <span id="logExcessText">Calculate & Log</span>
                                 <svg id="logExcessSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -250,22 +295,22 @@
                                 </svg>
                             </button>
                         </div>
-                        <div id="excessList" class="space-y-2 text-sm text-gray-300"></div>
+                        <div id="excessList" class="space-y-2 text-sm text-blue-700"></div>
                     </div>
                 </div>
             </div>
 
             <div class="lg:col-span-2 space-y-6">
                 <div class="card p-6">
-                    <h2 class="font-bold text-xl mb-4">Nutrition Hub</h2>
+                    <h2 class="font-bold text-xl mb-4 notepad-header">Nutrition Hub</h2>
                     <div class="mb-6">
-                        <h3 class="font-semibold text-gray-300 mb-2">Liquid Calories</h3>
-                        <p class="text-2xl font-bold text-white"><span id="liquidCaloriesDisplay">0</span> / 500 kcal
-                        </p>
+                        <h3 class="font-semibold notepad-header mb-2">Liquid Calories</h3>
+                        <p class="text-2xl font-bold notepad-header"><span id="liquidCaloriesDisplay">0</span> / 500
+                            kcal</p>
                         <div class="progress-bar mt-2 mb-4">
                             <div id="liquidCaloriesBar" class="progress-bar-fill" style="width: 0%;"></div>
                         </div>
-                        <div class="grid grid-cols-2 gap-2 text-sm">
+                        <div class="grid grid-cols-2 gap-3 text-sm">
                             <button class="btn btn-secondary" onclick="app.addLiquidCalories(150)">Soda (150)</button>
                             <button class="btn btn-secondary" onclick="app.addLiquidCalories(120)">Juice (120)</button>
                             <button class="btn btn-secondary" onclick="app.addLiquidCalories(210)">Choc. Milk
@@ -274,8 +319,9 @@
                         </div>
                     </div>
                     <div>
-                        <h3 class="font-semibold text-gray-300 mb-2">Water Intake</h3>
-                        <p class="text-2xl font-bold text-white"><span id="waterIntakeDisplay">0</span> / 8 Glasses</p>
+                        <h3 class="font-semibold notepad-header mb-2">Water Intake</h3>
+                        <p class="text-2xl font-bold notepad-header"><span id="waterIntakeDisplay">0</span> / 8 Glasses
+                        </p>
                         <div class="progress-bar mt-2 mb-4">
                             <div id="waterIntakeBar" class="progress-bar-fill" style="width: 0%;"></div>
                         </div>
@@ -289,8 +335,8 @@
         <section id="historical-log" class="mt-6">
             <div class="card">
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-xl font-bold">Historical Log</h2>
-                    <div class="flex space-x-2 bg-gray-900 p-1 rounded-lg">
+                    <h2 class="text-xl font-bold notepad-header">Historical Log</h2>
+                    <div class="flex space-x-2 bg-blue-100 p-1 rounded-md">
                         <button id="dailyTabBtn" class="tab-btn active">Daily</button>
                         <button id="weeklyTabBtn" class="tab-btn">Weekly</button>
                     </div>
@@ -298,11 +344,10 @@
                 <div id="dailyTabView" class="tab-content active">
                     <div class="flex items-center space-x-4 mb-4">
                         <label for="date-picker">Select a date:</label>
-                        <input type="date" id="date-picker"
-                            class="bg-gray-800 border border-gray-700 rounded-md px-3 py-1">
+                        <input type="date" id="date-picker" class="px-3 py-1">
                     </div>
                     <div id="daily-log-content">
-                        <p class="text-center text-gray-500">Select a date to view its log.</p>
+                        <p class="text-center text-blue-400">Select a date to view its log.</p>
                     </div>
                 </div>
                 <div id="weeklyTabView" class="tab-content">
@@ -314,9 +359,10 @@
 
     <!-- Timer Modal -->
     <div id="timerModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden z-50">
-        <div class="card text-center w-80 transform transition-all" style="transform: scale(0.95); opacity: 0;">
-            <h2 id="timerExerciseName" class="text-2xl font-bold mb-4 text-gray-200">Plank</h2>
-            <div id="timerDisplay" class="text-8xl font-bold text-teal-400 my-8">60</div>
+        <div class="bg-white rounded-lg p-8 text-center w-80 transform transition-all border-4 border-blue-800"
+            style="transform: scale(0.95); opacity: 0;">
+            <h2 id="timerExerciseName" class="text-2xl font-bold mb-4 text-blue-900">Plank</h2>
+            <div id="timerDisplay" class="text-8xl font-bold text-blue-800 my-8">60</div>
             <div class="flex justify-center space-x-4">
                 <button id="timerControlBtn" class="btn btn-primary w-32 text-lg">Start</button>
                 <button id="timerResetBtn" class="btn btn-secondary w-32 text-lg">Reset</button>
@@ -480,8 +526,8 @@
 
             async addExcessCalories() {
                 const descInput = document.getElementById('excessDescInput'); const desc = descInput.value.trim(); if (!desc) return;
-                const logBtn = document.getElementById('logExcessBtn'), logText = document.getElementById('logExcessText'), logIcon = document.getElementById('logExcessIcon'), logSpinner = document.getElementById('logExcessSpinner');
-                logBtn.disabled = true; logText.textContent = 'Calculating...'; logIcon.classList.add('hidden'); logSpinner.classList.remove('hidden');
+                const logBtn = document.getElementById('logExcessBtn'), logText = document.getElementById('logExcessText'), logSpinner = document.getElementById('logExcessSpinner');
+                logBtn.disabled = true; logText.textContent = 'Calculating...'; logSpinner.classList.remove('hidden');
                 try {
                     const apiKey = ""; const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
                     const payload = { contents: [{ parts: [{ text: `Estimate calories for: ${desc}` }] }], generationConfig: { responseMimeType: "application/json", responseSchema: { type: "OBJECT", properties: { calories: { type: "NUMBER" } }, required: ["calories"] } } };
@@ -491,7 +537,7 @@
                     if (calories > 0) { this.todayState.excessCalories = (this.todayState.excessCalories || 0) + calories; this.todayState.excessLog = this.todayState.excessLog || []; this.todayState.excessLog.push({ calories, desc }); descInput.value = ''; this.saveData('daily'); }
                     else throw new Error("Could not estimate calories.");
                 } catch (error) { console.error("Calorie estimation failed:", error); alert("Sorry, I couldn't estimate the calories."); }
-                finally { logBtn.disabled = false; logText.textContent = 'Calculate & Log'; logIcon.classList.remove('hidden'); logSpinner.classList.add('hidden'); }
+                finally { logBtn.disabled = false; logText.textContent = 'Calculate & Log'; logSpinner.classList.add('hidden'); }
             },
 
             renderTodaysData() {
@@ -500,8 +546,8 @@
                 if (state.todaysWorkouts && state.todaysWorkouts.length > 0) {
                     state.todaysWorkouts.forEach(workout => {
                         let contentHtml = '';
-                        if (workout.id === 'rest_day') { contentHtml = `<p class="text-center text-gray-400 p-4">Take a day to recover and recharge.</p>`; }
-                        else if (workout.id === 'cardio') { contentHtml = `<div class="space-y-4 p-2"><div><label class="block text-sm font-medium text-gray-300 mb-1">Cardio Type</label><select class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2" onchange="app.updateCardioDetails('${workout.instanceId}', 'cardioType', this.value)"><option ${workout.cardioType === 'Running' ? 'selected' : ''}>Running</option><option ${workout.cardioType === 'Cycling' ? 'selected' : ''}>Cycling</option><option ${workout.cardioType === 'Swimming' ? 'selected' : ''}>Swimming</option><option ${workout.cardioType === 'Elliptical' ? 'selected' : ''}>Elliptical</option><option ${workout.cardioType === 'Rowing' ? 'selected' : ''}>Rowing</option><option ${workout.cardioType === 'Stair Climber' ? 'selected' : ''}>Stair Climber</option></select></div><div><label class="block text-sm font-medium text-gray-300 mb-1">Duration (minutes)</label><input type="number" value="${workout.duration}" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2" onchange="app.updateCardioDetails('${workout.instanceId}', 'duration', this.value)"></div></div>`; }
+                        if (workout.id === 'rest_day') { contentHtml = `<p class="text-center text-blue-500 p-4">Take a day to recover and recharge.</p>`; }
+                        else if (workout.id === 'cardio') { contentHtml = `<div class="space-y-4 p-2"><div><label class="block text-sm font-semibold text-blue-800 mb-1">Cardio Type</label><select class="w-full px-3 py-2" onchange="app.updateCardioDetails('${workout.instanceId}', 'cardioType', this.value)"><option ${workout.cardioType === 'Running' ? 'selected' : ''}>Running</option><option ${workout.cardioType === 'Cycling' ? 'selected' : ''}>Cycling</option><option ${workout.cardioType === 'Swimming' ? 'selected' : ''}>Swimming</option><option ${workout.cardioType === 'Elliptical' ? 'selected' : ''}>Elliptical</option><option ${workout.cardioType === 'Rowing' ? 'selected' : ''}>Rowing</option><option ${workout.cardioType === 'Stair Climber' ? 'selected' : ''}>Stair Climber</option></select></div><div><label class="block text-sm font-semibold text-blue-800 mb-1">Duration (minutes)</label><input type="number" value="${workout.duration}" class="w-full px-3 py-2" onchange="app.updateCardioDetails('${workout.instanceId}', 'duration', this.value)"></div></div>`; }
                         else {
                             const workoutData = this.workouts[workout.id];
                             contentHtml = `<div class="space-y-3">${workoutData.exercises.map(ex => {
@@ -510,21 +556,21 @@
                                 let actionHtml = '';
                                 if (isTimeBased) {
                                     const seconds = parseInt(ex.reps) || 0;
-                                    actionHtml = `<button class="btn btn-secondary btn-sm py-1 px-2 text-xs ml-4" onclick="app.startTimer('${workout.instanceId}', '${ex.name}', ${seconds})"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>Timer</button>`;
+                                    actionHtml = `<button class="btn btn-secondary btn-sm py-1 px-2 text-xs ml-4" onclick="app.startTimer('${workout.instanceId}', '${ex.name}', ${seconds})">Timer</button>`;
                                 }
-                                return `<div class="flex items-center p-3 bg-gray-800 rounded-md hover:bg-gray-700"><label class="flex items-center flex-grow cursor-pointer"><input type="checkbox" class="h-5 w-5 rounded mr-4" onchange="app.toggleExercise('${workout.instanceId}', '${ex.name}')" ${isChecked ? 'checked' : ''}><span class="text-white">${ex.name}</span></label><span class="text-gray-400 text-sm whitespace-nowrap">${ex.sets} x ${ex.reps}</span>${actionHtml}</div>`;
+                                return `<div class="flex items-center p-3 bg-yellow-50 rounded-md hover:bg-yellow-100"><label class="flex items-center flex-grow cursor-pointer"><input type="checkbox" class="h-5 w-5 rounded mr-4" onchange="app.toggleExercise('${workout.instanceId}', '${ex.name}')" ${isChecked ? 'checked' : ''}><span class="notepad-text">${ex.name}</span></label><span class="text-blue-500 text-sm whitespace-nowrap">${ex.sets} x ${ex.reps}</span>${actionHtml}</div>`;
                             }).join('')}</div>`;
                         }
-                        appUI.workoutStack.innerHTML += `<div class="border border-gray-700 rounded-lg p-4"><div class="flex justify-between items-center mb-4"><h3 class="font-bold text-lg text-teal-400">${workout.name}</h3><button class="btn btn-danger btn-sm py-1 px-2 text-xs" onclick="app.removeWorkout('${workout.instanceId}')">Remove</button></div>${contentHtml}<button class="btn btn-primary mt-6 w-full" onclick="app.completeWorkout('${workout.instanceId}')" ${workout.isComplete ? 'disabled' : ''}>${workout.isComplete ? 'Completed!' : 'Mark as Complete'}</button></div>`;
+                        appUI.workoutStack.innerHTML += `<div class="border-2 border-blue-800 rounded-md p-4"><div class="flex justify-between items-center mb-4"><h3 class="font-bold text-lg notepad-header">${workout.name}</h3><button class="btn btn-danger btn-sm py-1 px-2 text-xs" onclick="app.removeWorkout('${workout.instanceId}')">Remove</button></div>${contentHtml}<button class="btn btn-primary mt-6 w-full" onclick="app.completeWorkout('${workout.instanceId}')" ${workout.isComplete ? 'disabled' : ''}>${workout.isComplete ? 'Completed!' : 'Mark as Complete'}</button></div>`;
                     });
-                } else { appUI.workoutStack.innerHTML = `<p class="text-center text-gray-500 py-4">No workouts added for today.</p>`; }
+                } else { appUI.workoutStack.innerHTML = `<p class="text-center text-blue-500 py-4">No workouts added for today.</p>`; }
 
                 appUI.liquidCaloriesDisplay.textContent = state.liquidCalories || 0;
                 appUI.liquidCaloriesBar.style.width = `${Math.min(100, ((state.liquidCalories || 0) / 500) * 100)}%`;
                 appUI.waterIntakeDisplay.textContent = state.waterIntake || 0;
                 appUI.waterIntakeBar.style.width = `${Math.min(100, ((state.waterIntake || 0) / 8) * 100)}%`;
                 appUI.excessCaloriesDisplay.textContent = state.excessCalories || 0;
-                appUI.excessList.innerHTML = (state.excessLog || []).map(item => `<div class="flex justify-between items-center bg-gray-800 p-2 rounded-md"><span>${item.desc}</span><span class="font-semibold text-teal-400">${item.calories} kcal</span></div>`).join('');
+                appUI.excessList.innerHTML = (state.excessLog || []).map(item => `<div class="flex justify-between items-center bg-yellow-50 p-2 rounded-md"><span>${item.desc}</span><span class="font-semibold text-blue-800">${item.calories} kcal</span></div>`).join('');
             },
             renderUserProfile() {
                 const profile = this.userProfile; if (!profile) return;
@@ -615,12 +661,12 @@
                 const docRef = doc(this.db, 'artifacts', appId, 'users', this.userId, 'dailyLogs', dateString);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) { this.renderDailyLog(docSnap.data()); }
-                else { appUI.dailyLogContent.innerHTML = `<p class="text-center text-gray-500">No data found for this date.</p>`; }
+                else { appUI.dailyLogContent.innerHTML = `<p class="text-center text-blue-400">No data found for this date.</p>`; }
             },
 
             renderDailyLog(data) {
                 const workoutsHtml = (data.todaysWorkouts || []).filter(w => w.isComplete).map(w => `<li>${w.name}</li>`).join('');
-                appUI.dailyLogContent.innerHTML = `<div class="space-y-2 text-gray-300"><p><strong>Liquid Calories:</strong> ${data.liquidCalories || 0} kcal</p><p><strong>Water Intake:</strong> ${data.waterIntake || 0} glasses</p><p><strong>Excess Calories:</strong> ${data.excessCalories || 0} kcal</p><p><strong>Workouts Completed:</strong></p><ul class="list-disc list-inside ml-4">${workoutsHtml || '<li>None</li>'}</ul></div>`;
+                appUI.dailyLogContent.innerHTML = `<div class="space-y-2 text-blue-700"><p><strong>Liquid Calories:</strong> ${data.liquidCalories || 0} kcal</p><p><strong>Water Intake:</strong> ${data.waterIntake || 0} glasses</p><p><strong>Excess Calories:</strong> ${data.excessCalories || 0} kcal</p><p><strong>Workouts Completed:</strong></p><ul class="list-disc list-inside ml-4">${workoutsHtml || '<li>None</li>'}</ul></div>`;
             },
 
             async fetchWeeklyLog() {
@@ -640,10 +686,10 @@
                 const daysHtml = dates.map(dateStr => {
                     const log = logs[dateStr]; const dayInitial = new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short' })[0]; let hasWorkout = false;
                     if (log) { totalLiquid += log.liquidCalories || 0; totalExcess += log.excessCalories || 0; if (log.todaysWorkouts && log.todaysWorkouts.some(w => w.isComplete)) { hasWorkout = true; workoutDays++; } }
-                    return `<div class="text-center"><p class="text-sm text-gray-500">${dayInitial}</p><div class="w-8 h-8 rounded-full flex items-center justify-center mt-1 ${hasWorkout ? 'bg-teal-500' : 'bg-gray-700'}">${hasWorkout ? '✓' : ''}</div></div>`;
+                    return `<div class="text-center"><p class="text-sm text-blue-500">${dayInitial}</p><div class="w-8 h-8 rounded-full flex items-center justify-center mt-1 ${hasWorkout ? 'bg-blue-800 text-white' : 'bg-blue-200'}">${hasWorkout ? '✓' : ''}</div></div>`;
                 }).join('');
                 const avgLiquid = workoutDays > 0 ? (totalLiquid / workoutDays).toFixed(0) : 0;
-                appUI.weeklyLogContent.innerHTML = `<h3 class="font-bold text-lg mb-4">This Week's Summary</h3><div class="flex justify-around mb-6">${daysHtml}</div><div class="space-y-2 text-gray-300"><p><strong>Total Workout Days:</strong> ${workoutDays}</p><p><strong>Average Daily Liquid Calories:</strong> ${avgLiquid} kcal</p><p><strong>Total Weekly Excess Calories:</strong> ${totalExcess} kcal</p></div>`;
+                appUI.weeklyLogContent.innerHTML = `<h3 class="font-bold text-lg mb-4 notepad-header">This Week's Summary</h3><div class="flex justify-around mb-6">${daysHtml}</div><div class="space-y-2 text-blue-700"><p><strong>Total Workout Days:</strong> ${workoutDays}</p><p><strong>Average Daily Liquid Calories:</strong> ${avgLiquid} kcal</p><p><strong>Total Weekly Excess Calories:</strong> ${totalExcess} kcal</p></div>`;
             },
 
             addEventListeners() {
