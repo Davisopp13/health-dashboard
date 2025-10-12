@@ -407,6 +407,17 @@
                 const firebaseApp = initializeApp(firebaseConfig);
                 this.auth = getAuth(firebaseApp);
                 this.db = getFirestore(firebaseApp);
+
+                console.log('[DEBUG] init: Setting Firebase Auth persistence to LOCAL');
+                // CRITICAL FIX: Set persistence to LOCAL to maintain auth state across redirects
+                try {
+                    const { browserLocalPersistence, setPersistence } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js");
+                    await setPersistence(this.auth, browserLocalPersistence);
+                    console.log('[DEBUG] init: Persistence set successfully');
+                } catch (error) {
+                    console.error('[DEBUG] init: Failed to set persistence:', error);
+                }
+
                 this.addEventListeners();
                 this.resolveAuthState();
             },
