@@ -365,7 +365,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const appUI = {
@@ -424,42 +424,17 @@
 
             async resolveAuthState() {
                 console.log('[DEBUG] resolveAuthState: Starting auth resolution');
-                try {
-                    // CRITICAL: Process redirect result FIRST before setting up the listener
-                    // This prevents the race condition where onAuthStateChanged fires with null
-                    // before the redirect result is processed
-                    console.log('[DEBUG] resolveAuthState: Checking for redirect result...');
-                    const userCredential = await getRedirectResult(this.auth);
-                    console.log('[DEBUG] resolveAuthState: Redirect result received', userCredential ? 'User found' : 'No redirect');
-
-                    // NOW set up the auth state listener for ongoing session management
-                    console.log('[DEBUG] resolveAuthState: Setting up auth state listener');
-                    onAuthStateChanged(this.auth, user => {
-                        console.log('[DEBUG] onAuthStateChanged: Fired with user:', user ? user.uid : 'null');
-                        if (user) {
-                            this.setupUIForUser(user);
-                        } else {
-                            this.setupUIForGuest();
-                        }
-                    });
-
-                    // If there was a user from redirect, onAuthStateChanged will fire immediately with that user
-                    // If there was no redirect but an existing session, onAuthStateChanged will fire with that user
-                    // If no user at all, onAuthStateChanged will fire with null and show landing page
-
-                } catch (error) {
-                    console.error("[DEBUG] Authentication Error:", error);
-                    console.error("[DEBUG] Error details:", error.code, error.message);
-                    appUI.authError.textContent = `Error during sign-in: ${error.message}`;
-                    // Still set up the listener even if there was an error
-                    onAuthStateChanged(this.auth, user => {
-                        if (user) {
-                            this.setupUIForUser(user);
-                        } else {
-                            this.setupUIForGuest();
-                        }
-                    });
-                }
+                // Since we're using popup auth, we just need to set up the auth state listener
+                // No need to check for redirect results
+                console.log('[DEBUG] resolveAuthState: Setting up auth state listener');
+                onAuthStateChanged(this.auth, user => {
+                    console.log('[DEBUG] onAuthStateChanged: Fired with user:', user ? user.uid : 'null');
+                    if (user) {
+                        this.setupUIForUser(user);
+                    } else {
+                        this.setupUIForGuest();
+                    }
+                });
             },
 
             setupUIForUser(user) {
@@ -496,16 +471,26 @@
             },
 
             async signInWithGoogle() {
-                console.log('[DEBUG] signInWithGoogle: Starting Google sign-in redirect');
+                console.log('[DEBUG] signInWithGoogle: Starting Google sign-in popup');
                 const provider = new GoogleAuthProvider();
                 try {
                     appUI.authError.textContent = '';  // Clear previous errors
-                    await signInWithRedirect(this.auth, provider);
-                    console.log('[DEBUG] signInWithGoogle: Redirect initiated successfully');
+                    console.log('[DEBUG] signInWithGoogle: Opening popup...');
+                    const result = await signInWithPopup(this.auth, provider);
+                    console.log('[DEBUG] signInWithGoogle: Sign-in successful, user:', result.user.uid);
+                    // onAuthStateChanged will handle the UI update automatically
                 } catch (error) {
-                    console.error("[DEBUG] Google Sign-In Redirect Error:", error);
+                    console.error("[DEBUG] Google Sign-In Popup Error:", error);
                     console.error("[DEBUG] Error details:", error.code, error.message);
-                    appUI.authError.textContent = `Error starting sign-in: ${error.message}`;
+
+                    // Provide user-friendly error messages
+                    if (error.code === 'auth/popup-closed-by-user') {
+                        appUI.authError.textContent = 'Sign-in cancelled. Please try again.';
+                    } else if (error.code === 'auth/popup-blocked') {
+                        appUI.authError.textContent = 'Popup blocked by browser. Please allow popups for this site.';
+                    } else {
+                        appUI.authError.textContent = `Error during sign-in: ${error.message}`;
+                    }
                 }
             },
 
