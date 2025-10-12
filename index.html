@@ -178,7 +178,7 @@
     </style>
 </head>
 
-<body class="p-4 sm:p-6 md:p-8">
+<body class="py-4 sm:py-6 md:py-8 pr-4 sm:pr-6 md:pr-8 pl-16 md:pl-20">
 
     <div id="loading-container" class="fixed inset-0 bg-yellow-100 flex items-center justify-center z-50">
         <div class="text-center">
@@ -215,10 +215,10 @@
             <div id="auth-error" class="text-red-600 mt-4 text-sm h-5"></div>
 
             <div class="mt-12 w-full max-w-4xl">
-                <div class="border-2 border-blue-800 rounded-md p-2 shadow-lg">
-                    <img src="https://placehold.co/1200x600/FEF9C3/1E3A8A?text=Dashboard+Preview"
-                        alt="A preview of the health dashboard showing workout tracking and nutrition stats."
-                        class="rounded-sm">
+                <div class="border-2 border-blue-800 rounded-md p-2 shadow-lg h-96">
+                    <img src="https://images.pexels.com/photos/4761793/pexels-photo-4761793.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                        alt="A preview of the health dashboard showing workout tracking and nutrition stats on a phone."
+                        class="rounded-sm object-cover h-full w-full">
                 </div>
             </div>
         </div>
@@ -422,33 +422,50 @@
 
             async resolveAuthState() {
                 try {
-                    // This pauses execution until the redirect result is processed.
-                    await getRedirectResult(this.auth);
+                    // This is the key: wait for the redirect to be processed.
+                    const userCredential = await getRedirectResult(this.auth);
 
-                    // This observer will now fire with the correct, final user state.
+                    // If the redirect result contains a user, we are logged in.
+                    if (userCredential && userCredential.user) {
+                        this.setupUIForUser(userCredential.user);
+                        return;
+                    }
+
+                    // If no redirect result, check the current auth state. This handles existing sessions.
                     onAuthStateChanged(this.auth, user => {
-                        appUI.loadingContainer.classList.add('hidden');
                         if (user) {
-                            this.userId = user.uid;
-                            const welcomeMessage = appUI.appContainer.querySelector('p');
-                            if (user.displayName) welcomeMessage.textContent = `Welcome back, ${user.displayName.split(' ')[0]}!`;
-                            appUI.landingPageContainer.classList.add('hidden');
-                            appUI.appContainer.classList.remove('hidden');
-                            this.setupRealtimeListeners();
+                            this.setupUIForUser(user);
                         } else {
-                            this.userId = null;
-                            appUI.landingPageContainer.classList.remove('hidden');
-                            appUI.appContainer.classList.add('hidden');
-                            if (this.unsubscribe) this.unsubscribe();
-                            if (this.userProfileUnsubscribe) this.userProfileUnsubscribe();
+                            this.setupUIForGuest();
                         }
                     });
+
                 } catch (error) {
-                    console.error("Google Redirect Result Error:", error);
+                    console.error("Authentication Error:", error);
                     appUI.authError.textContent = `Error during sign-in: ${error.message}`;
-                    appUI.loadingContainer.classList.add('hidden');
-                    appUI.landingPageContainer.classList.remove('hidden');
+                    this.setupUIForGuest();
                 }
+            },
+
+            setupUIForUser(user) {
+                this.userId = user.uid;
+                const welcomeMessage = appUI.appContainer.querySelector('p');
+                if (user.displayName) {
+                    welcomeMessage.textContent = `Welcome back, ${user.displayName.split(' ')[0]}!`;
+                }
+                appUI.loadingContainer.classList.add('hidden');
+                appUI.landingPageContainer.classList.add('hidden');
+                appUI.appContainer.classList.remove('hidden');
+                this.setupRealtimeListeners();
+            },
+
+            setupUIForGuest() {
+                this.userId = null;
+                appUI.loadingContainer.classList.add('hidden');
+                appUI.landingPageContainer.classList.remove('hidden');
+                appUI.appContainer.classList.add('hidden');
+                if (this.unsubscribe) this.unsubscribe();
+                if (this.userProfileUnsubscribe) this.userProfileUnsubscribe();
             },
 
             async signInWithGoogle() {
