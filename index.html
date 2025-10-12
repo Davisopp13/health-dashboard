@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Health Dashboard</title>
+    <title>Sketch Health</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -195,13 +195,12 @@
 
     <div id="landing-page-container" class="hidden">
         <div class="min-h-screen flex flex-col items-center justify-center text-center px-4">
-            <h1 class="text-5xl md:text-6xl font-bold notepad-header leading-tight">
-                Track Your Fitness.
-                <span class="notepad-text-light">Sketch Your Progress.</span>
+            <h1 class="text-6xl md:text-7xl font-bold notepad-header leading-tight">
+                Sketch Health
             </h1>
             <p class="mt-4 max-w-2xl text-lg text-blue-700">
-                The all-in-one tool to track your workouts, monitor your nutrition with AI, and build lasting habits.
-                Your personal health journey, simplified.
+                Your personal health journey, sketched out. Track workouts, monitor nutrition with AI, and build lasting
+                habits.
             </p>
             <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <button id="googleSignUpBtn" class="btn btn-primary w-full sm:w-auto text-lg px-8 py-3">
@@ -213,14 +212,6 @@
                 <button id="googleSignInBtn" class="text-blue-800 hover:text-blue-600 font-bold">Log in</button>
             </p>
             <div id="auth-error" class="text-red-600 mt-4 text-sm h-5"></div>
-
-            <div class="mt-12 w-full max-w-4xl">
-                <div class="border-2 border-blue-800 rounded-md p-2 shadow-lg h-96">
-                    <img src="https://images.pexels.com/photos/4761793/pexels-photo-4761793.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                        alt="A preview of the health dashboard showing workout tracking and nutrition stats on a phone."
-                        class="rounded-sm object-cover h-full w-full">
-                </div>
-            </div>
         </div>
     </div>
 
@@ -421,18 +412,24 @@
             },
 
             async resolveAuthState() {
+                console.log('[DEBUG] resolveAuthState: Starting auth resolution');
                 try {
                     // This is the key: wait for the redirect to be processed.
+                    console.log('[DEBUG] resolveAuthState: Waiting for redirect result...');
                     const userCredential = await getRedirectResult(this.auth);
+                    console.log('[DEBUG] resolveAuthState: Redirect result received', userCredential ? 'User found' : 'No redirect');
 
                     // If the redirect result contains a user, we are logged in.
                     if (userCredential && userCredential.user) {
+                        console.log('[DEBUG] resolveAuthState: User from redirect, setting up UI');
                         this.setupUIForUser(userCredential.user);
                         return;
                     }
 
                     // If no redirect result, check the current auth state. This handles existing sessions.
+                    console.log('[DEBUG] resolveAuthState: No redirect result, setting up auth state listener');
                     onAuthStateChanged(this.auth, user => {
+                        console.log('[DEBUG] onAuthStateChanged: Fired with user:', user ? user.uid : 'null');
                         if (user) {
                             this.setupUIForUser(user);
                         } else {
@@ -441,39 +438,56 @@
                     });
 
                 } catch (error) {
-                    console.error("Authentication Error:", error);
+                    console.error("[DEBUG] Authentication Error:", error);
+                    console.error("[DEBUG] Error details:", error.code, error.message);
                     appUI.authError.textContent = `Error during sign-in: ${error.message}`;
                     this.setupUIForGuest();
                 }
             },
 
             setupUIForUser(user) {
+                console.log('[DEBUG] setupUIForUser: Called for user', user.uid);
+                console.log('[DEBUG] setupUIForUser: Current userId was', this.userId);
+
+                if (this.userId === user.uid) {
+                    console.warn('[DEBUG] setupUIForUser: Already set up for this user, skipping duplicate setup');
+                    return;
+                }
+
                 this.userId = user.uid;
                 const welcomeMessage = appUI.appContainer.querySelector('p');
                 if (user.displayName) {
                     welcomeMessage.textContent = `Welcome back, ${user.displayName.split(' ')[0]}!`;
                 }
+                console.log('[DEBUG] setupUIForUser: Showing app container, hiding others');
                 appUI.loadingContainer.classList.add('hidden');
                 appUI.landingPageContainer.classList.add('hidden');
                 appUI.appContainer.classList.remove('hidden');
+                console.log('[DEBUG] setupUIForUser: Setting up realtime listeners');
                 this.setupRealtimeListeners();
             },
 
             setupUIForGuest() {
+                console.log('[DEBUG] setupUIForGuest: Showing landing page');
                 this.userId = null;
                 appUI.loadingContainer.classList.add('hidden');
                 appUI.landingPageContainer.classList.remove('hidden');
                 appUI.appContainer.classList.add('hidden');
+                appUI.authError.textContent = '';  // Clear any previous errors
                 if (this.unsubscribe) this.unsubscribe();
                 if (this.userProfileUnsubscribe) this.userProfileUnsubscribe();
             },
 
             async signInWithGoogle() {
+                console.log('[DEBUG] signInWithGoogle: Starting Google sign-in redirect');
                 const provider = new GoogleAuthProvider();
                 try {
+                    appUI.authError.textContent = '';  // Clear previous errors
                     await signInWithRedirect(this.auth, provider);
+                    console.log('[DEBUG] signInWithGoogle: Redirect initiated successfully');
                 } catch (error) {
-                    console.error("Google Sign-In Redirect Error:", error);
+                    console.error("[DEBUG] Google Sign-In Redirect Error:", error);
+                    console.error("[DEBUG] Error details:", error.code, error.message);
                     appUI.authError.textContent = `Error starting sign-in: ${error.message}`;
                 }
             },
