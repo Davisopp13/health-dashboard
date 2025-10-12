@@ -414,20 +414,15 @@
             async resolveAuthState() {
                 console.log('[DEBUG] resolveAuthState: Starting auth resolution');
                 try {
-                    // This is the key: wait for the redirect to be processed.
-                    console.log('[DEBUG] resolveAuthState: Waiting for redirect result...');
+                    // CRITICAL: Process redirect result FIRST before setting up the listener
+                    // This prevents the race condition where onAuthStateChanged fires with null
+                    // before the redirect result is processed
+                    console.log('[DEBUG] resolveAuthState: Checking for redirect result...');
                     const userCredential = await getRedirectResult(this.auth);
                     console.log('[DEBUG] resolveAuthState: Redirect result received', userCredential ? 'User found' : 'No redirect');
 
-                    // If the redirect result contains a user, we are logged in.
-                    if (userCredential && userCredential.user) {
-                        console.log('[DEBUG] resolveAuthState: User from redirect, setting up UI');
-                        this.setupUIForUser(userCredential.user);
-                        return;
-                    }
-
-                    // If no redirect result, check the current auth state. This handles existing sessions.
-                    console.log('[DEBUG] resolveAuthState: No redirect result, setting up auth state listener');
+                    // NOW set up the auth state listener for ongoing session management
+                    console.log('[DEBUG] resolveAuthState: Setting up auth state listener');
                     onAuthStateChanged(this.auth, user => {
                         console.log('[DEBUG] onAuthStateChanged: Fired with user:', user ? user.uid : 'null');
                         if (user) {
@@ -437,11 +432,22 @@
                         }
                     });
 
+                    // If there was a user from redirect, onAuthStateChanged will fire immediately with that user
+                    // If there was no redirect but an existing session, onAuthStateChanged will fire with that user
+                    // If no user at all, onAuthStateChanged will fire with null and show landing page
+
                 } catch (error) {
                     console.error("[DEBUG] Authentication Error:", error);
                     console.error("[DEBUG] Error details:", error.code, error.message);
                     appUI.authError.textContent = `Error during sign-in: ${error.message}`;
-                    this.setupUIForGuest();
+                    // Still set up the listener even if there was an error
+                    onAuthStateChanged(this.auth, user => {
+                        if (user) {
+                            this.setupUIForUser(user);
+                        } else {
+                            this.setupUIForGuest();
+                        }
+                    });
                 }
             },
 
