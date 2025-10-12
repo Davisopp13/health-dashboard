@@ -195,6 +195,44 @@
 
     <div id="landing-page-container" class="hidden">
         <div class="min-h-screen flex flex-col items-center justify-center text-center px-4">
+            <!-- Logo Icon -->
+            <svg class="w-32 h-32 md:w-40 md:h-40 mb-4" viewBox="0 0 200 200" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <!-- Heart outline with hand-drawn style -->
+                <path
+                    d="M100 170 C80 155, 30 120, 30 80 C30 50, 50 35, 70 35 C85 35, 95 45, 100 55 C105 45, 115 35, 130 35 C150 35, 170 50, 170 80 C170 120, 120 155, 100 170 Z"
+                    stroke="#1E3A8A" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+
+                <!-- Dumbbell bar through heart -->
+                <line x1="40" y1="100" x2="160" y2="100" stroke="#1E3A8A" stroke-width="5" stroke-linecap="round" />
+
+                <!-- Left weight plate with hatching -->
+                <rect x="25" y="80" width="20" height="40" stroke="#1E3A8A" stroke-width="3" fill="none" rx="2" />
+                <line x1="28" y1="85" x2="42" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
+                <line x1="32" y1="85" x2="42" y2="105" stroke="#1E3A8A" stroke-width="1.5" />
+                <line x1="36" y1="85" x2="42" y2="95" stroke="#1E3A8A" stroke-width="1.5" />
+                <line x1="28" y1="95" x2="38" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
+                <line x1="28" y1="105" x2="34" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
+
+                <!-- Right weight plate with hatching -->
+                <rect x="155" y="80" width="20" height="40" stroke="#1E3A8A" stroke-width="3" fill="none" rx="2" />
+                <line x1="158" y1="85" x2="172" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
+                <line x1="162" y1="85" x2="172" y2="105" stroke="#1E3A8A" stroke-width="1.5" />
+                <line x1="166" y1="85" x2="172" y2="95" stroke="#1E3A8A" stroke-width="1.5" />
+                <line x1="158" y1="95" x2="168" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
+                <line x1="158" y1="105" x2="164" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
+
+                <!-- Pencil in upper right -->
+                <g transform="translate(145, 40) rotate(30)">
+                    <!-- Pencil body -->
+                    <rect x="0" y="0" width="8" height="35" fill="#60A5FA" stroke="#1E3A8A" stroke-width="2" rx="1" />
+                    <!-- Pencil tip -->
+                    <polygon points="4,35 0,42 8,42" fill="#1E3A8A" />
+                    <!-- Eraser -->
+                    <rect x="0" y="-5" width="8" height="5" fill="#93C5FD" stroke="#1E3A8A" stroke-width="1.5" />
+                </g>
+            </svg>
+
             <h1 class="text-6xl md:text-7xl font-bold notepad-header leading-tight">
                 Sketch Health
             </h1>
@@ -218,9 +256,38 @@
     <div id="app-container" class="max-w-7xl mx-auto hidden">
         <!-- Header -->
         <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
-            <div>
-                <h1 class="text-4xl font-bold notepad-header">Your Daily Notes</h1>
-                <p class="text-blue-700 mt-1">Welcome back! Here's your snapshot for today.</p>
+            <div class="flex items-center gap-3">
+                <!-- Logo Icon (smaller version) -->
+                <svg class="w-10 h-10 flex-shrink-0" viewBox="0 0 200 200" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <!-- Heart outline -->
+                    <path
+                        d="M100 170 C80 155, 30 120, 30 80 C30 50, 50 35, 70 35 C85 35, 95 45, 100 55 C105 45, 115 35, 130 35 C150 35, 170 50, 170 80 C170 120, 120 155, 100 170 Z"
+                        stroke="#1E3A8A" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                    <!-- Dumbbell bar -->
+                    <line x1="40" y1="100" x2="160" y2="100" stroke="#1E3A8A" stroke-width="5" stroke-linecap="round" />
+                    <!-- Left weight -->
+                    <rect x="25" y="80" width="20" height="40" stroke="#1E3A8A" stroke-width="3" fill="none" rx="2" />
+                    <line x1="28" y1="85" x2="42" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
+                    <line x1="32" y1="85" x2="42" y2="105" stroke="#1E3A8A" stroke-width="1.5" />
+                    <line x1="36" y1="85" x2="42" y2="95" stroke="#1E3A8A" stroke-width="1.5" />
+                    <!-- Right weight -->
+                    <rect x="155" y="80" width="20" height="40" stroke="#1E3A8A" stroke-width="3" fill="none" rx="2" />
+                    <line x1="158" y1="85" x2="172" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
+                    <line x1="162" y1="85" x2="172" y2="105" stroke="#1E3A8A" stroke-width="1.5" />
+                    <line x1="166" y1="85" x2="172" y2="95" stroke="#1E3A8A" stroke-width="1.5" />
+                    <!-- Pencil -->
+                    <g transform="translate(145, 40) rotate(30)">
+                        <rect x="0" y="0" width="8" height="35" fill="#60A5FA" stroke="#1E3A8A" stroke-width="2"
+                            rx="1" />
+                        <polygon points="4,35 0,42 8,42" fill="#1E3A8A" />
+                        <rect x="0" y="-5" width="8" height="5" fill="#93C5FD" stroke="#1E3A8A" stroke-width="1.5" />
+                    </g>
+                </svg>
+                <div>
+                    <h1 class="text-4xl font-bold notepad-header">Your Daily Notes</h1>
+                    <p class="text-blue-700 mt-1">Welcome back! Here's your snapshot for today.</p>
+                </div>
             </div>
             <button id="logoutBtn" class="btn btn-secondary mt-4 sm:mt-0">Logout</button>
         </header>
@@ -571,7 +638,8 @@
                 const logBtn = document.getElementById('logExcessBtn'), logText = document.getElementById('logExcessText'), logSpinner = document.getElementById('logExcessSpinner');
                 logBtn.disabled = true; logText.textContent = 'Calculating...'; logSpinner.classList.remove('hidden');
                 try {
-                    const apiKey = ""; const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    const apiKey = "AIzaSyD6imNqPY8RfloxyOxxbYz_pvYScIxmkvk";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
                     const payload = { contents: [{ parts: [{ text: `Estimate calories for: ${desc}` }] }], generationConfig: { responseMimeType: "application/json", responseSchema: { type: "OBJECT", properties: { calories: { type: "NUMBER" } }, required: ["calories"] } } };
                     const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                     if (!response.ok) throw new Error(`API error: ${response.statusText}`);
