@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sketch Health</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect x='15' y='15' width='170' height='170' fill='%23FEF9C3' stroke='%231E3A8A' stroke-width='2' rx='4'/%3E%3Cpath d='M100 170 C80 155, 30 120, 30 80 C30 50, 50 35, 70 35 C85 35, 95 45, 100 55 C105 45, 115 35, 130 35 C150 35, 170 50, 170 80 C170 120, 120 155, 100 170 Z' stroke='%231E3A8A' stroke-width='4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='40' y1='100' x2='160' y2='100' stroke='%231E3A8A' stroke-width='5' stroke-linecap='round'/%3E%3Crect x='25' y='80' width='20' height='40' stroke='%231E3A8A' stroke-width='3' fill='none' rx='2'/%3E%3Cline x1='28' y1='85' x2='42' y2='115' stroke='%231E3A8A' stroke-width='1.5'/%3E%3Cline x1='32' y1='85' x2='42' y2='105' stroke='%231E3A8A' stroke-width='1.5'/%3E%3Cline x1='36' y1='85' x2='42' y2='95' stroke='%231E3A8A' stroke-width='1.5'/%3E%3Crect x='155' y='80' width='20' height='40' stroke='%231E3A8A' stroke-width='3' fill='none' rx='2'/%3E%3Cline x1='158' y1='85' x2='172' y2='115' stroke='%231E3A8A' stroke-width='1.5'/%3E%3Cline x1='162' y1='85' x2='172' y2='105' stroke='%231E3A8A' stroke-width='1.5'/%3E%3Cline x1='166' y1='85' x2='172' y2='95' stroke='%231E3A8A' stroke-width='1.5'/%3E%3Cg transform='translate(145, 40) rotate(30)'%3E%3Crect x='0' y='0' width='8' height='35' fill='%2360A5FA' stroke='%231E3A8A' stroke-width='2' rx='1'/%3E%3Cpolygon points='4,35 0,42 8,42' fill='%231E3A8A'/%3E%3Crect x='0' y='-5' width='8' height='5' fill='%2393C5FD' stroke='%231E3A8A' stroke-width='1.5'/%3E%3C/g%3E%3C/svg%3E">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -195,42 +200,16 @@
 
     <div id="landing-page-container" class="hidden">
         <div class="min-h-screen flex flex-col items-center justify-center text-center px-4">
-            <!-- Logo Icon -->
+            <!-- Logo Icon - Heart with Heartbeat -->
             <svg class="w-32 h-32 md:w-40 md:h-40 mb-4" viewBox="0 0 200 200" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
-                <!-- Heart outline with hand-drawn style -->
+                <!-- Heart outline -->
                 <path
                     d="M100 170 C80 155, 30 120, 30 80 C30 50, 50 35, 70 35 C85 35, 95 45, 100 55 C105 45, 115 35, 130 35 C150 35, 170 50, 170 80 C170 120, 120 155, 100 170 Z"
                     stroke="#1E3A8A" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-
-                <!-- Dumbbell bar through heart -->
-                <line x1="40" y1="100" x2="160" y2="100" stroke="#1E3A8A" stroke-width="5" stroke-linecap="round" />
-
-                <!-- Left weight plate with hatching -->
-                <rect x="25" y="80" width="20" height="40" stroke="#1E3A8A" stroke-width="3" fill="none" rx="2" />
-                <line x1="28" y1="85" x2="42" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
-                <line x1="32" y1="85" x2="42" y2="105" stroke="#1E3A8A" stroke-width="1.5" />
-                <line x1="36" y1="85" x2="42" y2="95" stroke="#1E3A8A" stroke-width="1.5" />
-                <line x1="28" y1="95" x2="38" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
-                <line x1="28" y1="105" x2="34" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
-
-                <!-- Right weight plate with hatching -->
-                <rect x="155" y="80" width="20" height="40" stroke="#1E3A8A" stroke-width="3" fill="none" rx="2" />
-                <line x1="158" y1="85" x2="172" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
-                <line x1="162" y1="85" x2="172" y2="105" stroke="#1E3A8A" stroke-width="1.5" />
-                <line x1="166" y1="85" x2="172" y2="95" stroke="#1E3A8A" stroke-width="1.5" />
-                <line x1="158" y1="95" x2="168" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
-                <line x1="158" y1="105" x2="164" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
-
-                <!-- Pencil in upper right -->
-                <g transform="translate(145, 40) rotate(30)">
-                    <!-- Pencil body -->
-                    <rect x="0" y="0" width="8" height="35" fill="#60A5FA" stroke="#1E3A8A" stroke-width="2" rx="1" />
-                    <!-- Pencil tip -->
-                    <polygon points="4,35 0,42 8,42" fill="#1E3A8A" />
-                    <!-- Eraser -->
-                    <rect x="0" y="-5" width="8" height="5" fill="#93C5FD" stroke="#1E3A8A" stroke-width="1.5" />
-                </g>
+                <!-- Heartbeat/ECG line through center -->
+                <polyline points="30,100 75,100 82,85 88,115 94,100 165,100" stroke="#1E3A8A" stroke-width="3"
+                    fill="none" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
 
             <h1 class="text-6xl md:text-7xl font-bold notepad-header leading-tight">
@@ -255,41 +234,67 @@
 
     <div id="app-container" class="max-w-7xl mx-auto hidden">
         <!-- Header -->
-        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
-            <div class="flex items-center gap-3">
-                <!-- Logo Icon (smaller version) -->
-                <svg class="w-10 h-10 flex-shrink-0" viewBox="0 0 200 200" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <!-- Heart outline -->
-                    <path
-                        d="M100 170 C80 155, 30 120, 30 80 C30 50, 50 35, 70 35 C85 35, 95 45, 100 55 C105 45, 115 35, 130 35 C150 35, 170 50, 170 80 C170 120, 120 155, 100 170 Z"
-                        stroke="#1E3A8A" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-                    <!-- Dumbbell bar -->
-                    <line x1="40" y1="100" x2="160" y2="100" stroke="#1E3A8A" stroke-width="5" stroke-linecap="round" />
-                    <!-- Left weight -->
-                    <rect x="25" y="80" width="20" height="40" stroke="#1E3A8A" stroke-width="3" fill="none" rx="2" />
-                    <line x1="28" y1="85" x2="42" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
-                    <line x1="32" y1="85" x2="42" y2="105" stroke="#1E3A8A" stroke-width="1.5" />
-                    <line x1="36" y1="85" x2="42" y2="95" stroke="#1E3A8A" stroke-width="1.5" />
-                    <!-- Right weight -->
-                    <rect x="155" y="80" width="20" height="40" stroke="#1E3A8A" stroke-width="3" fill="none" rx="2" />
-                    <line x1="158" y1="85" x2="172" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
-                    <line x1="162" y1="85" x2="172" y2="105" stroke="#1E3A8A" stroke-width="1.5" />
-                    <line x1="166" y1="85" x2="172" y2="95" stroke="#1E3A8A" stroke-width="1.5" />
-                    <!-- Pencil -->
-                    <g transform="translate(145, 40) rotate(30)">
-                        <rect x="0" y="0" width="8" height="35" fill="#60A5FA" stroke="#1E3A8A" stroke-width="2"
-                            rx="1" />
-                        <polygon points="4,35 0,42 8,42" fill="#1E3A8A" />
-                        <rect x="0" y="-5" width="8" height="5" fill="#93C5FD" stroke="#1E3A8A" stroke-width="1.5" />
-                    </g>
-                </svg>
-                <div>
-                    <h1 class="text-4xl font-bold notepad-header">Your Daily Notes</h1>
-                    <p class="text-blue-700 mt-1">Welcome back! Here's your snapshot for today.</p>
+        <header class="mb-6">
+            <div class="border border-blue-100 rounded-xl px-6 py-4 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <!-- Heart + Dumbbell + Pencil Logo -->
+                        <svg class="w-8 h-8 flex-shrink-0" viewBox="0 0 200 200" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <!-- Heart outline -->
+                            <path
+                                d="M100 170 C80 155, 30 120, 30 80 C30 50, 50 35, 70 35 C85 35, 95 45, 100 55 C105 45, 115 35, 130 35 C150 35, 170 50, 170 80 C170 120, 120 155, 100 170 Z"
+                                stroke="#1E3A8A" stroke-width="4" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <!-- Barbell bar -->
+                            <line x1="40" y1="100" x2="160" y2="100" stroke="#1E3A8A" stroke-width="5"
+                                stroke-linecap="round" />
+                            <!-- Left weight plate -->
+                            <rect x="25" y="80" width="20" height="40" stroke="#1E3A8A" stroke-width="3" fill="none"
+                                rx="2" />
+                            <line x1="28" y1="85" x2="42" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
+                            <line x1="32" y1="85" x2="42" y2="105" stroke="#1E3A8A" stroke-width="1.5" />
+                            <line x1="36" y1="85" x2="42" y2="95" stroke="#1E3A8A" stroke-width="1.5" />
+                            <!-- Right weight plate -->
+                            <rect x="155" y="80" width="20" height="40" stroke="#1E3A8A" stroke-width="3" fill="none"
+                                rx="2" />
+                            <line x1="158" y1="85" x2="172" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
+                            <line x1="162" y1="85" x2="172" y2="105" stroke="#1E3A8A" stroke-width="1.5" />
+                            <line x1="166" y1="85" x2="172" y2="95" stroke="#1E3A8A" stroke-width="1.5" />
+                            <!-- Pencil in upper right -->
+                            <g transform="translate(145, 40) rotate(30)">
+                                <rect x="0" y="0" width="8" height="35" fill="#60A5FA" stroke="#1E3A8A" stroke-width="2"
+                                    rx="1" />
+                                <polygon points="4,35 0,42 8,42" fill="#1E3A8A" />
+                                <rect x="0" y="-5" width="8" height="5" fill="#93C5FD" stroke="#1E3A8A"
+                                    stroke-width="1.5" />
+                            </g>
+                        </svg>
+                        <h1 class="text-2xl font-bold notepad-header">Sketch Health</h1>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <p id="welcomeMessage" class="text-base font-semibold text-blue-700 hidden sm:block">Welcome
+                            back, Davis!</p>
+                        <!-- User Profile Icon with Dropdown -->
+                        <div class="relative">
+                            <button id="profileBtn"
+                                class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold hover:bg-blue-700 transition-colors">
+                                D
+                            </button>
+                            <div id="profileDropdown"
+                                class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border-2 border-blue-800 py-2 z-10">
+                                <button id="logoutBtn"
+                                    class="w-full text-left px-4 py-2 hover:bg-blue-50 text-blue-900 font-semibold">
+                                    Log out
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <button id="logoutBtn" class="btn btn-secondary mt-4 sm:mt-0">Logout</button>
+            <div class="mt-4">
+                <div class="h-px bg-gray-200"></div>
+            </div>
         </header>
 
         <!-- Highlights Bar -->
@@ -514,9 +519,14 @@
                 }
 
                 this.userId = user.uid;
-                const welcomeMessage = appUI.appContainer.querySelector('p');
+                const welcomeMessage = document.getElementById('welcomeMessage');
                 if (user.displayName) {
                     welcomeMessage.textContent = `Welcome back, ${user.displayName.split(' ')[0]}!`;
+                    // Update profile button with user's initial
+                    const profileBtn = document.getElementById('profileBtn');
+                    if (profileBtn) {
+                        profileBtn.textContent = user.displayName.charAt(0).toUpperCase();
+                    }
                 }
                 console.log('[DEBUG] setupUIForUser: Showing app container, hiding others');
                 appUI.loadingContainer.classList.add('hidden');
@@ -809,7 +819,28 @@
             },
 
             addEventListeners() {
-                appUI.logoutBtn.addEventListener('click', () => signOut(this.auth));
+                // Profile dropdown toggle
+                const profileBtn = document.getElementById('profileBtn');
+                const profileDropdown = document.getElementById('profileDropdown');
+
+                if (profileBtn) {
+                    profileBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        profileDropdown.classList.toggle('hidden');
+                    });
+                }
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (profileDropdown && !profileDropdown.classList.contains('hidden')) {
+                        profileDropdown.classList.add('hidden');
+                    }
+                });
+
+                appUI.logoutBtn.addEventListener('click', () => {
+                    profileDropdown.classList.add('hidden');
+                    signOut(this.auth);
+                });
                 appUI.googleSignUpBtn.addEventListener('click', () => this.signInWithGoogle());
                 appUI.googleSignInBtn.addEventListener('click', () => this.signInWithGoogle());
                 appUI.workoutSelector.addEventListener('change', (e) => this.addWorkout(e.target.value));
