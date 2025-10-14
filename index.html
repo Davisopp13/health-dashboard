@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sketch Health</title>
 
-    <!-- Favicon -->
+    <!-- Favicon - Updated Sketch Health Logo -->
     <link rel="icon" type="image/svg+xml"
-        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect x='15' y='15' width='170' height='170' fill='%23FEF9C3' stroke='%231E3A8A' stroke-width='2' rx='4'/%3E%3Cpath d='M100 170 C80 155, 30 120, 30 80 C30 50, 50 35, 70 35 C85 35, 95 45, 100 55 C105 45, 115 35, 130 35 C150 35, 170 50, 170 80 C170 120, 120 155, 100 170 Z' stroke='%231E3A8A' stroke-width='4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='40' y1='100' x2='160' y2='100' stroke='%231E3A8A' stroke-width='5' stroke-linecap='round'/%3E%3Crect x='25' y='80' width='20' height='40' stroke='%231E3A8A' stroke-width='3' fill='none' rx='2'/%3E%3Cline x1='28' y1='85' x2='42' y2='115' stroke='%231E3A8A' stroke-width='1.5'/%3E%3Cline x1='32' y1='85' x2='42' y2='105' stroke='%231E3A8A' stroke-width='1.5'/%3E%3Cline x1='36' y1='85' x2='42' y2='95' stroke='%231E3A8A' stroke-width='1.5'/%3E%3Crect x='155' y='80' width='20' height='40' stroke='%231E3A8A' stroke-width='3' fill='none' rx='2'/%3E%3Cline x1='158' y1='85' x2='172' y2='115' stroke='%231E3A8A' stroke-width='1.5'/%3E%3Cline x1='162' y1='85' x2='172' y2='105' stroke='%231E3A8A' stroke-width='1.5'/%3E%3Cline x1='166' y1='85' x2='172' y2='95' stroke='%231E3A8A' stroke-width='1.5'/%3E%3Cg transform='translate(145, 40) rotate(30)'%3E%3Crect x='0' y='0' width='8' height='35' fill='%2360A5FA' stroke='%231E3A8A' stroke-width='2' rx='1'/%3E%3Cpolygon points='4,35 0,42 8,42' fill='%231E3A8A'/%3E%3Crect x='0' y='-5' width='8' height='5' fill='%2393C5FD' stroke='%231E3A8A' stroke-width='1.5'/%3E%3C/g%3E%3C/svg%3E">
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect x='10' y='10' width='180' height='180' fill='%23FEF9C3' stroke='%231E3A8A' stroke-width='2' rx='4'/%3E%3Cpath d='M100 165 C85 152, 40 122, 40 85 C40 58, 58 45, 75 45 C88 45, 96 52, 100 62 C104 52, 112 45, 125 45 C142 45, 160 58, 160 85 C160 122, 115 152, 100 165 Z' stroke='%231E3A8A' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-dasharray='2,1'/%3E%3Cline x1='30' y1='95' x2='170' y2='95' stroke='%231E3A8A' stroke-width='6' stroke-linecap='round'/%3E%3Crect x='20' y='75' width='18' height='40' stroke='%231E3A8A' stroke-width='4' fill='none' rx='3'/%3E%3Cline x1='23' y1='80' x2='33' y2='110' stroke='%231E3A8A' stroke-width='2'/%3E%3Cline x1='26' y1='80' x2='36' y2='105' stroke='%231E3A8A' stroke-width='2'/%3E%3Cline x1='29' y1='80' x2='36' y2='95' stroke='%231E3A8A' stroke-width='2'/%3E%3Crect x='162' y='75' width='18' height='40' stroke='%231E3A8A' stroke-width='4' fill='none' rx='3'/%3E%3Cline x1='165' y1='80' x2='175' y2='110' stroke='%231E3A8A' stroke-width='2'/%3E%3Cline x1='168' y1='80' x2='178' y2='105' stroke='%231E3A8A' stroke-width='2'/%3E%3Cline x1='171' y1='80' x2='178' y2='95' stroke='%231E3A8A' stroke-width='2'/%3E%3Cg transform='translate(135, 30) rotate(35)'%3E%3Crect x='0' y='0' width='10' height='45' fill='%2360A5FA' stroke='%231E3A8A' stroke-width='2.5' rx='1'/%3E%3Cpolygon points='5,45 0,52 10,52' fill='%231E3A8A'/%3E%3Crect x='0' y='-6' width='10' height='6' fill='%2393C5FD' stroke='%231E3A8A' stroke-width='2' rx='1'/%3E%3Cline x1='0' y1='-3' x2='10' y2='-3' stroke='%231E3A8A' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap" rel="stylesheet">
@@ -44,7 +45,26 @@
             border: none;
             border-radius: 0;
             padding: 1.5rem;
-            box-shadow: none;
+            box-shadow:
+                2px 2px 4px rgba(0, 0, 0, 0.1),
+                inset 0 0 0 2px rgba(191, 219, 254, 0.3);
+            position: relative;
+        }
+
+        /* Torn paper edge effect */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background-image:
+                repeating-linear-gradient(90deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(191, 219, 254, 0.5) 10px,
+                    rgba(191, 219, 254, 0.5) 11px);
         }
 
         .btn {
@@ -103,6 +123,48 @@
         .progress-bar-fill {
             background-color: #60A5FA;
             /* Blue highlighter */
+            transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+            height: 100%;
+        }
+
+        /* Pulse animation when goal is reached */
+        .progress-bar-fill.goal-reached {
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 5px rgba(96, 165, 250, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(96, 165, 250, 0.8);
+            }
+
+        }
+
+        /* Meal Tab Buttons */
+        .meal-tab-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 2px solid #1E3A8A;
+            background-color: white;
+            color: #1E3A8A;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .meal-tab-btn:hover {
+            background-color: #EFF6FF;
+        }
+
+        .meal-tab-btn.active {
+            background-color: #1E3A8A;
+            color: white;
         }
 
         input,
@@ -200,16 +262,42 @@
 
     <div id="landing-page-container" class="hidden">
         <div class="min-h-screen flex flex-col items-center justify-center text-center px-4">
-            <!-- Logo Icon - Heart with Heartbeat -->
+            <!-- Logo Icon - Heart with Dumbbell and Pencil -->
             <svg class="w-32 h-32 md:w-40 md:h-40 mb-4" viewBox="0 0 200 200" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
-                <!-- Heart outline -->
+                <!-- Heart outline with sketchy style -->
                 <path
-                    d="M100 170 C80 155, 30 120, 30 80 C30 50, 50 35, 70 35 C85 35, 95 45, 100 55 C105 45, 115 35, 130 35 C150 35, 170 50, 170 80 C170 120, 120 155, 100 170 Z"
-                    stroke="#1E3A8A" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-                <!-- Heartbeat/ECG line through center -->
-                <polyline points="30,100 75,100 82,85 88,115 94,100 165,100" stroke="#1E3A8A" stroke-width="3"
-                    fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                    d="M100 165 C85 152, 40 122, 40 85 C40 58, 58 45, 75 45 C88 45, 96 52, 100 62 C104 52, 112 45, 125 45 C142 45, 160 58, 160 85 C160 122, 115 152, 100 165 Z"
+                    stroke="#1E3A8A" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-dasharray="2,1" />
+
+                <!-- Dumbbell bar through heart -->
+                <line x1="30" y1="95" x2="170" y2="95" stroke="#1E3A8A" stroke-width="6" stroke-linecap="round" />
+
+                <!-- Left dumbbell weight with hatching -->
+                <rect x="20" y="75" width="18" height="40" stroke="#1E3A8A" stroke-width="4" fill="none" rx="3" />
+                <line x1="23" y1="80" x2="33" y2="110" stroke="#1E3A8A" stroke-width="2" />
+                <line x1="26" y1="80" x2="36" y2="105" stroke="#1E3A8A" stroke-width="2" />
+                <line x1="29" y1="80" x2="36" y2="95" stroke="#1E3A8A" stroke-width="2" />
+
+                <!-- Right dumbbell weight with hatching -->
+                <rect x="162" y="75" width="18" height="40" stroke="#1E3A8A" stroke-width="4" fill="none" rx="3" />
+                <line x1="165" y1="80" x2="175" y2="110" stroke="#1E3A8A" stroke-width="2" />
+                <line x1="168" y1="80" x2="178" y2="105" stroke="#1E3A8A" stroke-width="2" />
+                <line x1="171" y1="80" x2="178" y2="95" stroke="#1E3A8A" stroke-width="2" />
+
+                <!-- Pencil drawing the heart (top right) -->
+                <g transform="translate(135, 30) rotate(35)">
+                    <!-- Pencil body -->
+                    <rect x="0" y="0" width="10" height="45" fill="#60A5FA" stroke="#1E3A8A" stroke-width="2.5"
+                        rx="1" />
+                    <!-- Pencil tip -->
+                    <polygon points="5,45 0,52 10,52" fill="#1E3A8A" />
+                    <!-- Pencil eraser -->
+                    <rect x="0" y="-6" width="10" height="6" fill="#93C5FD" stroke="#1E3A8A" stroke-width="2" rx="1" />
+                    <!-- Eraser band -->
+                    <line x1="0" y1="-3" x2="10" y2="-3" stroke="#1E3A8A" stroke-width="1" />
+                </g>
             </svg>
 
             <h1 class="text-6xl md:text-7xl font-bold notepad-header leading-tight">
@@ -231,6 +319,202 @@
             <div id="auth-error" class="text-red-600 mt-4 text-sm h-5"></div>
         </div>
     </div>
+    <!-- Onboarding Modal -->
+    <div id="onboarding-modal"
+        class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden z-50">
+        <div
+            class="bg-yellow-100 rounded-lg p-8 max-w-2xl mx-4 border-4 border-blue-800 shadow-2xl transform transition-all">
+            <!-- Step 1: Welcome -->
+            <div id="onboarding-step-1" class="onboarding-step">
+                <div class="text-center mb-6">
+                    <!-- Logo -->
+                    <svg class="w-24 h-24 mx-auto mb-4" viewBox="0 0 200 200" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M100 165 C85 152, 40 122, 40 85 C40 58, 58 45, 75 45 C88 45, 96 52, 100 62 C104 52, 112 45, 125 45 C142 45, 160 58, 160 85 C160 122, 115 152, 100 165 Z"
+                            stroke="#1E3A8A" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-dasharray="2,1" />
+                        <line x1="30" y1="95" x2="170" y2="95" stroke="#1E3A8A" stroke-width="6"
+                            stroke-linecap="round" />
+                        <rect x="20" y="75" width="18" height="40" stroke="#1E3A8A" stroke-width="4" fill="none"
+                            rx="3" />
+                        <line x1="23" y1="80" x2="33" y2="110" stroke="#1E3A8A" stroke-width="2" />
+                        <line x1="26" y1="80" x2="36" y2="105" stroke="#1E3A8A" stroke-width="2" />
+                        <line x1="29" y1="80" x2="36" y2="95" stroke="#1E3A8A" stroke-width="2" />
+                        <rect x="162" y="75" width="18" height="40" stroke="#1E3A8A" stroke-width="4" fill="none"
+                            rx="3" />
+                        <line x1="165" y1="80" x2="175" y2="110" stroke="#1E3A8A" stroke-width="2" />
+                        <line x1="168" y1="80" x2="178" y2="105" stroke="#1E3A8A" stroke-width="2" />
+                        <line x1="171" y1="80" x2="178" y2="95" stroke="#1E3A8A" stroke-width="2" />
+                        <g transform="translate(135, 30) rotate(35)">
+                            <rect x="0" y="0" width="10" height="45" fill="#60A5FA" stroke="#1E3A8A" stroke-width="2.5"
+                                rx="1" />
+                            <polygon points="5,45 0,52 10,52" fill="#1E3A8A" />
+                            <rect x="0" y="-6" width="10" height="6" fill="#93C5FD" stroke="#1E3A8A" stroke-width="2"
+                                rx="1" />
+                            <line x1="0" y1="-3" x2="10" y2="-3" stroke="#1E3A8A" stroke-width="1" />
+                        </g>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold notepad-header mb-4 text-center">Welcome to Sketch Health! 📝💪</h2>
+                <p class="text-lg mb-6 text-center text-blue-700">Let's personalize your fitness journey in just a few
+                    quick steps.</p>
+                <button class="btn btn-primary w-full text-lg" onclick="app.onboarding.nextStep()">Get Started</button>
+            </div>
+
+            <!-- Step 2: Goal Selection -->
+            <div id="onboarding-step-2" class="onboarding-step hidden">
+                <h2 class="text-2xl font-bold notepad-header mb-6 text-center">What's your primary fitness goal?</h2>
+                <div class="space-y-3">
+                    <button class="btn btn-secondary w-full text-left py-4 px-6 hover:bg-blue-100 transition-colors"
+                        onclick="app.onboarding.selectGoal('build_muscle')">
+                        <div class="flex items-center">
+                            <span class="text-3xl mr-4">💪</span>
+                            <div>
+                                <p class="font-bold text-lg">Build Muscle</p>
+                                <p class="text-sm text-blue-600">Focus on strength training and progressive overload</p>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="btn btn-secondary w-full text-left py-4 px-6 hover:bg-blue-100 transition-colors"
+                        onclick="app.onboarding.selectGoal('lose_weight')">
+                        <div class="flex items-center">
+                            <span class="text-3xl mr-4">🏃</span>
+                            <div>
+                                <p class="font-bold text-lg">Lose Weight</p>
+                                <p class="text-sm text-blue-600">Emphasize cardio and calorie tracking</p>
+                            </div>
+                        </div>
+                    </button>
+                    <button class="btn btn-secondary w-full text-left py-4 px-6 hover:bg-blue-100 transition-colors"
+                        onclick="app.onboarding.selectGoal('maintain_fitness')">
+                        <div class="flex items-center">
+                            <span class="text-3xl mr-4">⚖️</span>
+                            <div>
+                                <p class="font-bold text-lg">Maintain Fitness</p>
+                                <p class="text-sm text-blue-600">Stay healthy with balanced workouts</p>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Daily Goals -->
+            <div id="onboarding-step-3" class="onboarding-step hidden">
+                <h2 class="text-2xl font-bold notepad-header mb-6 text-center">Set Your Daily Goals</h2>
+                <div class="space-y-5">
+                    <div>
+                        <label class="block font-bold mb-2 text-blue-900">💧 Water Goal (glasses/day)</label>
+                        <input type="number" id="onboarding-water-goal" value="8" min="1" max="20"
+                            class="w-full px-4 py-3 text-lg border-2 border-blue-800 rounded">
+                        <p class="text-sm text-blue-600 mt-1">Recommended: 8 glasses (64 oz)</p>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-2 text-blue-900">🥤 Max Liquid Calories (kcal/day)</label>
+                        <input type="number" id="onboarding-liquid-goal" value="500" min="0" max="2000" step="50"
+                            class="w-full px-4 py-3 text-lg border-2 border-blue-800 rounded">
+                        <p class="text-sm text-blue-600 mt-1">Includes sodas, juices, alcohol, etc.</p>
+                    </div>
+                    <div>
+                        <!-- Workout Builder Modal -->
+                        <div id="workout-builder-modal"
+                            class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden z-50 overflow-y-auto">
+                            <div
+                                class="bg-yellow-100 rounded-lg p-8 max-w-4xl mx-4 my-8 border-4 border-blue-800 max-h-[90vh] overflow-y-auto">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h2 class="text-3xl font-bold notepad-header">Custom Workout Builder</h2>
+                                    <button onclick="app.workoutBuilder.close()" class="btn btn-secondary">✕
+                                        Close</button>
+                                </div>
+
+                                <!-- Workout Name -->
+                                <div class="mb-6">
+                                    <label class="block font-bold mb-2 text-blue-900">Workout Name</label>
+                                    <input type="text" id="custom-workout-name" placeholder="e.g., My Chest Day"
+                                        class="w-full px-4 py-2 border-2 border-blue-800 rounded">
+                                </div>
+
+                                <!-- Duration Estimate -->
+                                <div class="mb-6">
+                                    <label class="block font-bold mb-2 text-blue-900">Estimated Duration
+                                        (minutes)</label>
+                                    <input type="number" id="custom-workout-duration" value="45" min="5" max="180"
+                                        class="w-full px-4 py-2 border-2 border-blue-800 rounded">
+                                </div>
+
+                                <!-- Exercise List -->
+                                <div class="mb-6">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h3 class="text-xl font-bold notepad-header">Exercises</h3>
+                                        <button onclick="app.workoutBuilder.addExercise()" class="btn btn-primary">+ Add
+                                            Exercise</button>
+                                    </div>
+
+                                    <div id="custom-exercises-list" class="space-y-4">
+                                        <!-- Exercise items will be added here dynamically -->
+                                    </div>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="flex gap-4">
+                                    <button onclick="app.workoutBuilder.save()" class="btn btn-primary flex-1">💾 Save
+                                        Workout</button>
+                                    <button onclick="app.workoutBuilder.close()"
+                                        class="btn btn-secondary flex-1">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Exercise Item Template -->
+                        <template id="exercise-item-template">
+                            <div class="exercise-item bg-white p-4 rounded-lg border-2 border-blue-800 relative">
+                                <div class="flex gap-4 items-start">
+                                    <div class="flex-1 space-y-3">
+                                        <input type="text" placeholder="Exercise name (e.g., Bench Press)"
+                                            class="exercise-name w-full px-3 py-2 border-2 border-blue-800 rounded font-semibold">
+                                        <div class="grid grid-cols-3 gap-3">
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-semibold mb-1 text-blue-900">Sets</label>
+                                                <input type="number"
+                                                    class="exercise-sets w-full px-3 py-2 border-2 border-blue-800 rounded"
+                                                    value="3" min="1" max="10">
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-semibold mb-1 text-blue-900">Reps</label>
+                                                <input type="text"
+                                                    class="exercise-reps w-full px-3 py-2 border-2 border-blue-800 rounded"
+                                                    value="10-12" placeholder="8-12 or 60s">
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-semibold mb-1 text-blue-900">Rest
+                                                    (sec)</label>
+                                                <input type="number"
+                                                    class="exercise-rest w-full px-3 py-2 border-2 border-blue-800 rounded"
+                                                    value="90" min="30" max="300" step="15">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-danger btn-sm mt-8"
+                                        onclick="app.workoutBuilder.removeExercise(this)">✕</button>
+                                </div>
+                            </div>
+                        </template>
+
+                        <label class="block font-bold mb-2 text-blue-900">🏋️ Workout Days per Week</label>
+                        <input type="number" id="onboarding-workout-days" value="3" min="1" max="7"
+                            class="w-full px-4 py-3 text-lg border-2 border-blue-800 rounded">
+                        <p class="text-sm text-blue-600 mt-1">We'll help you stay consistent!</p>
+                    </div>
+                </div>
+                <button class="btn btn-primary w-full mt-8 text-lg py-4" onclick="app.onboarding.complete()">
+                    🎉 Start My Journey!
+                </button>
+            </div>
+        </div>
+    </div>
+
 
     <div id="app-container" class="max-w-7xl mx-auto hidden">
         <!-- Header -->
@@ -238,36 +522,45 @@
             <div class="border border-blue-100 rounded-xl px-6 py-4 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <!-- Heart + Dumbbell + Pencil Logo -->
+                        <!-- Heart + Dumbbell + Pencil Logo (Compact Header Version) -->
                         <svg class="w-8 h-8 flex-shrink-0" viewBox="0 0 200 200" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
-                            <!-- Heart outline -->
+                            <!-- Heart outline with sketchy style -->
                             <path
-                                d="M100 170 C80 155, 30 120, 30 80 C30 50, 50 35, 70 35 C85 35, 95 45, 100 55 C105 45, 115 35, 130 35 C150 35, 170 50, 170 80 C170 120, 120 155, 100 170 Z"
-                                stroke="#1E3A8A" stroke-width="4" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <!-- Barbell bar -->
-                            <line x1="40" y1="100" x2="160" y2="100" stroke="#1E3A8A" stroke-width="5"
+                                d="M100 165 C85 152, 40 122, 40 85 C40 58, 58 45, 75 45 C88 45, 96 52, 100 62 C104 52, 112 45, 125 45 C142 45, 160 58, 160 85 C160 122, 115 152, 100 165 Z"
+                                stroke="#1E3A8A" stroke-width="5" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-dasharray="2,1" />
+
+                            <!-- Dumbbell bar through heart -->
+                            <line x1="30" y1="95" x2="170" y2="95" stroke="#1E3A8A" stroke-width="6"
                                 stroke-linecap="round" />
-                            <!-- Left weight plate -->
-                            <rect x="25" y="80" width="20" height="40" stroke="#1E3A8A" stroke-width="3" fill="none"
-                                rx="2" />
-                            <line x1="28" y1="85" x2="42" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
-                            <line x1="32" y1="85" x2="42" y2="105" stroke="#1E3A8A" stroke-width="1.5" />
-                            <line x1="36" y1="85" x2="42" y2="95" stroke="#1E3A8A" stroke-width="1.5" />
-                            <!-- Right weight plate -->
-                            <rect x="155" y="80" width="20" height="40" stroke="#1E3A8A" stroke-width="3" fill="none"
-                                rx="2" />
-                            <line x1="158" y1="85" x2="172" y2="115" stroke="#1E3A8A" stroke-width="1.5" />
-                            <line x1="162" y1="85" x2="172" y2="105" stroke="#1E3A8A" stroke-width="1.5" />
-                            <line x1="166" y1="85" x2="172" y2="95" stroke="#1E3A8A" stroke-width="1.5" />
-                            <!-- Pencil in upper right -->
-                            <g transform="translate(145, 40) rotate(30)">
-                                <rect x="0" y="0" width="8" height="35" fill="#60A5FA" stroke="#1E3A8A" stroke-width="2"
-                                    rx="1" />
-                                <polygon points="4,35 0,42 8,42" fill="#1E3A8A" />
-                                <rect x="0" y="-5" width="8" height="5" fill="#93C5FD" stroke="#1E3A8A"
-                                    stroke-width="1.5" />
+
+                            <!-- Left dumbbell weight with hatching -->
+                            <rect x="20" y="75" width="18" height="40" stroke="#1E3A8A" stroke-width="4" fill="none"
+                                rx="3" />
+                            <line x1="23" y1="80" x2="33" y2="110" stroke="#1E3A8A" stroke-width="2" />
+                            <line x1="26" y1="80" x2="36" y2="105" stroke="#1E3A8A" stroke-width="2" />
+                            <line x1="29" y1="80" x2="36" y2="95" stroke="#1E3A8A" stroke-width="2" />
+
+                            <!-- Right dumbbell weight with hatching -->
+                            <rect x="162" y="75" width="18" height="40" stroke="#1E3A8A" stroke-width="4" fill="none"
+                                rx="3" />
+                            <line x1="165" y1="80" x2="175" y2="110" stroke="#1E3A8A" stroke-width="2" />
+                            <line x1="168" y1="80" x2="178" y2="105" stroke="#1E3A8A" stroke-width="2" />
+                            <line x1="171" y1="80" x2="178" y2="95" stroke="#1E3A8A" stroke-width="2" />
+
+                            <!-- Pencil drawing the heart (top right) -->
+                            <g transform="translate(135, 30) rotate(35)">
+                                <!-- Pencil body -->
+                                <rect x="0" y="0" width="10" height="45" fill="#60A5FA" stroke="#1E3A8A"
+                                    stroke-width="2.5" rx="1" />
+                                <!-- Pencil tip -->
+                                <polygon points="5,45 0,52 10,52" fill="#1E3A8A" />
+                                <!-- Pencil eraser -->
+                                <rect x="0" y="-6" width="10" height="6" fill="#93C5FD" stroke="#1E3A8A"
+                                    stroke-width="2" rx="1" />
+                                <!-- Eraser band -->
+                                <line x1="0" y1="-3" x2="10" y2="-3" stroke="#1E3A8A" stroke-width="1" />
                             </g>
                         </svg>
                         <h1 class="text-2xl font-bold notepad-header">Sketch Health</h1>
@@ -326,7 +619,12 @@
             <div class="lg:col-span-3 space-y-6">
                 <div class="card p-6">
                     <div>
-                        <h2 class="font-bold text-xl mb-4 notepad-header">Today's Workouts</h2>
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="font-bold text-xl notepad-header">Today's Workouts</h2>
+                            <button onclick="app.workoutBuilder.open()" class="btn btn-secondary btn-sm py-2 px-4">
+                                ✏️ Create Custom Workout
+                            </button>
+                        </div>
                         <div class="mb-4">
                             <select id="workoutSelector" class="w-full px-3 py-2">
                                 <option value="none">-- Add a workout to your day --</option>
@@ -342,13 +640,27 @@
                     </div>
                     <hr class="border-blue-200 my-8">
                     <div>
-                        <h2 class="font-bold text-xl mb-4 notepad-header">Log Excess Calories with AI</h2>
+                        <h2 class="font-bold text-xl mb-4 notepad-header">Log Meals with AI</h2>
+
+                        <!-- Meal Type Selector -->
+                        <div class="flex gap-2 mb-4">
+                            <button id="breakfastTabBtn" class="meal-tab-btn active"
+                                onclick="app.selectMealType('breakfast')">🌅 Breakfast</button>
+                            <button id="lunchTabBtn" class="meal-tab-btn" onclick="app.selectMealType('lunch')">☀️
+                                Lunch</button>
+                            <button id="dinnerTabBtn" class="meal-tab-btn" onclick="app.selectMealType('dinner')">🌙
+                                Dinner</button>
+                            <button id="snacksTabBtn" class="meal-tab-btn" onclick="app.selectMealType('snacks')">🍿
+                                Snacks</button>
+                        </div>
+
+                        <!-- Food Input -->
                         <div class="flex flex-col sm:flex-row gap-4 mb-4">
-                            <input id="excessDescInput" type="text" placeholder="Describe the food..."
+                            <input id="foodDescInput" type="text" placeholder="Describe your food..."
                                 class="px-3 py-2 w-full">
-                            <button id="logExcessBtn" class="btn btn-primary" onclick="app.addExcessCalories()">
-                                <span id="logExcessText">Calculate & Log</span>
-                                <svg id="logExcessSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden"
+                            <button id="logFoodBtn" class="btn btn-primary" onclick="app.addMealWithAI()">
+                                <span id="logFoodText">Calculate & Log</span>
+                                <svg id="logFoodSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
                                         stroke-width="4"></circle>
@@ -358,7 +670,26 @@
                                 </svg>
                             </button>
                         </div>
-                        <div id="excessList" class="space-y-2 text-sm text-blue-700"></div>
+
+                        <!-- Meal Lists -->
+                        <div class="space-y-4">
+                            <div id="breakfastSection" class="meal-section">
+                                <h3 class="font-semibold notepad-header mb-2">🌅 Breakfast</h3>
+                                <div id="breakfastList" class="space-y-2 text-sm"></div>
+                            </div>
+                            <div id="lunchSection" class="meal-section hidden">
+                                <h3 class="font-semibold notepad-header mb-2">☀️ Lunch</h3>
+                                <div id="lunchList" class="space-y-2 text-sm"></div>
+                            </div>
+                            <div id="dinnerSection" class="meal-section hidden">
+                                <h3 class="font-semibold notepad-header mb-2">🌙 Dinner</h3>
+                                <div id="dinnerList" class="space-y-2 text-sm"></div>
+                            </div>
+                            <div id="snacksSection" class="meal-section hidden">
+                                <h3 class="font-semibold notepad-header mb-2">🍿 Snacks</h3>
+                                <div id="snacksList" class="space-y-2 text-sm"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -381,6 +712,57 @@
                             <button class="btn btn-secondary" onclick="app.addLiquidCalories(180)">Latte (180)</button>
                         </div>
                     </div>
+
+                    <!-- Macronutrient Tracking -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold notepad-header mb-3">Daily Macros</h3>
+
+                        <!-- Protein -->
+                        <div class="mb-3">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-semibold text-blue-800">Protein</span>
+                                <span class="text-blue-600"><span id="proteinDisplay">0</span> / 150g</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="proteinBar" class="progress-bar-fill"
+                                    style="width: 0%; background-color: #EF4444;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Carbs -->
+                        <div class="mb-3">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-semibold text-blue-800">Carbs</span>
+                                <span class="text-blue-600"><span id="carbsDisplay">0</span> / 200g</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="carbsBar" class="progress-bar-fill"
+                                    style="width: 0%; background-color: #F59E0B;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Fat -->
+                        <div class="mb-3">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-semibold text-blue-800">Fat</span>
+                                <span class="text-blue-600"><span id="fatDisplay">0</span> / 65g</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="fatBar" class="progress-bar-fill"
+                                    style="width: 0%; background-color: #10B981;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Total Calories from Meals -->
+                        <div class="mt-4 p-3 bg-blue-50 rounded-md">
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold text-blue-900">Total Calories</span>
+                                <span class="text-2xl font-bold notepad-header text-blue-900"
+                                    id="totalCaloriesDisplay">0</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div>
                         <h3 class="font-semibold notepad-header mb-2">Water Intake</h3>
                         <p class="text-2xl font-bold notepad-header"><span id="waterIntakeDisplay">0</span> / 8 Glasses
@@ -466,6 +848,23 @@
             dailyLogContent: document.getElementById('daily-log-content'),
             weeklyLogContent: document.getElementById('weekly-log-content'),
             timerModal: document.getElementById('timerModal'), timerExerciseName: document.getElementById('timerExerciseName'), timerDisplay: document.getElementById('timerDisplay'), timerControlBtn: document.getElementById('timerControlBtn'), timerResetBtn: document.getElementById('timerResetBtn'), timerDoneBtn: document.getElementById('timerDoneBtn'),
+            // Meal UI references
+            breakfastList: document.getElementById('breakfastList'),
+            lunchList: document.getElementById('lunchList'),
+            dinnerList: document.getElementById('dinnerList'),
+            snacksList: document.getElementById('snacksList'),
+            breakfastSection: document.getElementById('breakfastSection'),
+            lunchSection: document.getElementById('lunchSection'),
+            dinnerSection: document.getElementById('dinnerSection'),
+            snacksSection: document.getElementById('snacksSection'),
+            // Macro UI references
+            proteinDisplay: document.getElementById('proteinDisplay'),
+            carbsDisplay: document.getElementById('carbsDisplay'),
+            fatDisplay: document.getElementById('fatDisplay'),
+            totalCaloriesDisplay: document.getElementById('totalCaloriesDisplay'),
+            proteinBar: document.getElementById('proteinBar'),
+            carbsBar: document.getElementById('carbsBar'),
+            fatBar: document.getElementById('fatBar'),
         };
 
         const app = {
@@ -491,6 +890,10 @@
                 }
 
                 this.addEventListeners();
+
+                // Initialize meal tab to breakfast
+                this.selectMealType('breakfast');
+
                 this.resolveAuthState();
             },
 
@@ -578,7 +981,15 @@
                 const todayDocRef = doc(this.db, 'artifacts', appId, 'users', this.userId, 'dailyLogs', today);
                 this.unsubscribe = onSnapshot(todayDocRef, (docSnap) => { this.todayState = docSnap.exists() ? docSnap.data() : this.getInitialDailyState(); this.renderTodaysData(); });
                 const userProfileRef = doc(this.db, 'artifacts', appId, 'users', this.userId, 'data', 'userProfile');
-                this.userProfileUnsubscribe = onSnapshot(userProfileRef, (docSnap) => { this.userProfile = docSnap.exists() ? docSnap.data() : this.getInitialUserProfile(); this.renderUserProfile(); });
+                this.userProfileUnsubscribe = onSnapshot(userProfileRef, (docSnap) => {
+                    this.userProfile = docSnap.exists() ? docSnap.data() : this.getInitialUserProfile();
+                    this.renderUserProfile();
+                    // Check if onboarding is needed
+                    this.onboarding.init();
+                });
+
+                // Load user's custom workouts
+                this.workoutBuilder.loadUserWorkouts();
             },
 
             async saveData(dataType) {
@@ -590,7 +1001,18 @@
             },
 
             getInitialDailyState() { return { liquidCalories: 0, waterIntake: 0, excessCalories: 0, excessLog: [], todaysWorkouts: [] }; },
-            getInitialUserProfile() { return { workoutStreak: 0, lastWorkoutDate: '' }; },
+            getInitialUserProfile() {
+                return {
+                    workoutStreak: 0,
+                    lastWorkoutDate: '',
+                    onboardingCompleted: false,
+                    primaryGoal: null,
+                    waterGoal: 8,
+                    liquidCaloriesGoal: 500,
+                    weeklyWorkoutGoal: 3,
+                    createdAt: null
+                };
+            },
             getTodayDateString() { return new Date().toISOString().split('T')[0]; },
 
             addWorkout(workoutId) {
@@ -626,6 +1048,17 @@
             completeWorkout(instanceId) {
                 const workout = this.todayState.todaysWorkouts.find(w => w.instanceId === instanceId); if (!workout || workout.isComplete) return;
                 workout.isComplete = true;
+
+                // 🎉 CELEBRATION! Show confetti animation
+                if (typeof confetti !== 'undefined') {
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#1E3A8A', '#60A5FA', '#93C5FD', '#FEF9C3', '#BFDBFE']
+                    });
+                }
+
                 const isFirstCompletionToday = !this.todayState.todaysWorkouts.some(w => w.isComplete && w.instanceId !== instanceId);
                 if (isFirstCompletionToday) {
                     const today = this.getTodayDateString(); const lastWorkout = this.userProfile.lastWorkoutDate;
@@ -643,22 +1076,244 @@
             addLiquidCalories(calories) { this.todayState.liquidCalories = (this.todayState.liquidCalories || 0) + calories; this.saveData('daily'); },
             addWater(glasses) { this.todayState.waterIntake = (this.todayState.waterIntake || 0) + glasses; this.saveData('daily'); },
 
-            async addExcessCalories() {
-                const descInput = document.getElementById('excessDescInput'); const desc = descInput.value.trim(); if (!desc) return;
-                const logBtn = document.getElementById('logExcessBtn'), logText = document.getElementById('logExcessText'), logSpinner = document.getElementById('logExcessSpinner');
-                logBtn.disabled = true; logText.textContent = 'Calculating...'; logSpinner.classList.remove('hidden');
+            // Meal selection and logging
+            currentMealType: 'breakfast',
+
+            selectMealType(mealType) {
+                this.currentMealType = mealType;
+                // Update button active states
+                ['breakfast', 'lunch', 'dinner', 'snacks'].forEach(type => {
+                    const btn = document.getElementById(`${type}TabBtn`);
+                    const section = document.getElementById(`${type}Section`);
+                    if (type === mealType) {
+                        btn?.classList.add('active');
+                        section?.classList.remove('hidden');
+                    } else {
+                        btn?.classList.remove('active');
+                        section?.classList.add('hidden');
+                    }
+                });
+            },
+
+            async addMealWithAI() {
+                const descInput = document.getElementById('foodDescInput');
+                const desc = descInput.value.trim();
+                if (!desc) return;
+
+                const logBtn = document.getElementById('logFoodBtn');
+                const logText = document.getElementById('logFoodText');
+                const logSpinner = document.getElementById('logFoodSpinner');
+                logBtn.disabled = true;
+                logText.textContent = 'Calculating...';
+                logSpinner.classList.remove('hidden');
+
                 try {
                     const apiKey = "AIzaSyD6imNqPY8RfloxyOxxbYz_pvYScIxmkvk";
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-                    const payload = { contents: [{ parts: [{ text: `Estimate calories for: ${desc}` }] }], generationConfig: { responseMimeType: "application/json", responseSchema: { type: "OBJECT", properties: { calories: { type: "NUMBER" } }, required: ["calories"] } } };
-                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+
+                    // Enhanced prompt to request macronutrient breakdown
+                    const payload = {
+                        contents: [{
+                            parts: [{
+                                text: `Estimate the nutritional content for: ${desc}. Provide calories, protein (in grams), carbohydrates (in grams), and fat (in grams).`
+                            }]
+                        }],
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "OBJECT",
+                                properties: {
+                                    calories: { type: "NUMBER" },
+                                    protein: { type: "NUMBER" },
+                                    carbs: { type: "NUMBER" },
+                                    fat: { type: "NUMBER" }
+                                },
+                                required: ["calories", "protein", "carbs", "fat"]
+                            }
+                        }
+                    };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
                     if (!response.ok) throw new Error(`API error: ${response.statusText}`);
-                    const result = await response.json(); const calories = JSON.parse(result.candidates[0].content.parts[0].text).calories;
-                    if (calories > 0) { this.todayState.excessCalories = (this.todayState.excessCalories || 0) + calories; this.todayState.excessLog = this.todayState.excessLog || []; this.todayState.excessLog.push({ calories, desc }); descInput.value = ''; this.saveData('daily'); }
-                    else throw new Error("Could not estimate calories.");
-                } catch (error) { console.error("Calorie estimation failed:", error); alert("Sorry, I couldn't estimate the calories."); }
-                finally { logBtn.disabled = false; logText.textContent = 'Calculate & Log'; logSpinner.classList.add('hidden'); }
+
+                    const result = await response.json();
+                    const nutrition = JSON.parse(result.candidates[0].content.parts[0].text);
+
+                    if (nutrition.calories > 0) {
+                        // Initialize meals structure if needed
+                        if (!this.todayState.meals) {
+                            this.todayState.meals = {
+                                breakfast: [],
+                                lunch: [],
+                                dinner: [],
+                                snacks: []
+                            };
+                        }
+
+                        // Add meal to the selected category
+                        const mealEntry = {
+                            desc: desc,
+                            calories: nutrition.calories,
+                            protein: nutrition.protein,
+                            carbs: nutrition.carbs,
+                            fat: nutrition.fat,
+                            timestamp: Date.now()
+                        };
+
+                        this.todayState.meals[this.currentMealType].push(mealEntry);
+
+                        // Clear input and save
+                        descInput.value = '';
+                        this.saveData('daily');
+
+                        // Update UI
+                        this.renderMeals();
+                        this.renderMacros();
+                    } else {
+                        throw new Error("Could not estimate nutrition.");
+                    }
+                } catch (error) {
+                    console.error("Nutrition estimation failed:", error);
+                    alert("Sorry, I couldn't estimate the nutrition for this food.");
+                }
+                finally {
+                    logBtn.disabled = false;
+                    logText.textContent = 'Calculate & Log';
+                    logSpinner.classList.add('hidden');
+                }
             },
+            // Render logged meals by category
+            renderMeals() {
+                const state = this.todayState;
+                if (!state || !state.meals) return;
+
+                // Render each meal category
+                ['breakfast', 'lunch', 'dinner', 'snacks'].forEach(mealType => {
+                    const listEl = appUI[`${mealType}List`];
+                    const sectionEl = appUI[`${mealType}Section`];
+                    const meals = state.meals[mealType] || [];
+
+                    if (meals.length > 0) {
+                        // Show section if it has meals
+                        sectionEl.classList.remove('hidden');
+
+                        // Render meal items
+                        listEl.innerHTML = meals.map((meal, index) => `
+                            <div class="flex justify-between items-start bg-yellow-50 p-3 rounded-md hover:bg-yellow-100">
+                                <div class="flex-grow">
+                                    <p class="font-semibold text-blue-900">${meal.desc}</p>
+                                    <p class="text-xs text-blue-600 mt-1">
+                                        ${meal.calories} cal • 
+                                        P: ${meal.protein}g • 
+                                        C: ${meal.carbs}g • 
+                                        F: ${meal.fat}g
+                                    </p>
+                                </div>
+                                <button 
+                                    onclick="app.deleteMeal('${mealType}', ${index})" 
+                                    class="text-red-500 hover:text-red-700 ml-3 text-sm font-bold"
+                                    title="Delete meal">
+                                    ×
+                                </button>
+                            </div>
+                        `).join('');
+                    } else {
+                        // Hide section if empty
+                        sectionEl.classList.add('hidden');
+                    }
+                });
+            },
+
+            // Calculate and render macro progress
+            renderMacros() {
+                const state = this.todayState;
+                if (!state || !state.meals) {
+                    // Reset displays if no data
+                    appUI.proteinDisplay.textContent = '0';
+                    appUI.carbsDisplay.textContent = '0';
+                    appUI.fatDisplay.textContent = '0';
+                    appUI.totalCaloriesDisplay.textContent = '0';
+                    appUI.proteinBar.style.width = '0%';
+                    appUI.carbsBar.style.width = '0%';
+                    appUI.fatBar.style.width = '0%';
+                    return;
+                }
+
+                // Calculate totals across all meals
+                let totalProtein = 0;
+                let totalCarbs = 0;
+                let totalFat = 0;
+                let totalCalories = 0;
+
+                Object.values(state.meals).forEach(mealCategory => {
+                    mealCategory.forEach(meal => {
+                        totalProtein += meal.protein || 0;
+                        totalCarbs += meal.carbs || 0;
+                        totalFat += meal.fat || 0;
+                        totalCalories += meal.calories || 0;
+                    });
+                });
+
+                // Default goals (can be customized later)
+                const proteinGoal = 150;
+                const carbsGoal = 200;
+                const fatGoal = 65;
+
+                // Update displays
+                appUI.proteinDisplay.textContent = Math.round(totalProtein);
+                appUI.carbsDisplay.textContent = Math.round(totalCarbs);
+                appUI.fatDisplay.textContent = Math.round(totalFat);
+                appUI.totalCaloriesDisplay.textContent = Math.round(totalCalories);
+
+                // Update progress bars
+                const proteinPercent = (totalProtein / proteinGoal) * 100;
+                const carbsPercent = (totalCarbs / carbsGoal) * 100;
+                const fatPercent = (totalFat / fatGoal) * 100;
+
+                appUI.proteinBar.style.width = `${Math.min(100, proteinPercent)}%`;
+                appUI.carbsBar.style.width = `${Math.min(100, carbsPercent)}%`;
+                appUI.fatBar.style.width = `${Math.min(100, fatPercent)}%`;
+
+                // Add goal-reached animation
+                if (proteinPercent >= 100) {
+                    appUI.proteinBar.classList.add('goal-reached');
+                } else {
+                    appUI.proteinBar.classList.remove('goal-reached');
+                }
+
+                if (carbsPercent >= 100) {
+                    appUI.carbsBar.classList.add('goal-reached');
+                } else {
+                    appUI.carbsBar.classList.remove('goal-reached');
+                }
+
+                if (fatPercent >= 100) {
+                    appUI.fatBar.classList.add('goal-reached');
+                } else {
+                    appUI.fatBar.classList.remove('goal-reached');
+                }
+            },
+
+            // Delete a meal from a specific category
+            deleteMeal(mealType, index) {
+                if (!this.todayState.meals || !this.todayState.meals[mealType]) return;
+
+                // Remove the meal at the specified index
+                this.todayState.meals[mealType].splice(index, 1);
+
+                // Re-render meals and macros
+                this.renderMeals();
+                this.renderMacros();
+
+                // Save to Firestore
+                this.saveData('daily');
+            },
+
 
             renderTodaysData() {
                 const state = this.todayState; if (!state) return;
@@ -692,11 +1347,30 @@
                 } else { appUI.workoutStack.innerHTML = `<p class="text-center text-blue-500 py-4">No workouts added for today.</p>`; }
 
                 appUI.liquidCaloriesDisplay.textContent = state.liquidCalories || 0;
-                appUI.liquidCaloriesBar.style.width = `${Math.min(100, ((state.liquidCalories || 0) / 500) * 100)}%`;
+                const liquidCalPercent = ((state.liquidCalories || 0) / 500) * 100;
+                appUI.liquidCaloriesBar.style.width = `${Math.min(100, liquidCalPercent)}%`;
+                // Add goal-reached class if at or over 100%
+                if (liquidCalPercent >= 100) {
+                    appUI.liquidCaloriesBar.classList.add('goal-reached');
+                } else {
+                    appUI.liquidCaloriesBar.classList.remove('goal-reached');
+                }
+
                 appUI.waterIntakeDisplay.textContent = state.waterIntake || 0;
-                appUI.waterIntakeBar.style.width = `${Math.min(100, ((state.waterIntake || 0) / 8) * 100)}%`;
+                const waterPercent = ((state.waterIntake || 0) / 8) * 100;
+                appUI.waterIntakeBar.style.width = `${Math.min(100, waterPercent)}%`;
+                // Add goal-reached class if at or over 100%
+                if (waterPercent >= 100) {
+                    appUI.waterIntakeBar.classList.add('goal-reached');
+                } else {
+                    appUI.waterIntakeBar.classList.remove('goal-reached');
+                }
                 appUI.excessCaloriesDisplay.textContent = state.excessCalories || 0;
                 appUI.excessList.innerHTML = (state.excessLog || []).map(item => `<div class="flex justify-between items-center bg-yellow-50 p-2 rounded-md"><span>${item.desc}</span><span class="font-semibold text-blue-800">${item.calories} kcal</span></div>`).join('');
+
+                // Render meals and macros
+                this.renderMeals();
+                this.renderMacros();
             },
             renderUserProfile() {
                 const profile = this.userProfile; if (!profile) return;
@@ -774,9 +1448,237 @@
                 oscillator.stop(audioContext.currentTime + 1);
             },
 
+            // --- ONBOARDING LOGIC ---
+            onboarding: {
+                currentStep: 1,
+                selectedGoal: null,
+
+                init() {
+                    // Check if user has completed onboarding
+                    if (!app.userProfile.onboardingCompleted) {
+                        document.getElementById('onboarding-modal').classList.remove('hidden');
+                    }
+                },
+
+                nextStep() {
+                    document.getElementById(`onboarding-step-${this.currentStep}`).classList.add('hidden');
+                    this.currentStep++;
+                    document.getElementById(`onboarding-step-${this.currentStep}`).classList.remove('hidden');
+                },
+
+                selectGoal(goal) {
+                    this.selectedGoal = goal;
+                    this.nextStep();
+                },
+
+                async complete() {
+                    // Get values from inputs
+                    const waterGoal = parseInt(document.getElementById('onboarding-water-goal').value);
+                    const liquidCaloriesGoal = parseInt(document.getElementById('onboarding-liquid-goal').value);
+                    const weeklyWorkoutGoal = parseInt(document.getElementById('onboarding-workout-days').value);
+
+                    // Update user profile
+                    app.userProfile.onboardingCompleted = true;
+                    app.userProfile.primaryGoal = this.selectedGoal;
+                    app.userProfile.waterGoal = waterGoal;
+                    app.userProfile.liquidCaloriesGoal = liquidCaloriesGoal;
+                    app.userProfile.weeklyWorkoutGoal = weeklyWorkoutGoal;
+                    app.userProfile.createdAt = new Date().toISOString();
+
+                    // Save to Firestore
+                    await app.saveData('profile');
+
+                    // Close modal with animation
+                    document.getElementById('onboarding-modal').classList.add('hidden');
+
+                    // Reset for next time (if needed)
+                    this.currentStep = 1;
+                    this.selectedGoal = null;
+
+                    // Show celebration
+                    if (typeof confetti !== 'undefined') {
+                        confetti({
+                            particleCount: 150,
+                            spread: 100,
+                            origin: { y: 0.6 },
+                            colors: ['#1E3A8A', '#60A5FA', '#93C5FD', '#FEF9C3', '#BFDBFE']
+                        });
+                    }
+                }
+            },
+
+            // --- WORKOUT BUILDER LOGIC ---
+            workoutBuilder: {
+                currentWorkout: null,
+                isEditing: false,
+
+                open(workoutId = null) {
+                    this.isEditing = !!workoutId;
+                    if (workoutId) {
+                        // Load existing workout for editing
+                        this.loadWorkout(workoutId);
+                    } else {
+                        // New workout
+                        this.currentWorkout = null;
+                        document.getElementById('custom-workout-name').value = '';
+                        document.getElementById('custom-workout-duration').value = '45';
+                        document.getElementById('custom-exercises-list').innerHTML = '';
+                        // Add one exercise by default
+                        this.addExercise();
+                    }
+                    document.getElementById('workout-builder-modal').classList.remove('hidden');
+                },
+
+                close() {
+                    document.getElementById('workout-builder-modal').classList.add('hidden');
+                },
+
+                addExercise() {
+                    const template = document.getElementById('exercise-item-template');
+                    const clone = template.content.cloneNode(true);
+                    document.getElementById('custom-exercises-list').appendChild(clone);
+                },
+
+                removeExercise(button) {
+                    button.closest('.exercise-item').remove();
+                },
+
+                async loadWorkout(workoutId) {
+                    const workout = app.workouts[workoutId];
+                    if (!workout) return;
+
+                    this.currentWorkout = workout;
+                    document.getElementById('custom-workout-name').value = workout.name;
+                    document.getElementById('custom-workout-duration').value = workout.duration;
+
+                    // Clear and populate exercises
+                    document.getElementById('custom-exercises-list').innerHTML = '';
+                    workout.exercises.forEach(ex => {
+                        this.addExercise();
+                        const items = document.querySelectorAll('.exercise-item');
+                        const lastItem = items[items.length - 1];
+                        lastItem.querySelector('.exercise-name').value = ex.name;
+                        lastItem.querySelector('.exercise-sets').value = ex.sets;
+                        lastItem.querySelector('.exercise-reps').value = ex.reps;
+                        lastItem.querySelector('.exercise-rest').value = ex.restTime || 90;
+                    });
+                },
+
+                async save() {
+                    const name = document.getElementById('custom-workout-name').value.trim();
+                    if (!name) {
+                        alert('Please enter a workout name');
+                        return;
+                    }
+
+                    const exercises = [];
+                    document.querySelectorAll('.exercise-item').forEach(item => {
+                        const exerciseName = item.querySelector('.exercise-name').value.trim();
+                        if (exerciseName) {
+                            exercises.push({
+                                name: exerciseName,
+                                sets: parseInt(item.querySelector('.exercise-sets').value),
+                                reps: item.querySelector('.exercise-reps').value.trim(),
+                                restTime: parseInt(item.querySelector('.exercise-rest').value)
+                            });
+                        }
+                    });
+
+                    if (exercises.length === 0) {
+                        alert('Please add at least one exercise');
+                        return;
+                    }
+
+                    const workoutId = this.currentWorkout?.id || `custom_${Date.now()}`;
+                    const workoutData = {
+                        id: workoutId,
+                        name: name,
+                        duration: parseInt(document.getElementById('custom-workout-duration').value),
+                        exercises: exercises,
+                        lastModified: new Date().toISOString()
+                    };
+
+                    if (!this.isEditing) {
+                        workoutData.createdAt = new Date().toISOString();
+                    }
+
+                    // Save to Firestore
+                    try {
+                        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                        const docRef = doc(app.db, 'artifacts', appId, 'users', app.userId, 'customWorkouts', workoutId);
+                        await setDoc(docRef, workoutData);
+
+                        // Add to local workouts object
+                        app.workouts[workoutId] = workoutData;
+
+                        // Update workout selector
+                        this.updateWorkoutSelector();
+
+                        this.close();
+
+                        // Show success message
+                        if (typeof confetti !== 'undefined') {
+                            confetti({
+                                particleCount: 50,
+                                spread: 60,
+                                origin: { y: 0.6 },
+                                colors: ['#1E3A8A', '#60A5FA', '#93C5FD']
+                            });
+                        }
+
+                        alert(`Workout "${name}" ${this.isEditing ? 'updated' : 'created'} successfully! 💪`);
+                    } catch (error) {
+                        console.error('Error saving workout:', error);
+                        alert('Failed to save workout. Please try again.');
+                    }
+                },
+
+                updateWorkoutSelector() {
+                    const selector = document.getElementById('workoutSelector');
+                    // Remove old custom options
+                    Array.from(selector.options).forEach(option => {
+                        if (option.value.startsWith('custom_')) {
+                            option.remove();
+                        }
+                    });
+
+                    // Add custom workouts before 'cardio' option
+                    const cardioOption = selector.querySelector('[value="cardio"]');
+                    Object.keys(app.workouts).forEach(workoutId => {
+                        if (workoutId.startsWith('custom_')) {
+                            const workout = app.workouts[workoutId];
+                            const option = document.createElement('option');
+                            option.value = workoutId;
+                            option.textContent = `${workout.name} (${workout.duration} Mins) [Custom]`;
+                            selector.insertBefore(option, cardioOption);
+                        }
+                    });
+                },
+
+                async loadUserWorkouts() {
+                    if (!app.userId) return;
+
+                    try {
+                        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                        const workoutsRef = collection(app.db, 'artifacts', appId, 'users', app.userId, 'customWorkouts');
+                        const querySnapshot = await getDocs(workoutsRef);
+
+                        querySnapshot.forEach(doc => {
+                            app.workouts[doc.id] = doc.data();
+                        });
+
+                        this.updateWorkoutSelector();
+                    } catch (error) {
+                        console.error('Error loading custom workouts:', error);
+                    }
+                }
+            },
+
             switchTab(tab) {
-                appUI.dailyTabView.classList.toggle('active', tab === 'daily'); appUI.weeklyTabView.classList.toggle('active', tab === 'weekly');
-                appUI.dailyTabBtn.classList.toggle('active', tab === 'daily'); appUI.weeklyTabBtn.classList.toggle('active', tab === 'weekly');
+                appUI.dailyTabView.classList.toggle('active', tab === 'daily');
+                appUI.weeklyTabView.classList.toggle('active', tab === 'weekly');
+                appUI.dailyTabBtn.classList.toggle('active', tab === 'daily');
+                appUI.weeklyTabBtn.classList.toggle('active', tab === 'weekly');
                 if (tab === 'weekly') this.fetchWeeklyLog();
             },
 
@@ -786,8 +1688,11 @@
                 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
                 const docRef = doc(this.db, 'artifacts', appId, 'users', this.userId, 'dailyLogs', dateString);
                 const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) { this.renderDailyLog(docSnap.data()); }
-                else { appUI.dailyLogContent.innerHTML = `<p class="text-center text-blue-400">No data found for this date.</p>`; }
+                if (docSnap.exists()) {
+                    this.renderDailyLog(docSnap.data());
+                } else {
+                    appUI.dailyLogContent.innerHTML = `<p class="text-center text-blue-400">No data found for this date.</p>`;
+                }
             },
 
             renderDailyLog(data) {
@@ -797,21 +1702,39 @@
 
             async fetchWeeklyLog() {
                 appUI.weeklyLogContent.innerHTML = `<p class="text-center">Calculating weekly summary...</p>`;
-                const today = new Date(); const dayOfWeek = today.getDay();
-                const startOfWeek = new Date(today); startOfWeek.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
-                let dates = []; for (let i = 0; i < 7; i++) { const date = new Date(startOfWeek); date.setDate(startOfWeek.getDate() + i); dates.push(date.toISOString().split('T')[0]); }
+                const today = new Date();
+                const dayOfWeek = today.getDay();
+                const startOfWeek = new Date(today);
+                startOfWeek.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+                let dates = [];
+                for (let i = 0; i < 7; i++) {
+                    const date = new Date(startOfWeek);
+                    date.setDate(startOfWeek.getDate() + i);
+                    dates.push(date.toISOString().split('T')[0]);
+                }
                 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
                 const logsRef = collection(this.db, 'artifacts', appId, 'users', this.userId, 'dailyLogs');
                 const q = query(logsRef, where('__name__', '>=', dates[0]), where('__name__', '<=', dates[6]));
-                const querySnapshot = await getDocs(q); let logs = {}; querySnapshot.forEach(doc => { logs[doc.id] = doc.data(); });
+                const querySnapshot = await getDocs(q);
+                let logs = {};
+                querySnapshot.forEach(doc => { logs[doc.id] = doc.data(); });
                 this.renderWeeklyLog(dates, logs);
             },
 
             renderWeeklyLog(dates, logs) {
                 let totalLiquid = 0, totalExcess = 0, workoutDays = 0;
                 const daysHtml = dates.map(dateStr => {
-                    const log = logs[dateStr]; const dayInitial = new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short' })[0]; let hasWorkout = false;
-                    if (log) { totalLiquid += log.liquidCalories || 0; totalExcess += log.excessCalories || 0; if (log.todaysWorkouts && log.todaysWorkouts.some(w => w.isComplete)) { hasWorkout = true; workoutDays++; } }
+                    const log = logs[dateStr];
+                    const dayInitial = new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short' })[0];
+                    let hasWorkout = false;
+                    if (log) {
+                        totalLiquid += log.liquidCalories || 0;
+                        totalExcess += log.excessCalories || 0;
+                        if (log.todaysWorkouts && log.todaysWorkouts.some(w => w.isComplete)) {
+                            hasWorkout = true;
+                            workoutDays++;
+                        }
+                    }
                     return `<div class="text-center"><p class="text-sm text-blue-500">${dayInitial}</p><div class="w-8 h-8 rounded-full flex items-center justify-center mt-1 ${hasWorkout ? 'bg-blue-800 text-white' : 'bg-blue-200'}">${hasWorkout ? '✓' : ''}</div></div>`;
                 }).join('');
                 const avgLiquid = workoutDays > 0 ? (totalLiquid / workoutDays).toFixed(0) : 0;
